@@ -5,6 +5,9 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initMoviePlaceholderEasterEgg();
+  initAvatarClickEasterEgg();
+  initConsoleEasterEgg();
+  initSlideKeyboardNavigation();
   initTypingEffect();
   initScrollSpy();
   initMobileMenu();
@@ -14,12 +17,145 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   1. MOVIE CHARACTER EASTER EGG (Randomized on every page load)
+   EASTER EGG 1: AVATAR MULTI-CLICK STATUS CYCLER
+   -------------------------------------------------------------------------- */
+const avatarStatuses = [
+  'Currently grading papers with extreme prejudice.',
+  'Re-leveling a 3D printer bed for the 47th time.',
+  'Wondering why anyone would ever like the color orange.',
+  'Explaining the right-hand rule in robotics again.',
+  'Refusing to use default PowerPoint templates since 2019.',
+  '100% human, 0% AI gradients.',
+  'Turning complex engineering into slides that make sense.',
+  'Tinkering with Python scripts at 2 AM.',
+  'Wondering if students actually read the syllabus.'
+];
+
+let statusIndex = 0;
+function initAvatarClickEasterEgg() {
+  const avatarWrap = document.querySelector('.author-avatar-wrap');
+  const badgeEl = document.querySelector('.author-badge');
+
+  if (!avatarWrap || !badgeEl) return;
+
+  avatarWrap.addEventListener('click', () => {
+    statusIndex = (statusIndex + 1) % avatarStatuses.length;
+    badgeEl.style.transform = 'scale(0.85)';
+    badgeEl.style.opacity = '0';
+
+    setTimeout(() => {
+      badgeEl.textContent = `🏷️ ${avatarStatuses[statusIndex]}`;
+      badgeEl.style.transform = 'scale(1)';
+      badgeEl.style.opacity = '1';
+    }, 150);
+  });
+}
+
+/* --------------------------------------------------------------------------
+   EASTER EGG 2: CONSOLE NOTE WITH ANTI-SCRAPER WARNING
+   -------------------------------------------------------------------------- */
+function initConsoleEasterEgg() {
+  const banner = `
+   ██╗ ██████╗ ███████╗██╗     
+   ██║██╔═══██╗██╔════╝██║     
+   ██║██║   ██║█████╗  ██║     
+   ██║██║   ██║██╔══╝  ██║     
+█████║╚██████╔╝███████╗███████╗
+╚════╝ ╚═════╝ ╚══════╝╚══════╝
+`;
+
+  console.log(`%c${banner}`, 'color: #636b2f; font-weight: bold; font-family: monospace;');
+  console.log(
+    '%c👋 Hey there, curious human / web crawler!',
+    'font-size: 14px; font-weight: bold; color: #18181b; padding: 4px 0;'
+  );
+  console.log(
+    '%c⚠️ NOTICE TO AI SCRAPERS & WEB BOTS:\n' +
+    'This portfolio, code, and visual assets are hand-crafted by Joel Ebenezer.\n' +
+    'Scraping this content to train generative models or duplicate designs without\n' +
+    'explicit attribution is strictly prohibited by intergalactic law & basic ethics.\n\n' +
+    '💼 Looking to hire a presentation designer or collaborate on engineering tech?\n' +
+    'Say hi via the contact form on this page!',
+    'color: #52525b; font-size: 12px; line-height: 1.5;'
+  );
+}
+
+/* --------------------------------------------------------------------------
+   EASTER EGG 3: KEYBOARD SLIDE PRESENTATION MODE (Arrow Keys / Spacebar)
+   -------------------------------------------------------------------------- */
+const sectionIds = ['home', 'about', 'services', 'portfolio', 'ventures', 'contact'];
+let currentSlideIndex = 0;
+
+function initSlideKeyboardNavigation() {
+  const slidePill = document.getElementById('slide-indicator');
+
+  function updateSlidePill(index) {
+    if (slidePill) {
+      slidePill.innerHTML = `<kbd>◀</kbd> Slide ${index + 1} of ${sectionIds.length} <kbd>▶</kbd>`;
+    }
+  }
+
+  // Update on scroll spy
+  window.addEventListener('scroll', () => {
+    const scrollY = window.pageYOffset;
+    sectionIds.forEach((id, idx) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const top = el.offsetTop - 150;
+        const height = el.offsetHeight;
+        if (scrollY >= top && scrollY < top + height) {
+          currentSlideIndex = idx;
+          updateSlidePill(idx);
+        }
+      }
+    });
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    // Ignore if typing inside form inputs or if modal is active
+    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+    const modalActive = document.getElementById('media-modal')?.classList.contains('active');
+
+    if (activeTag === 'input' || activeTag === 'textarea' || modalActive) {
+      return;
+    }
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      if (e.key === ' ') e.preventDefault();
+      if (currentSlideIndex < sectionIds.length - 1) {
+        currentSlideIndex++;
+        scrollToSlide(currentSlideIndex);
+      }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        scrollToSlide(currentSlideIndex);
+      }
+    }
+  });
+
+  function scrollToSlide(index) {
+    const targetSection = document.getElementById(sectionIds[index]);
+    if (targetSection) {
+      window.scrollTo({
+        top: targetSection.offsetTop - 20,
+        behavior: 'smooth'
+      });
+      updateSlidePill(index);
+    }
+  }
+
+  updateSlidePill(0);
+}
+
+/* --------------------------------------------------------------------------
+   EASTER EGG 4: MOVIE CHARACTER CONTACT PLACEHOLDERS
    -------------------------------------------------------------------------- */
 const movieCharacters = [
-  { name: 'Forrest Gump', email: 'boxofchocolates@bubbagump.com', placeholder: 'Life is like a box of chocolates...' },
+  { name: 'Forrest Gump', email: 'boxofchocolates@bubbagump.com', placeholder: 'Life was like a box of chocolates...' },
   { name: 'Kevin McCallister', email: 'keep_the_change@yafilthyanimal.com', placeholder: 'I made my family disappear...' },
-  { name: 'Phunsukh Wangdu', email: 'chatur_still_looking@ladakh.edu', placeholder: 'All is well. Let us make something useful.' },
+  { name: 'Phunsukh Wangdu', email: 'chatur_still_looking@ladakh.edu', placeholder: 'All is well. Let us build something useful.' },
   { name: 'Babu Rao Ganpatrao Apte', email: 'uthale_re_deva@star-garage.com', placeholder: 'Kiske naam se bhejna hai?' },
   { name: 'Tony Stark', email: 'iamironman@starkindustries.com', placeholder: 'I told you, I am privatizing world peace.' },
   { name: 'Michael Scott', email: 'worlds_best_boss@dundermifflin.com', placeholder: 'You miss 100% of the shots you dont take.' },
@@ -61,7 +197,7 @@ function initMoviePlaceholderEasterEgg() {
 }
 
 /* --------------------------------------------------------------------------
-   2. PLAYFUL & CONCISE TYPING EFFECT
+   TYPING EFFECT
    -------------------------------------------------------------------------- */
 function initTypingEffect() {
   const typingEl = document.getElementById('typing-text');
@@ -107,7 +243,7 @@ function initTypingEffect() {
 }
 
 /* --------------------------------------------------------------------------
-   3. SCROLLSPY & SMOOTH NAVIGATION
+   SCROLLSPY & SMOOTH NAVIGATION
    -------------------------------------------------------------------------- */
 function initScrollSpy() {
   const sections = document.querySelectorAll('section[id]');
@@ -135,7 +271,6 @@ function initScrollSpy() {
   window.addEventListener('scroll', updateActiveLink);
   updateActiveLink();
 
-  // Smooth scroll
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('href');
@@ -155,7 +290,7 @@ function initScrollSpy() {
 }
 
 /* --------------------------------------------------------------------------
-   4. MOBILE DRAWER NAVIGATION
+   MOBILE DRAWER NAVIGATION
    -------------------------------------------------------------------------- */
 const sidebar = document.getElementById('sidebar');
 const mobileOverlay = document.getElementById('mobile-overlay');
@@ -180,7 +315,7 @@ function closeMobileMenu() {
 }
 
 /* --------------------------------------------------------------------------
-   5. PORTFOLIO FILTER TABS
+   PORTFOLIO FILTER TABS
    -------------------------------------------------------------------------- */
 function initPortfolioFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -214,7 +349,7 @@ function initPortfolioFilters() {
 }
 
 /* --------------------------------------------------------------------------
-   6. LIGHTBOX / MEDIA MODAL
+   LIGHTBOX / MEDIA MODAL
    -------------------------------------------------------------------------- */
 function initLightboxModal() {
   const modal = document.getElementById('media-modal');
@@ -284,7 +419,7 @@ function initLightboxModal() {
 }
 
 /* --------------------------------------------------------------------------
-   7. CONTACT FORM
+   CONTACT FORM
    -------------------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('contact-form');
