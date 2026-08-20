@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMoviePlaceholderEasterEgg();
   initAvatarClickEasterEgg();
   initSlideTipEasterEgg();
+  initEli5Toggle();
   initConsoleEasterEgg();
   initSlideKeyboardNavigation();
   initTypingEffect();
@@ -16,6 +17,42 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightboxModal();
   initContactForm();
 });
+
+/* --------------------------------------------------------------------------
+   EASTER EGG: ELI5 (EXPLAIN LIKE I'M 5) DESCRIPTION TOGGLE
+   -------------------------------------------------------------------------- */
+function initEli5Toggle() {
+  const toggleBtn = document.getElementById('eli5-toggle-btn');
+  const toggleLabel = document.getElementById('eli5-toggle-label');
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+  if (!toggleBtn || !toggleLabel) return;
+
+  let isEli5 = false;
+
+  toggleBtn.addEventListener('click', () => {
+    isEli5 = !isEli5;
+    toggleBtn.classList.toggle('active', isEli5);
+    toggleLabel.textContent = isEli5 ? 'ELI5 Mode: ON' : 'ELI5 Mode: OFF';
+
+    portfolioItems.forEach(item => {
+      const descEl = item.querySelector('.portfolio-item-desc');
+      const normalDesc = item.getAttribute('data-desc-normal');
+      const eli5Desc = item.getAttribute('data-desc-eli5');
+
+      if (descEl && normalDesc && eli5Desc) {
+        descEl.style.opacity = '0';
+        descEl.style.transform = 'translateY(-2px)';
+
+        setTimeout(() => {
+          descEl.textContent = isEli5 ? eli5Desc : normalDesc;
+          descEl.style.opacity = '1';
+          descEl.style.transform = 'translateY(0)';
+        }, 120);
+      }
+    });
+  });
+}
 
 /* --------------------------------------------------------------------------
    EASTER EGG: JOEL'S SLIDE TIP OF THE DAY CYCLER

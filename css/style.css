@@ -629,11 +629,47 @@ button {
 /* ==========================================================================
    PORTFOLIO SECTION & FILTER TABS
    ========================================================================== */
+.portfolio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
 .portfolio-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 30px;
+}
+
+.eli5-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  background-color: var(--bg-surface);
+  border: 1px dashed var(--border-strong);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.eli5-toggle-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--primary-subtle);
+}
+
+.eli5-toggle-btn.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  border-style: solid;
+  color: #ffffff;
 }
 
 .filter-btn {
