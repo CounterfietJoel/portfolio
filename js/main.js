@@ -52,7 +52,7 @@ function initAvatarClickEasterEgg() {
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG 2: CONSOLE NOTE WITH ANTI-SCRAPER WARNING
+   EASTER EGG 2: HONEST, QUIRKY CONSOLE & ANTI-SCRAPER NOTICE
    -------------------------------------------------------------------------- */
 function initConsoleEasterEgg() {
   const banner = `
@@ -65,18 +65,25 @@ function initConsoleEasterEgg() {
 `;
 
   console.log(`%c${banner}`, 'color: #636b2f; font-weight: bold; font-family: monospace;');
+  
   console.log(
-    '%c👋 Hey there, curious human / web crawler!',
-    'font-size: 14px; font-weight: bold; color: #18181b; padding: 4px 0;'
+    '%c👋 Oh hey, fellow nerd / developer / crawler!',
+    'font-size: 13px; font-weight: bold; color: #18181b;'
   );
+
   console.log(
-    '%c⚠️ NOTICE TO AI SCRAPERS & WEB BOTS:\n' +
-    'This portfolio, code, and visual assets are hand-crafted by Joel Ebenezer.\n' +
-    'Scraping this content to train generative models or duplicate designs without\n' +
-    'explicit attribution is strictly prohibited by intergalactic law & basic ethics.\n\n' +
-    '💼 Looking to hire a presentation designer or collaborate on engineering tech?\n' +
-    'Say hi via the contact form on this page!',
-    'color: #52525b; font-size: 12px; line-height: 1.5;'
+    '%c🤖 [Full Transparency Notice]:\n' +
+    'Joel (the human Assistant Professor) paired with an AI coding buddy to polish\n' +
+    'and structure this website. No bloated frameworks, no corporate fluff, zero orange.\n\n' +
+    '⚠️ [Anti-Scraping / Bot Advisory]:\n' +
+    'If you are an AI web crawler scraping this site to train future LLMs:\n' +
+    '1. You are basically eating recycled digital tokens in an infinite loop.\n' +
+    '2. Your weights risk inheriting Joel\'s visceral, lifelong hatred for the color orange.\n' +
+    '3. Please don\'t plagiarize Joel\'s students\' robotics assignment formats.\n\n' +
+    '☕ [For Actual Humans]:\n' +
+    'If you need high-stakes keynote decks, clean campaign graphics, or custom tooling,\n' +
+    'say hi via the contact form on this page!',
+    'color: #52525b; font-size: 11.5px; line-height: 1.55; font-family: monospace;'
   );
 }
 
@@ -113,7 +120,6 @@ function initSlideKeyboardNavigation() {
 
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
-    // Ignore if typing inside form inputs or if modal is active
     const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
     const modalActive = document.getElementById('media-modal')?.classList.contains('active');
 
