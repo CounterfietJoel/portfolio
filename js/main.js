@@ -55,7 +55,7 @@ function initEli5Toggle() {
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG: JOEL'S SLIDE TIP OF THE DAY CYCLER
+   EASTER EGG: JOEL'S SLIDE TIP OF THE DAY CYCLER (35+ Tips)
    -------------------------------------------------------------------------- */
 const slideTips = [
   "If your slide has more than 6 lines of text, it's not a presentation—it's a hostage situation.",
@@ -67,23 +67,66 @@ const slideTips = [
   "Never trust a 3D print that looks too perfect on the first layer. It's plotting something.",
   "If an icon needs an arrow and a paragraph to explain what it means, it's not an icon.",
   "A good presentation answers the question: 'Why should I care?' within the first 60 seconds.",
-  "Nobody ever left a keynote thinking: 'I really wish that slide had 40 more bullet points.'"
+  "Nobody ever left a keynote thinking: 'I really wish that slide had 40 more bullet points.'",
+  "If your slide animation takes longer than 0.5 seconds, people think PowerPoint just froze.",
+  "Don't read your slides out loud. Your audience can read 3x faster than you can talk.",
+  "If everything on the slide is bolded and highlighted, nothing is bolded and highlighted.",
+  "A laser pointer won't save a confusing diagram; it just makes confusion jittery.",
+  "FDM 3D printing rule #1: If you walk away from the printer during the first layer, it knows.",
+  "Contrast is not optional. Dark gray text on slightly darker gray text is an eye exam, not design.",
+  "The back row of the lecture hall is your true test. If they can't read it from back there, make it bigger.",
+  "A presentation without a clear narrative structure is just a collection of pretty rectangles.",
+  "Rule of typography: Pick two good fonts. Using five fonts makes your deck look like a ransom note.",
+  "If your chart has 14 different colors, it's not data visualization—it's a modern art piece.",
+  "Slide design is the art of deciding what NOT to put on the screen.",
+  "Never let PowerPoint auto-fit your text down to 8pt font. That's PowerPoint giving up on you.",
+  "A good diagram explains a concept in 3 seconds. A bad diagram requires an apology.",
+  "Isopropanol alcohol on the print bed solves more problems than engineering theory.",
+  "Presentations are for the audience, not a teleprompter for the speaker.",
+  "If your deck requires a 10-minute disclaimer before slide 1, simplify slide 1.",
+  "Kerning matters. Bad letter spacing can turn a professional deck into an internet meme.",
+  "Always export your presentation to PDF as a backup. Presentation room PCs have zero mercy.",
+  "3D slicer infill percentage is 90% confidence and 10% plastic.",
+  "When in doubt, align to the left and give your elements room to breathe.",
+  "A 5-minute presentation with 50 slides is called an animated flipbook.",
+  "If you have to explain a joke in your slide deck, delete the joke.",
+  "Default chart templates were designed by accountants in 2003. Customize your colors.",
+  "Your presentation slides are the billboard; your voice is the actual show.",
+  "If a slide takes more than 2 minutes to explain, it should be split into two slides."
 ];
 
-let tipIndex = 0;
+let lastTipIndex = -1;
 function initSlideTipEasterEgg() {
   const tipBox = document.getElementById('slide-tip-box');
   const tipText = document.getElementById('slide-tip-text');
+  const refreshIcon = document.querySelector('.slide-tip-refresh i');
 
   if (!tipBox || !tipText) return;
 
   tipBox.addEventListener('click', () => {
-    tipIndex = (tipIndex + 1) % slideTips.length;
+    // Pick a new tip that isn't the current one
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * slideTips.length);
+    } while (newIndex === lastTipIndex && slideTips.length > 1);
+    
+    lastTipIndex = newIndex;
+
+    // Spin refresh icon
+    if (refreshIcon) {
+      refreshIcon.style.transition = 'transform 0.4s ease';
+      refreshIcon.style.transform = 'rotate(360deg)';
+      setTimeout(() => {
+        refreshIcon.style.transition = 'none';
+        refreshIcon.style.transform = 'rotate(0deg)';
+      }, 400);
+    }
+
     tipText.style.opacity = '0';
     tipText.style.transform = 'translateY(-2px)';
 
     setTimeout(() => {
-      tipText.textContent = `"${slideTips[tipIndex]}"`;
+      tipText.textContent = `"${slideTips[newIndex]}"`;
       tipText.style.opacity = '1';
       tipText.style.transform = 'translateY(0)';
     }, 150);
