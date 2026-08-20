@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initMoviePlaceholderEasterEgg();
   initAvatarClickEasterEgg();
+  initSlideTipEasterEgg();
   initConsoleEasterEgg();
   initSlideKeyboardNavigation();
   initTypingEffect();
@@ -15,6 +16,42 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightboxModal();
   initContactForm();
 });
+
+/* --------------------------------------------------------------------------
+   EASTER EGG: JOEL'S SLIDE TIP OF THE DAY CYCLER
+   -------------------------------------------------------------------------- */
+const slideTips = [
+  "If your slide has more than 6 lines of text, it's not a presentation—it's a hostage situation.",
+  "The best slide transition is subtle. The second best is Morph. The worst is the spinning star.",
+  "Turning the 3D printer bed leveling screw 1/8th of a turn will fix 90% of your problems.",
+  "Never trust a pie chart that adds up to 101%.",
+  "If you use Comic Sans in a boardroom meeting, the meeting is legally canceled.",
+  "White space on a slide isn't empty space—it's breathing room for your audience's brain.",
+  "Never trust a 3D print that looks too perfect on the first layer. It's plotting something.",
+  "If an icon needs an arrow and a paragraph to explain what it means, it's not an icon.",
+  "A good presentation answers the question: 'Why should I care?' within the first 60 seconds.",
+  "Nobody ever left a keynote thinking: 'I really wish that slide had 40 more bullet points.'"
+];
+
+let tipIndex = 0;
+function initSlideTipEasterEgg() {
+  const tipBox = document.getElementById('slide-tip-box');
+  const tipText = document.getElementById('slide-tip-text');
+
+  if (!tipBox || !tipText) return;
+
+  tipBox.addEventListener('click', () => {
+    tipIndex = (tipIndex + 1) % slideTips.length;
+    tipText.style.opacity = '0';
+    tipText.style.transform = 'translateY(-2px)';
+
+    setTimeout(() => {
+      tipText.textContent = `"${slideTips[tipIndex]}"`;
+      tipText.style.opacity = '1';
+      tipText.style.transform = 'translateY(0)';
+    }, 150);
+  });
+}
 
 /* --------------------------------------------------------------------------
    EASTER EGG 1: AVATAR MULTI-CLICK STATUS CYCLER

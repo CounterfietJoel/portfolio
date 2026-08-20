@@ -228,10 +228,59 @@ button {
   color: var(--primary);
 }
 
+/* Sidebar Slide Tip Box */
+.slide-tip-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition-fast);
+}
+
+.slide-tip-box:hover {
+  border-color: var(--primary);
+  background: var(--bg-surface);
+  transform: translateY(-1px);
+}
+
+.slide-tip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.slide-tip-refresh {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  transition: transform 0.3s ease;
+}
+
+.slide-tip-box:hover .slide-tip-refresh {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+.slide-tip-text {
+  font-size: 0.78rem;
+  color: var(--text-main);
+  line-height: 1.4;
+  font-style: italic;
+  transition: opacity 0.15s ease;
+}
+
 /* Sidebar Footer */
 .sidebar-footer {
   border-top: 1px solid var(--border-color);
-  padding-top: 20px;
+  padding-top: 16px;
 }
 
 .social-links {
