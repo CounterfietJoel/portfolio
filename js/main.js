@@ -570,7 +570,7 @@ function initContactForm() {
     }
 
     setTimeout(() => {
-      window.location.href = `mailto:joelebenezer@example.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:actualjoel@gmail.com?subject=${subject}&body=${body}`;
     }, 500);
   });
 }
