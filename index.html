@@ -118,7 +118,9 @@
           <li><a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a></li>
           <li><a href="#about" class="nav-link"><i class="fa-regular fa-user"></i> About</a></li>
           <li><a href="#services" class="nav-link"><i class="fa-solid fa-briefcase"></i> What I Do</a></li>
+          <li><a href="#transformation" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i> Slide Redesign</a></li>
           <li><a href="#portfolio" class="nav-link"><i class="fa-solid fa-shapes"></i> Selected Work</a></li>
+          <li><a href="#blueprint" class="nav-link"><i class="fa-solid fa-file-invoice"></i> Pitch Blueprint</a></li>
           <li><a href="#ventures" class="nav-link"><i class="fa-solid fa-compass"></i> Side Ventures</a></li>
           <li><a href="#contact" class="nav-link"><i class="fa-regular fa-paper-plane"></i> Contact</a></li>
         </ul>
@@ -286,6 +288,98 @@
             <p class="service-desc">
               High-impact promotional visuals, conference collateral, and campaign designs tailored for tech events, academic institutions, and modern startups.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE TRANSFORMATION BEFORE/AFTER -->
+      <section class="section" id="transformation">
+        <div class="section-header">
+          <span class="section-tag">Before &amp; After</span>
+          <h2 class="section-title">The Deep-Tech Slide Rescue</h2>
+          <p class="section-subtitle">Drag the slider or use presets to see how dense engineering data transforms into VC-ready clarity.</p>
+        </div>
+
+        <div class="transformation-container">
+          <div class="transformation-controls">
+            <div class="preset-btn-group">
+              <button class="preset-btn" id="preset-before">Before (Founder Draft)</button>
+              <button class="preset-btn active" id="preset-split">50 / 50 Split</button>
+              <button class="preset-btn" id="preset-after">After (Joel's Redesign)</button>
+            </div>
+            <div class="slider-hint">
+              <i class="fa-solid fa-arrows-left-right"></i> Drag handle across screen
+            </div>
+          </div>
+
+          <div class="before-after-slider-box" id="slider-box">
+            <!-- UNDER LAYER: AFTER (Joel's Redesign) -->
+            <div class="slide-layer slide-after-view">
+              <div>
+                <div class="slide-header-good">
+                  <div>
+                    <span class="slide-status-tag good"><i class="fa-solid fa-check"></i> Joel's Redesign &bull; Investor Ready</span>
+                    <h3 class="slide-title-good">Next-Gen QDD Actuator Architecture: <br /><span>4.8x Power Density with Zero Backlash</span></h3>
+                  </div>
+                </div>
+
+                <div class="metric-cards-row">
+                  <div class="slide-metric-card">
+                    <div class="slide-metric-val">48 Nm/kg</div>
+                    <div class="slide-metric-label">Industry-leading torque density</div>
+                  </div>
+                  <div class="slide-metric-card">
+                    <div class="slide-metric-val">&lt; 0.8 arcmin</div>
+                    <div class="slide-metric-label">Zero-backlash harmonic precision</div>
+                  </div>
+                  <div class="slide-metric-card">
+                    <div class="slide-metric-val">-32&deg;C Peak Temp</div>
+                    <div class="slide-metric-label">Patented DfAM fluidic cooling</div>
+                  </div>
+                </div>
+
+                <div class="slide-arch-diagram">
+                  <div class="arch-node"><i class="fa-solid fa-bolt" style="color: #38bdf8;"></i> GaN Power Stage</div>
+                  <div class="arch-arrow">&rarr;</div>
+                  <div class="arch-node"><i class="fa-solid fa-cube" style="color: #38bdf8;"></i> Additive Thermal Core</div>
+                  <div class="arch-arrow">&rarr;</div>
+                  <div class="arch-node"><i class="fa-solid fa-network-wired" style="color: #38bdf8;"></i> 1Mbps CAN-FD Bus</div>
+                </div>
+              </div>
+
+              <div class="slide-raw-footer" style="color: #64748b; border-color: rgba(255,255,255,0.1); display: flex; justify-content: space-between;">
+                <span>CONFIDENTIAL &bull; SERIES A DECK</span>
+                <span>PHYSICS DEFENSIBILITY &bull; UNIT ECONOMICS</span>
+              </div>
+            </div>
+
+            <!-- OVER LAYER: BEFORE (Raw Founder Slide) -->
+            <div class="slide-layer slide-before-view" id="slide-before-layer">
+              <div class="slide-before-content">
+                <div>
+                  <span class="slide-status-tag bad"><i class="fa-solid fa-xmark"></i> Raw Draft &bull; VCs Lose Interest</span>
+                  <h3 class="slide-headline-raw">Actuator Specs, Thermal Limits &amp; System Integration (Rev 4.2 DRAFT)</h3>
+                  <ul class="slide-bullets-raw">
+                    <li>Nominal torque is approximately 45Nm at 24V supply voltage with 120A peak driver limits.</li>
+                    <li>Thermal throttling occurs after 3.2 minutes continuous run if ambient exceeds 40&deg;C.</li>
+                    <li>Planetary gearbox reduction ratio is 6:1 with 2.5 arcmin measured backlash.</li>
+                    <li>Custom PCB controller integrates STM32F4 MCU with CAN-FD transceivers operating at 1Mbps.</li>
+                    <li>CNC machined 6061-T6 aluminum casing with internal fluid convection channels.</li>
+                  </ul>
+                </div>
+
+                <div class="slide-raw-footer">
+                  Slide 14 of 58 (Draft - Please do not distribute without permission)
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDER DRAGGABLE DIVIDER -->
+            <div class="slider-handle-line" id="slider-handle">
+              <div class="slider-handle-btn">
+                <i class="fa-solid fa-left-right"></i>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -782,6 +876,102 @@
           </div>
         </div>
 
+      </section>
+
+      <!-- 10-SLIDE DEEP-TECH PITCH BLUEPRINT -->
+      <section class="section" id="blueprint">
+        <div class="blueprint-header-box">
+          <div>
+            <span class="section-tag">Founder Framework</span>
+            <h2 class="section-title">The 10-Slide Deep-Tech Pitch Blueprint</h2>
+            <p class="section-subtitle">How to pitch hard engineering, physics, and hardware to investors without losing them in the weeds.</p>
+          </div>
+          <button class="btn btn-outline" id="copy-blueprint-btn" title="Copy 10-slide checklist to clipboard">
+            <i class="fa-regular fa-copy"></i> Copy 10-Slide Checklist
+          </button>
+        </div>
+
+        <div class="blueprint-grid">
+          <!-- Slide 1 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 01</span>
+            <h3 class="blueprint-card-title">The Physical Limit / Core Problem</h3>
+            <p class="blueprint-card-desc">Define the thermodynamic, physical, or computational barrier currently capping industrial output.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Starting with business market size before explaining why existing physics fails.</div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 02</span>
+            <h3 class="blueprint-card-title">Breakthrough Architecture</h3>
+            <p class="blueprint-card-desc">The core technological leap (materials, novel kinematics, custom silicon, DfAM geometry).</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Showing raw unannotated CAD models with no visual hierarchy.</div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 03</span>
+            <h3 class="blueprint-card-title">The Technical Moat &amp; IP</h3>
+            <p class="blueprint-card-desc">Why a well-funded competitor can't clone this in 6 months (patents, trade secrets, proprietary algorithms).</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Claiming "first mover advantage" instead of hard IP defensibility.</div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 04</span>
+            <h3 class="blueprint-card-title">Unit Economics &amp; Bill of Materials</h3>
+            <p class="blueprint-card-desc">Cost structure at 10 units vs. 10,000 units. Proving the hardware scales profitably.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Hiding manufacturing scrap rates and assembly labor costs.</div>
+          </div>
+
+          <!-- Slide 5 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 05</span>
+            <h3 class="blueprint-card-title">Lab-to-Fab Execution Roadmap</h3>
+            <p class="blueprint-card-desc">TRL (Technology Readiness Level) milestones: from bench prototype to pilot production.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Linear timelines with zero risk-mitigation buffers for tooling.</div>
+          </div>
+
+          <!-- Slide 6 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 06</span>
+            <h3 class="blueprint-card-title">Empirical Benchmarks &amp; Proof</h3>
+            <p class="blueprint-card-desc">Hard test data, cycle life graphs, efficiency curves, or third-party validation tests.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Fuzzy marketing claims instead of clear benchmark graphs.</div>
+          </div>
+
+          <!-- Slide 7 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 07</span>
+            <h3 class="blueprint-card-title">Beachhead Market &amp; Bottom-Up TAM</h3>
+            <p class="blueprint-card-desc">The single vertical ready to pay 5x today, expanding into a massive adjacent market.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Top-down "1% of a $500B market" slides.</div>
+          </div>
+
+          <!-- Slide 8 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 08</span>
+            <h3 class="blueprint-card-title">Business Model &amp; Deployment</h3>
+            <p class="blueprint-card-desc">Capex vs. Hardware-as-a-Service (HaaS), recurring consumables, maintenance telemetry.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Pure one-off hardware sales without high-margin recurring loops.</div>
+          </div>
+
+          <!-- Slide 9 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 09</span>
+            <h3 class="blueprint-card-title">The Engineering &amp; Science Team</h3>
+            <p class="blueprint-card-desc">Unique domain pedigree: PhDs, previous hardware exits, specialized fabrication experience.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> Generic resume bullets that don't highlight domain mastery.</div>
+          </div>
+
+          <!-- Slide 10 -->
+          <div class="blueprint-card">
+            <span class="blueprint-num">SLIDE 10</span>
+            <h3 class="blueprint-card-title">The Capital Ask &amp; De-Risking Milestones</h3>
+            <p class="blueprint-card-desc">Exact capital needed and what physical de-risking milestones it funds before Series A.</p>
+            <div class="blueprint-mistake"><strong>Fatal Mistake:</strong> "18 months of runway" instead of tangible hardware proof points.</div>
+          </div>
+        </div>
       </section>
 
       <!-- SIDE VENTURES -->

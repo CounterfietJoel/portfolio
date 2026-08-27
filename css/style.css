@@ -1444,3 +1444,336 @@ textarea.form-control {
   }
 }
 
+/* ==========================================================================
+   INTERACTIVE BEFORE / AFTER SLIDE TRANSFORMATION SLIDER
+   ========================================================================== */
+.transformation-container {
+  margin-top: 24px;
+}
+
+.transformation-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.preset-btn-group {
+  display: inline-flex;
+  background: var(--bg-surface-secondary);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  gap: 4px;
+}
+
+.preset-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.preset-btn.active, .preset-btn:hover {
+  background: var(--bg-surface);
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.slider-hint {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.before-after-slider-box {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  user-select: none;
+  touch-action: none;
+  aspect-ratio: 16 / 9;
+  min-height: 480px;
+  background: #0f172a;
+}
+
+/* Slide Base Layer (After: Joel's Deck) */
+.slide-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.slide-after-view {
+  background: radial-gradient(circle at 80% 20%, #1e293b 0%, #090d16 100%);
+  color: #f8fafc;
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Slide Top Layer (Before: Raw Founder Slide) */
+.slide-before-view {
+  width: 50%;
+  z-index: 2;
+  background: #f8fafc;
+  color: #1e293b;
+  border-right: 2px solid var(--primary);
+}
+
+.slide-before-content {
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  padding: 36px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+/* Slide Content Formatting */
+.slide-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.slide-status-tag.bad {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.slide-status-tag.good {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.slide-headline-raw {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.slide-bullets-raw {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #475569;
+  list-style-type: disc;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slide-raw-footer {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 8px;
+}
+
+/* After Slide Styled Design */
+.slide-header-good {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.slide-title-good {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.slide-title-good span {
+  color: var(--primary-light, #38bdf8);
+}
+
+.metric-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.slide-metric-card {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.slide-metric-val {
+  font-size: 1.6rem;
+  font-weight: 850;
+  color: #38bdf8;
+  margin-bottom: 4px;
+}
+
+.slide-metric-label {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.slide-arch-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px dashed rgba(56, 189, 248, 0.4);
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+.arch-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.arch-arrow {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* Slider Drag Handle */
+.slider-handle-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #38bdf8;
+  z-index: 10;
+  cursor: ew-resize;
+  transform: translateX(-50%);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+}
+
+.slider-handle-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  font-size: 1rem;
+  cursor: ew-resize;
+  border: 3px solid #38bdf8;
+}
+
+/* ==========================================================================
+   THE 10-SLIDE DEEP-TECH PITCH BLUEPRINT
+   ========================================================================== */
+.blueprint-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.blueprint-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.blueprint-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+}
+
+.blueprint-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.blueprint-num {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: rgba(22, 76, 58, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.blueprint-card-title {
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.blueprint-card-desc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.blueprint-mistake {
+  font-size: 0.78rem;
+  color: #ef4444;
+  background: #fef2f2;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border-left: 3px solid #ef4444;
+  line-height: 1.4;
+}
+
