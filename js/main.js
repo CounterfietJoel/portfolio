@@ -327,10 +327,10 @@ function initTypingEffect() {
   if (!typingEl) return;
 
   const phrases = [
-    'powerpoint decks that keep people awake',
-    'clean social media graphics',
-    '3D prints and weird hardware builds',
-    'simple python tools for real tasks'
+    'deep-tech pitch decks that close rounds',
+    'clear diagrams for complex engineering',
+    '3D prototypes & DfAM models',
+    'clean Python tools & AI guardrails'
   ];
 
   let wordIndex = 0;
