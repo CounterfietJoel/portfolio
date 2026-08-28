@@ -1490,25 +1490,30 @@ body.cad-blueprint-mode {
   background-size: 24px 24px !important;
 }
 
-body.cad-blueprint-mode :not(i):not([class*="fa-"]):not([class*="fa"]):not(.fa-solid):not(.fa-regular):not(.fa-brands) {
-  font-family: 'Consolas', 'Courier New', Monaco, ui-monospace, monospace !important;
+body.cad-blueprint-mode h1,
+body.cad-blueprint-mode h2,
+body.cad-blueprint-mode h3,
+body.cad-blueprint-mode h4,
+body.cad-blueprint-mode h5,
+body.cad-blueprint-mode h6,
+body.cad-blueprint-mode p,
+body.cad-blueprint-mode a,
+body.cad-blueprint-mode span:not([class*="fa"]),
+body.cad-blueprint-mode div:not([class*="fa"]),
+body.cad-blueprint-mode li,
+body.cad-blueprint-mode button,
+body.cad-blueprint-mode input,
+body.cad-blueprint-mode textarea,
+body.cad-blueprint-mode kbd,
+body.cad-blueprint-mode td,
+body.cad-blueprint-mode th {
+  font-family: 'Consolas', 'Courier New', Monaco, ui-monospace, monospace;
 }
 
-body.cad-blueprint-mode i.fa-solid {
-  font-family: "Font Awesome 6 Free" !important;
-  font-weight: 900 !important;
-  color: #4ade80;
-}
-
-body.cad-blueprint-mode i.fa-regular {
-  font-family: "Font Awesome 6 Free" !important;
-  font-weight: 400 !important;
-  color: #4ade80;
-}
-
-body.cad-blueprint-mode i.fa-brands {
-  font-family: "Font Awesome 6 Brands" !important;
-  font-weight: 400 !important;
+body.cad-blueprint-mode .fa-solid,
+body.cad-blueprint-mode .fa-regular,
+body.cad-blueprint-mode .fa-brands,
+body.cad-blueprint-mode i[class*="fa"] {
   color: #4ade80;
 }
 
