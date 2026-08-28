@@ -4,7 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initAudioEffects();
   initCadBlueprintMode();
   initMoviePlaceholderEasterEgg();
   initAvatarClickEasterEgg();
@@ -263,7 +262,6 @@ function initSlideKeyboardNavigation() {
   function scrollToSlide(index) {
     const targetSection = document.getElementById(sectionIds[index]);
     if (targetSection) {
-      if (window.playSlideChunk) window.playSlideChunk();
       window.scrollTo({
         top: targetSection.offsetTop - 20,
         behavior: 'smooth'
@@ -587,136 +585,6 @@ function initContactForm() {
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG: RETRO SLIDE PROJECTOR & MECHANICAL CLICK AUDIO SYNTHESIZER
-   -------------------------------------------------------------------------- */
-function initAudioEffects() {
-  let audioCtx = null;
-  let sfxEnabled = localStorage.getItem('joel_sfx') !== 'false';
-
-  const sfxBtn = document.getElementById('sfx-toggle-btn');
-  const sfxLabel = document.getElementById('sfx-toggle-label');
-
-  function updateSfxButtonUI() {
-    if (!sfxBtn || !sfxLabel) return;
-    if (sfxEnabled) {
-      sfxBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> <span id="sfx-toggle-label">SFX: ON</span>';
-      sfxBtn.classList.add('active');
-    } else {
-      sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> <span id="sfx-toggle-label">SFX: OFF</span>';
-      sfxBtn.classList.remove('active');
-    }
-  }
-
-  function getAudioContext() {
-    if (!audioCtx) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioContextClass) {
-        audioCtx = new AudioContextClass();
-      }
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    return audioCtx;
-  }
-
-  // Synthesize Kodak Carousel slide projector click-chunk
-  window.playSlideChunk = function() {
-    if (!sfxEnabled) return;
-    const ctx = getAudioContext();
-    if (!ctx) return;
-
-    try {
-      const now = ctx.currentTime;
-
-      // 1. Solenoid Plunger "Thump" (Low Frequency Drop)
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(160, now);
-      osc.frequency.exponentialRampToValueAtTime(40, now + 0.05);
-
-      gain.gain.setValueAtTime(0.35, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.06);
-
-      // 2. Mechanical Shutter / Carousel Gate "Chunk-Clack" (Filtered Noise burst)
-      const bufferSize = Math.floor(ctx.sampleRate * 0.05);
-      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-
-      const whiteNoise = ctx.createBufferSource();
-      whiteNoise.buffer = noiseBuffer;
-
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(2200, now + 0.02);
-      filter.Q.setValueAtTime(3.5, now + 0.02);
-
-      const noiseGain = ctx.createGain();
-      noiseGain.gain.setValueAtTime(0.2, now + 0.02);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-
-      whiteNoise.connect(filter);
-      filter.connect(noiseGain);
-      noiseGain.connect(ctx.destination);
-
-      whiteNoise.start(now + 0.02);
-      whiteNoise.stop(now + 0.06);
-    } catch (e) {}
-  };
-
-  // Tactile Relay Click for Buttons
-  window.playClickSound = function() {
-    if (!sfxEnabled) return;
-    const ctx = getAudioContext();
-    if (!ctx) return;
-
-    try {
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(950, now);
-      osc.frequency.exponentialRampToValueAtTime(220, now + 0.025);
-
-      gain.gain.setValueAtTime(0.22, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.025);
-    } catch (e) {}
-  };
-
-  if (sfxBtn) {
-    updateSfxButtonUI();
-    sfxBtn.addEventListener('click', () => {
-      sfxEnabled = !sfxEnabled;
-      localStorage.setItem('joel_sfx', sfxEnabled);
-      updateSfxButtonUI();
-      if (sfxEnabled) window.playClickSound();
-    });
-  }
-
-  // Hook tactile click sounds to filters and buttons
-  document.querySelectorAll('.filter-btn, .eli5-toggle-btn, .author-avatar-wrap, .slide-tip-box').forEach(el => {
-    el.addEventListener('click', () => {
-      if (window.playClickSound) window.playClickSound();
-    });
-  });
-}
-
-/* --------------------------------------------------------------------------
    EASTER EGG: CAD / BLUEPRINT WIREFRAME MODE
    -------------------------------------------------------------------------- */
 function initCadBlueprintMode() {
@@ -737,8 +605,6 @@ function initCadBlueprintMode() {
         cadLabel.textContent = isCadMode ? 'CAD Mode: ON' : 'CAD Mode: OFF';
       }
     }
-
-    if (window.playClickSound) window.playClickSound();
 
     if (hudToast && isCadMode) {
       hudToast.classList.add('active');
@@ -770,4 +636,5 @@ function initCadBlueprintMode() {
     coordsEl.textContent = `X: ${xMm}mm | Y: ${yMm}mm`;
   });
 }
+
 
