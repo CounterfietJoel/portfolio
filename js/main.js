@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initPortfolioFilters();
   initLightboxModal();
   initContactForm();
-  initBeforeAfterSlider();
-  initBlueprintAction();
 });
 
 /* --------------------------------------------------------------------------
@@ -209,7 +207,7 @@ function initConsoleEasterEgg() {
 /* --------------------------------------------------------------------------
    EASTER EGG 3: KEYBOARD SLIDE PRESENTATION MODE (Arrow Keys / Spacebar)
    -------------------------------------------------------------------------- */
-const sectionIds = ['home', 'about', 'services', 'transformation', 'portfolio', 'blueprint', 'ventures', 'contact'];
+const sectionIds = ['home', 'about', 'services', 'portfolio', 'ventures', 'contact'];
 let currentSlideIndex = 0;
 
 function initSlideKeyboardNavigation() {
@@ -576,131 +574,3 @@ function initContactForm() {
     }, 500);
   });
 }
-
-/* --------------------------------------------------------------------------
-   INTERACTIVE BEFORE/AFTER SLIDE TRANSFORMATION SLIDER
-   -------------------------------------------------------------------------- */
-function initBeforeAfterSlider() {
-  const sliderBox = document.getElementById('slider-box');
-  const beforeLayer = document.getElementById('slide-before-layer');
-  const sliderHandle = document.getElementById('slider-handle');
-
-  const btnBefore = document.getElementById('preset-before');
-  const btnSplit = document.getElementById('preset-split');
-  const btnAfter = document.getElementById('preset-after');
-  const presetBtns = [btnBefore, btnSplit, btnAfter];
-
-  if (!sliderBox || !beforeLayer || !sliderHandle) return;
-
-  let isDragging = false;
-
-  function setActivePreset(activeBtn) {
-    presetBtns.forEach(btn => {
-      if (btn) btn.classList.remove('active');
-    });
-    if (activeBtn) activeBtn.classList.add('active');
-  }
-
-  function setSliderPosition(percent, targetBtn = null) {
-    const clamped = Math.max(0, Math.min(100, percent));
-    beforeLayer.style.width = `${clamped}%`;
-    sliderHandle.style.left = `${clamped}%`;
-    if (targetBtn) {
-      setActivePreset(targetBtn);
-    }
-  }
-
-  function handleMove(clientX) {
-    const rect = sliderBox.getBoundingClientRect();
-    const xPos = clientX - rect.left;
-    const percentage = (xPos / rect.width) * 100;
-    setSliderPosition(percentage);
-    setActivePreset(null);
-  }
-
-  // Mouse Events
-  sliderHandle.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    e.preventDefault();
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    handleMove(e.clientX);
-  });
-
-  // Touch Events
-  sliderHandle.addEventListener('touchstart', (e) => {
-    isDragging = true;
-  }, { passive: true });
-
-  window.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging || !e.touches[0]) return;
-    handleMove(e.touches[0].clientX);
-  }, { passive: true });
-
-  // Preset Buttons
-  if (btnBefore) {
-    btnBefore.addEventListener('click', () => setSliderPosition(100, btnBefore));
-  }
-  if (btnSplit) {
-    btnSplit.addEventListener('click', () => setSliderPosition(50, btnSplit));
-  }
-  if (btnAfter) {
-    btnAfter.addEventListener('click', () => setSliderPosition(0, btnAfter));
-  }
-
-  // Click on slider box to jump
-  sliderBox.addEventListener('click', (e) => {
-    if (e.target.closest('#slider-handle')) return;
-    handleMove(e.clientX);
-  });
-}
-
-/* --------------------------------------------------------------------------
-   THE 10-SLIDE PITCH BLUEPRINT ACTIONS
-   -------------------------------------------------------------------------- */
-function initBlueprintAction() {
-  const copyBtn = document.getElementById('copy-blueprint-btn');
-  if (!copyBtn) return;
-
-  const blueprintText = `THE 10-SLIDE DEEP-TECH PITCH BLUEPRINT
-by Joel Ebenezer (@CounterfietJoel)
-----------------------------------------
-01. The Physical Limit / Core Problem: Thermodynamic or physical barrier.
-02. Breakthrough Architecture: The core technological leap & DfAM.
-03. Technical Moat & IP: Patents, trade secrets, hard defensibility.
-04. Unit Economics & BOM: Scaling cost curves (10 vs. 10k units).
-05. Lab-to-Fab Execution Roadmap: TRL stages & tooling buffers.
-06. Empirical Benchmarks & Proof: Hard test data & validation curves.
-07. Beachhead Market & Bottom-Up TAM: First paying vertical.
-08. Business Model & Deployment: Hardware + SaaS / recurring margins.
-09. Engineering & Science Team: Pedigree & domain mastery.
-10. Capital Ask & Milestones: Physical de-risking tranches.
-----------------------------------------
-https://counterfietjoel.github.io/portfolio/`;
-
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(blueprintText).then(() => {
-      const originalHTML = copyBtn.innerHTML;
-      copyBtn.innerHTML = `<i class="fa-solid fa-check" style="color: var(--primary);"></i> Copied Checklist!`;
-      copyBtn.classList.add('active');
-      setTimeout(() => {
-        copyBtn.innerHTML = originalHTML;
-        copyBtn.classList.remove('active');
-      }, 2200);
-    }).catch(() => {
-      alert('Copied blueprint checklist!');
-    });
-  });
-}
-
-
