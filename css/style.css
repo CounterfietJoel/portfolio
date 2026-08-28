@@ -1490,8 +1490,26 @@ body.cad-blueprint-mode {
   background-size: 24px 24px !important;
 }
 
-body.cad-blueprint-mode * {
+body.cad-blueprint-mode :not(i):not([class*="fa-"]):not([class*="fa"]):not(.fa-solid):not(.fa-regular):not(.fa-brands) {
   font-family: 'Consolas', 'Courier New', Monaco, ui-monospace, monospace !important;
+}
+
+body.cad-blueprint-mode i.fa-solid {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+  color: #4ade80;
+}
+
+body.cad-blueprint-mode i.fa-regular {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 400 !important;
+  color: #4ade80;
+}
+
+body.cad-blueprint-mode i.fa-brands {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+  color: #4ade80;
 }
 
 body.cad-blueprint-mode .sidebar {
