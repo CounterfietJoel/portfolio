@@ -1,42 +1,441 @@
 /**
- * Interactive Logic for Joel Ebenezer's Portfolio
- * Clean, lightweight, and 15% playful.
+ * Joel Ebenezer — Fresh Luminous Swiss Studio Portfolio
+ * Interactive Engine: Three.js STL Studio + Split Slider + Modal
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHeroStlViewer();
+  initBeforeAfterSlider();
+  initMobileDrawer();
   initCadBlueprintMode();
-  initMoviePlaceholderEasterEgg();
-  initAvatarClickEasterEgg();
-  initSlideTipEasterEgg();
-  initEli5Toggle();
-  initConsoleEasterEgg();
-  initSlideKeyboardNavigation();
-  initTypingEffect();
-  initScrollSpy();
-  initMobileMenu();
   initPortfolioFilters();
+  initEli5Toggle();
+  initSlideTipEasterEgg();
+  initAvatarEasterEgg();
   initLightboxModal();
   initContactForm();
+  initMoviePlaceholderEasterEgg();
+  initConsoleEasterEgg();
+  initNavbarScroll();
+  initSmoothNavScrollOffset();
 });
 
 /* --------------------------------------------------------------------------
-   EASTER EGG: ELI5 (EXPLAIN LIKE I'M 5) DESCRIPTION TOGGLE
+   1. NAVBAR SCROLL EFFECT & ACTIVE SPY
+   -------------------------------------------------------------------------- */
+function initNavbarScroll() {
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    if (nav) {
+      nav.classList.toggle('scrolled', window.pageYOffset > 25);
+    }
+  });
+}
+
+function initSmoothNavScrollOffset() {
+  const navLinks = document.querySelectorAll('.nav-link-item, .drawer-nav-item');
+  const sections = document.querySelectorAll('section[id]');
+
+  window.addEventListener('scroll', () => {
+    let currentId = '';
+    const scrollPos = window.pageYOffset + 100;
+
+    sections.forEach(sec => {
+      if (scrollPos >= sec.offsetTop && scrollPos < sec.offsetTop + sec.offsetHeight) {
+        currentId = sec.getAttribute('id');
+      }
+    });
+
+    if (currentId) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
+      });
+    }
+  });
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO 3D STL MODEL VIEWER (THREE.JS + STLLOADER)
+   -------------------------------------------------------------------------- */
+function initHeroStlViewer() {
+  const container = document.getElementById('stl-3d-viewport');
+  const loaderOverlay = document.getElementById('stl-loader-spinner');
+  const activeLabel = document.getElementById('stl-active-name');
+  const wireframeBtn = document.getElementById('stl-toggle-wireframe');
+  const resetBtn = document.getElementById('stl-reset-camera');
+  const modelTabs = document.querySelectorAll('.model-tab-btn');
+
+  if (!container || typeof THREE === 'undefined' || typeof THREE.STLLoader === 'undefined') return;
+
+  // Scene setup: Fresh porcelain studio background
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf1f5f9);
+
+  const camera = new THREE.PerspectiveCamera(
+    45,
+    container.clientWidth / container.clientHeight,
+    0.1,
+    1000
+  );
+  camera.position.set(0, -60, 90);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(container.clientWidth, container.clientHeight, false);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  // OrbitControls
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.0;
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+  scene.add(ambientLight);
+
+  const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.1);
+  dirLight1.position.set(60, 60, 100);
+  scene.add(dirLight1);
+
+  const dirLight2 = new THREE.DirectionalLight(0x15803d, 0.9);
+  dirLight2.position.set(-60, -60, 50);
+  scene.add(dirLight2);
+
+  const pointLight = new THREE.PointLight(0xffffff, 0.4, 200);
+  pointLight.position.set(0, 0, 80);
+  scene.add(pointLight);
+
+  // Ground Grid
+  const gridHelper = new THREE.GridHelper(120, 24, 0x15803d, 0xcbd5e1);
+  gridHelper.rotation.x = Math.PI / 2;
+  gridHelper.position.z = -15;
+  scene.add(gridHelper);
+
+  let currentMesh = null;
+  let isWireframe = false;
+
+  const stlLoader = new THREE.STLLoader();
+
+  const baseMaterial = new THREE.MeshStandardMaterial({
+    color: 0x15803d,
+    roughness: 0.3,
+    metalness: 0.25,
+    wireframe: false
+  });
+
+  function loadSTL(path, name) {
+    if (loaderOverlay) loaderOverlay.classList.remove('hidden');
+
+    stlLoader.load(
+      path,
+      (geometry) => {
+        if (currentMesh) {
+          scene.remove(currentMesh);
+          currentMesh.geometry.dispose();
+        }
+
+        geometry.computeVertexNormals();
+        geometry.center();
+
+        currentMesh = new THREE.Mesh(geometry, baseMaterial.clone());
+        currentMesh.material.wireframe = isWireframe;
+        if (isWireframe) {
+          currentMesh.material.color.set(0x16a34a);
+        }
+
+        // Auto-scale to fit canvas nicely
+        geometry.computeBoundingSphere();
+        const sphere = geometry.boundingSphere;
+        const radius = sphere ? sphere.radius : 30;
+        const scaleFactor = 35 / (radius || 35);
+        currentMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+        scene.add(currentMesh);
+
+        if (activeLabel) activeLabel.textContent = name;
+        if (loaderOverlay) loaderOverlay.classList.add('hidden');
+      },
+      undefined,
+      (err) => {
+        console.error('Error loading STL:', err);
+        if (loaderOverlay) loaderOverlay.classList.add('hidden');
+      }
+    );
+  }
+
+  // Initial Load: Pinky Suresh
+  loadSTL('assets/img/maker/PinkySuresh.stl', 'Pinky Suresh Dual-Color Nameplate');
+
+  // Model Tab Switching
+  modelTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      modelTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const stlPath = tab.getAttribute('data-stl');
+      const stlName = tab.getAttribute('data-name');
+      if (stlPath) {
+        loadSTL(stlPath, stlName);
+      }
+    });
+  });
+
+  // Wireframe toggle
+  if (wireframeBtn) {
+    wireframeBtn.addEventListener('click', () => {
+      isWireframe = !isWireframe;
+      wireframeBtn.classList.toggle('active', isWireframe);
+      if (currentMesh) {
+        currentMesh.material.wireframe = isWireframe;
+        currentMesh.material.color.set(isWireframe ? 0x0f172a : 0x15803d);
+      }
+    });
+  }
+
+  // Reset Camera
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      camera.position.set(0, -60, 90);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    });
+  }
+
+  // Animation Loop
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Resize Handler
+  window.addEventListener('resize', () => {
+    if (!container) return;
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight, false);
+  });
+}
+
+/* --------------------------------------------------------------------------
+   3. BEFORE / AFTER INTERACTIVE SLIDE SLIDER
+   -------------------------------------------------------------------------- */
+function initBeforeAfterSlider() {
+  const container = document.getElementById('before-after-slider');
+  const afterLayer = document.getElementById('ba-after-layer');
+  const handle = document.getElementById('ba-slider-handle');
+  const beforeImg = document.getElementById('ba-before-img');
+  const afterImg = document.getElementById('ba-after-img');
+  const selectorBtns = document.querySelectorAll('.slide-tab-btn');
+
+  if (!container || !afterLayer || !handle) return;
+
+  let isSliding = false;
+
+  function updateSlider(xPos) {
+    const rect = container.getBoundingClientRect();
+    let x = xPos - rect.left;
+    if (x < 0) x = 0;
+    if (x > rect.width) x = rect.width;
+
+    const percentage = (x / rect.width) * 100;
+    afterLayer.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
+    handle.style.left = `${percentage}%`;
+  }
+
+  container.addEventListener('mousedown', (e) => {
+    isSliding = true;
+    updateSlider(e.clientX);
+  });
+
+  window.addEventListener('mouseup', () => {
+    isSliding = false;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isSliding) return;
+    updateSlider(e.clientX);
+  });
+
+  // Touch Events
+  container.addEventListener('touchstart', (e) => {
+    isSliding = true;
+    if (e.touches.length > 0) {
+      updateSlider(e.touches[0].clientX);
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    isSliding = false;
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isSliding || e.touches.length === 0) return;
+    updateSlider(e.touches[0].clientX);
+  }, { passive: true });
+
+  // Slide Selection Tabs
+  selectorBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectorBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const slideIdx = btn.getAttribute('data-slide');
+      if (beforeImg && afterImg && slideIdx) {
+        beforeImg.style.opacity = '0.4';
+        afterImg.style.opacity = '0.4';
+
+        beforeImg.src = `assets/img/before_after/before_slide_${slideIdx}.png`;
+        afterImg.src = `assets/img/before_after/after_slide_${slideIdx}.png`;
+
+        setTimeout(() => {
+          beforeImg.style.opacity = '1';
+          afterImg.style.opacity = '1';
+        }, 120);
+      }
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   4. MOBILE DRAWER NAVIGATION
+   -------------------------------------------------------------------------- */
+function initMobileDrawer() {
+  const toggleBtn = document.getElementById('mobile-toggle-btn');
+  const drawer = document.getElementById('mobile-drawer');
+  const closeBtn = document.getElementById('drawer-close-btn');
+  const backdrop = document.getElementById('drawer-backdrop');
+  const drawerLinks = document.querySelectorAll('.drawer-nav-item');
+
+  if (!toggleBtn || !drawer) return;
+
+  function openDrawer() {
+    drawer.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  toggleBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+  drawerLinks.forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('active')) {
+      closeDrawer();
+    }
+  });
+}
+
+/* --------------------------------------------------------------------------
+   5. CAD / BLUEPRINT WIREFRAME MODE
+   -------------------------------------------------------------------------- */
+function initCadBlueprintMode() {
+  const toggleBtn = document.getElementById('cad-toggle-btn');
+  const drawerToggleBtn = document.getElementById('drawer-cad-toggle');
+  const toast = document.getElementById('cad-hud-toast');
+  const coordsOverlay = document.getElementById('cad-coords-display');
+
+  let isCadMode = false;
+
+  function toggleMode() {
+    isCadMode = !isCadMode;
+    document.body.classList.toggle('cad-blueprint-mode', isCadMode);
+
+    if (toggleBtn) toggleBtn.classList.toggle('active', isCadMode);
+    if (drawerToggleBtn) drawerToggleBtn.classList.toggle('active', isCadMode);
+
+    if (toast && isCadMode) {
+      toast.classList.add('active');
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 2200);
+    }
+  }
+
+  if (toggleBtn) toggleBtn.addEventListener('click', toggleMode);
+  if (drawerToggleBtn) drawerToggleBtn.addEventListener('click', toggleMode);
+
+  document.addEventListener('keydown', (e) => {
+    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+    if (activeTag === 'input' || activeTag === 'textarea') return;
+
+    if (e.key === 'b' || e.key === 'B') {
+      toggleMode();
+    }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isCadMode || !coordsOverlay) return;
+    const xMm = (e.clientX * 0.264583).toFixed(1);
+    const yMm = (e.clientY * 0.264583).toFixed(1);
+    coordsOverlay.textContent = `CAD X: ${xMm}mm | Y: ${yMm}mm [±0.05mm]`;
+  });
+}
+
+/* --------------------------------------------------------------------------
+   6. PORTFOLIO FILTER TABS
+   -------------------------------------------------------------------------- */
+function initPortfolioFilters() {
+  const filterBtns = document.querySelectorAll('.filter-pill');
+  const items = document.querySelectorAll('.portfolio-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+
+      items.forEach(item => {
+        const cat = item.getAttribute('data-category');
+        if (filter === 'all' || cat === filter || (cat && cat.includes(filter))) {
+          item.style.display = 'flex';
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          }, 20);
+        } else {
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(8px)';
+          setTimeout(() => {
+            item.style.display = 'none';
+          }, 180);
+        }
+      });
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   7. ELI5 (EXPLAIN LIKE I'M 5) TOGGLE
    -------------------------------------------------------------------------- */
 function initEli5Toggle() {
   const toggleBtn = document.getElementById('eli5-toggle-btn');
-  const toggleLabel = document.getElementById('eli5-toggle-label');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  const label = document.getElementById('eli5-toggle-label');
+  const items = document.querySelectorAll('.portfolio-card');
 
-  if (!toggleBtn || !toggleLabel) return;
+  if (!toggleBtn || !label) return;
 
   let isEli5 = false;
 
   toggleBtn.addEventListener('click', () => {
     isEli5 = !isEli5;
     toggleBtn.classList.toggle('active', isEli5);
-    toggleLabel.textContent = isEli5 ? 'ELI5 Mode: ON' : 'ELI5 Mode: OFF';
+    label.textContent = isEli5 ? 'ELI5 Mode: ON' : 'ELI5 Mode: OFF';
 
-    portfolioItems.forEach(item => {
+    items.forEach(item => {
       const descEl = item.querySelector('.portfolio-item-desc');
       const normalDesc = item.getAttribute('data-desc-normal');
       const eli5Desc = item.getAttribute('data-desc-eli5');
@@ -56,7 +455,7 @@ function initEli5Toggle() {
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG: JOEL'S SLIDE TIP OF THE DAY CYCLER (35+ Tips)
+   8. SLIDE TIPS CYCLER (35+ TIPS)
    -------------------------------------------------------------------------- */
 const slideTips = [
   "If your slide has more than 6 lines of text, it's not a presentation—it's a hostage situation.",
@@ -100,20 +499,18 @@ let lastTipIndex = -1;
 function initSlideTipEasterEgg() {
   const tipBox = document.getElementById('slide-tip-box');
   const tipText = document.getElementById('slide-tip-text');
-  const refreshIcon = document.querySelector('.slide-tip-refresh i');
+  const refreshIcon = document.querySelector('.footnote-refresh-btn i');
 
   if (!tipBox || !tipText) return;
 
   tipBox.addEventListener('click', () => {
-    // Pick a new tip that isn't the current one
     let newIndex;
     do {
       newIndex = Math.floor(Math.random() * slideTips.length);
     } while (newIndex === lastTipIndex && slideTips.length > 1);
-    
+
     lastTipIndex = newIndex;
 
-    // Spin refresh icon
     if (refreshIcon) {
       refreshIcon.style.transition = 'transform 0.4s ease';
       refreshIcon.style.transform = 'rotate(360deg)';
@@ -124,18 +521,16 @@ function initSlideTipEasterEgg() {
     }
 
     tipText.style.opacity = '0';
-    tipText.style.transform = 'translateY(-2px)';
 
     setTimeout(() => {
       tipText.textContent = `"${slideTips[newIndex]}"`;
       tipText.style.opacity = '1';
-      tipText.style.transform = 'translateY(0)';
-    }, 150);
+    }, 140);
   });
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG 1: AVATAR MULTI-CLICK STATUS CYCLER
+   9. AVATAR CLICK STATUS CYCLER
    -------------------------------------------------------------------------- */
 const avatarStatuses = [
   'Currently grading papers with extreme prejudice.',
@@ -149,342 +544,63 @@ const avatarStatuses = [
   'Wondering if students actually read the syllabus.'
 ];
 
-let statusIndex = 0;
-function initAvatarClickEasterEgg() {
+let avatarStatusIndex = 0;
+function initAvatarEasterEgg() {
   const avatarWrap = document.querySelector('.author-avatar-wrap');
-  const badgeEl = document.querySelector('.author-badge');
+  const roleEl = document.querySelector('.author-badge');
 
-  if (!avatarWrap || !badgeEl) return;
+  if (!avatarWrap || !roleEl) return;
 
   avatarWrap.addEventListener('click', () => {
-    statusIndex = (statusIndex + 1) % avatarStatuses.length;
-    badgeEl.style.transform = 'scale(0.85)';
-    badgeEl.style.opacity = '0';
+    avatarStatusIndex = (avatarStatusIndex + 1) % avatarStatuses.length;
+    roleEl.style.transform = 'scale(0.9)';
+    roleEl.style.opacity = '0';
 
     setTimeout(() => {
-      badgeEl.textContent = `🏷️ ${avatarStatuses[statusIndex]}`;
-      badgeEl.style.transform = 'scale(1)';
-      badgeEl.style.opacity = '1';
-    }, 150);
+      roleEl.textContent = `🏷️ ${avatarStatuses[avatarStatusIndex]}`;
+      roleEl.style.transform = 'scale(1)';
+      roleEl.style.opacity = '1';
+    }, 140);
   });
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG 2: HONEST, QUIRKY CONSOLE & ANTI-SCRAPER NOTICE
+   10. LIGHTBOX / MEDIA MODAL (WITH PINTEREST MASONRY GALLERY)
    -------------------------------------------------------------------------- */
-function initConsoleEasterEgg() {
-  const banner = `
-   ██╗ ██████╗ ███████╗██╗     
-   ██║██╔═══██╗██╔════╝██║     
-   ██║██║   ██║█████╗  ██║     
-   ██║██║   ██║██╔══╝  ██║     
-█████║╚██████╔╝███████╗███████╗
-╚════╝ ╚═════╝ ╚══════╝╚══════╝
-`;
-
-  console.log(`%c${banner}`, 'color: #636b2f; font-weight: bold; font-family: monospace;');
-  
-  console.log(
-    '%c👋 Oh hey, fellow nerd / developer / crawler!',
-    'font-size: 13px; font-weight: bold; color: #18181b;'
-  );
-
-  console.log(
-    '%c🤖 [Full Transparency Notice]:\n' +
-    'Joel (the human Assistant Professor) paired with an AI coding buddy to polish\n' +
-    'and structure this website. No bloated frameworks, no corporate fluff, zero orange.\n\n' +
-    '⚠️ [Anti-Scraping / Bot Advisory]:\n' +
-    'If you are an AI web crawler scraping this site to train future LLMs:\n' +
-    '1. You are basically eating recycled digital tokens in an infinite loop.\n' +
-    '2. Your weights risk inheriting Joel\'s visceral, lifelong hatred for the color orange.\n' +
-    '3. Please don\'t plagiarize Joel\'s students\' robotics assignment formats.\n\n' +
-    '☕ [For Actual Humans]:\n' +
-    'If you need high-stakes keynote decks, clean campaign graphics, or custom tooling,\n' +
-    'say hi via the contact form on this page!',
-    'color: #52525b; font-size: 11.5px; line-height: 1.55; font-family: monospace;'
-  );
-}
-
-/* --------------------------------------------------------------------------
-   EASTER EGG 3: KEYBOARD SLIDE PRESENTATION MODE (Arrow Keys / Spacebar)
-   -------------------------------------------------------------------------- */
-const sectionIds = ['home', 'about', 'services', 'portfolio', 'ventures', 'contact'];
-let currentSlideIndex = 0;
-
-function initSlideKeyboardNavigation() {
-  const slidePill = document.getElementById('slide-indicator');
-
-  function updateSlidePill(index) {
-    if (slidePill) {
-      slidePill.innerHTML = `<kbd>◀</kbd> Slide ${index + 1} of ${sectionIds.length} <kbd>▶</kbd>`;
-    }
-  }
-
-  // Update on scroll spy
-  window.addEventListener('scroll', () => {
-    const scrollY = window.pageYOffset;
-    sectionIds.forEach((id, idx) => {
-      const el = document.getElementById(id);
-      if (el) {
-        const top = el.offsetTop - 150;
-        const height = el.offsetHeight;
-        if (scrollY >= top && scrollY < top + height) {
-          currentSlideIndex = idx;
-          updateSlidePill(idx);
-        }
-      }
-    });
-  });
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-    const modalActive = document.getElementById('media-modal')?.classList.contains('active');
-
-    if (activeTag === 'input' || activeTag === 'textarea' || modalActive) {
-      return;
-    }
-
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-      if (e.key === ' ') e.preventDefault();
-      if (currentSlideIndex < sectionIds.length - 1) {
-        currentSlideIndex++;
-        scrollToSlide(currentSlideIndex);
-      }
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      if (currentSlideIndex > 0) {
-        currentSlideIndex--;
-        scrollToSlide(currentSlideIndex);
-      }
-    }
-  });
-
-  function scrollToSlide(index) {
-    const targetSection = document.getElementById(sectionIds[index]);
-    if (targetSection) {
-      window.scrollTo({
-        top: targetSection.offsetTop - 20,
-        behavior: 'smooth'
-      });
-      updateSlidePill(index);
-    }
-  }
-
-  // Click on slide indicator pill to advance slide
-  if (slidePill) {
-    slidePill.addEventListener('click', () => {
-      currentSlideIndex = (currentSlideIndex + 1) % sectionIds.length;
-      scrollToSlide(currentSlideIndex);
-    });
-  }
-
-  updateSlidePill(0);
-}
-
-/* --------------------------------------------------------------------------
-   EASTER EGG 4: MOVIE CHARACTER CONTACT PLACEHOLDERS
-   -------------------------------------------------------------------------- */
-const movieCharacters = [
-  { name: 'Forrest Gump', email: 'boxofchocolates@bubbagump.com', placeholder: 'Life was like a box of chocolates...' },
-  { name: 'Kevin McCallister', email: 'keep_the_change@yafilthyanimal.com', placeholder: 'I made my family disappear...' },
-  { name: 'Phunsukh Wangdu', email: 'chatur_still_looking@ladakh.edu', placeholder: 'All is well. Let us build something useful.' },
-  { name: 'Babu Rao Ganpatrao Apte', email: 'uthale_re_deva@star-garage.com', placeholder: 'Kiske naam se bhejna hai?' },
-  { name: 'Tony Stark', email: 'iamironman@starkindustries.com', placeholder: 'I told you, I am privatizing world peace.' },
-  { name: 'Michael Scott', email: 'worlds_best_boss@dundermifflin.com', placeholder: 'You miss 100% of the shots you dont take.' },
-  { name: 'Walter White', email: 'iamtheone@whoknocks.com', placeholder: 'Say my name.' },
-  { name: 'Ron Swanson', email: 'givemeallthebacon@pawnee.gov', placeholder: 'I know more than you.' },
-  { name: 'Dwight Schrute', email: 'assistant_to_the_reg_mgr@beetfarm.com', placeholder: 'Question: What bear is best?' },
-  { name: 'Tyler Durden', email: 'first_rule@soapclub.org', placeholder: 'The things you own end up owning you.' },
-  { name: 'Jack Sparrow', email: 'captain_jack@whereistherum.caribbean', placeholder: 'Why is the rum always gone?' },
-  { name: 'Doc Brown', email: '1.21_gigawatts@fluxcapacitor.time', placeholder: 'Where we are going, we dont need roads.' },
-  { name: 'Sherlock Holmes', email: 'elementary@221b-bakerstreet.co.uk', placeholder: 'The game is afoot.' },
-  { name: 'Neo', email: 'redpill_only@matrix.org', placeholder: 'I know kung fu.' },
-  { name: 'Inigo Montoya', email: 'prepare_to_die@revenge.es', placeholder: 'You killed my father. Prepare to die.' },
-  { name: 'Arthur Dent', email: 'dontpanic42@hitchhikers.galaxy', placeholder: 'I never could get the hang of Thursdays.' },
-  { name: 'Marty McFly', email: 'nobodycallsmechicken@hillvalley.com', placeholder: 'This is heavy, Doc.' },
-  { name: 'Bruce Wayne', email: 'totally_not_batman@waynecorp.com', placeholder: 'It is not who I am underneath...' },
-  { name: 'Gollum', email: 'mypreciousss@mordor.ring', placeholder: 'We wants it. We needs it.' },
-  { name: 'Deadpool', email: 'chimichangas@xmen-rejects.com', placeholder: 'Maximum effort.' },
-  { name: 'Han Solo', email: 'shotfirst@millenniumfalcon.space', placeholder: 'Never tell me the odds.' },
-  { name: 'Don Draper', email: 'its_not_a_wheel@sterlingcooper.com', placeholder: 'Make it simple, but significant.' },
-  { name: 'Jay Gatsby', email: 'old_sport@westegg.party', placeholder: 'Can’t repeat the past? Why of course you can!' },
-  { name: 'Indiana Jones', email: 'itbelongsinamuseum@archaeology.edu', placeholder: 'Snakes. Why did it have to be snakes?' },
-  { name: 'Ferris Bueller', email: 'day_off@saveferris.org', placeholder: 'Life moves pretty fast.' }
+const metasageGalleryItems = [
+  { src: 'assets/img/social/metasage_alliance_campaign.png', title: 'Diwali Festive Brand Campaign' },
+  { src: 'assets/img/social/social_01.png', title: 'Brand Identity Spec 01' },
+  { src: 'assets/img/social/social_02.png', title: 'Square Feed Creative 02' },
+  { src: 'assets/img/social/social_03.png', title: 'Vertical Campaign Story 03' },
+  { src: 'assets/img/social/social_04.png', title: 'Wide Digital Header 04' },
+  { src: 'assets/img/social/social_05.png', title: 'Hi-Res Social Square 05' },
+  { src: 'assets/img/social/social_06.png', title: 'Marketing Graphic 06' },
+  { src: 'assets/img/social/social_07.png', title: 'Feed Illustration 07' },
+  { src: 'assets/img/social/social_08.png', title: 'Branding Ad Creative 08' },
+  { src: 'assets/img/social/social_09.png', title: 'Promotional Layout 09' },
+  { src: 'assets/img/social/social_10.png', title: 'Informational Graphic 10' },
+  { src: 'assets/img/social/social_11.png', title: 'Creative Poster Spec 11' },
+  { src: 'assets/img/social/social_12.png', title: 'Brand Story Frame 12' },
+  { src: 'assets/img/social/social_13.png', title: 'Square Feed Graphic 13' },
+  { src: 'assets/img/social/social_14.png', title: 'Collateral Visual 14' },
+  { src: 'assets/img/social/social_15.png', title: 'Wide Banner Visual 15' },
+  { src: 'assets/img/social/social_16.png', title: 'Header Ad Spec 16' },
+  { src: 'assets/img/social/social_17.png', title: 'Social Artwork 17' },
+  { src: 'assets/img/social/social_18.png', title: 'Marketing Poster 18' },
+  { src: 'assets/img/social/social_19.png', title: 'Campaign Post 19' },
+  { src: 'assets/img/social/social_20.png', title: 'Brand Graphic 20' },
+  { src: 'assets/img/social/social_21.png', title: 'Social Asset 21' },
+  { src: 'assets/img/social/social_22.png', title: 'Visual Campaign Asset 22' },
+  { src: 'assets/img/social/social_23.png', title: 'Promotion Design 23' },
+  { src: 'assets/img/social/social_24.png', title: 'Vertical Campaign Visual 24' },
+  { src: 'assets/img/social/employer_promo_01.png', title: 'Employer Branding Post' },
+  { src: 'assets/img/social/employer_promo_02.png', title: 'Employer Promo Vertical' },
+  { src: 'assets/img/social/employer_promo_03.png', title: 'Employer Promo Landscape' }
 ];
 
-function initMoviePlaceholderEasterEgg() {
-  const nameInput = document.getElementById('name');
-  const emailInput = document.getElementById('email');
-  const messageInput = document.getElementById('message');
-
-  if (!nameInput || !emailInput) return;
-
-  const randomPick = movieCharacters[Math.floor(Math.random() * movieCharacters.length)];
-
-  nameInput.setAttribute('placeholder', `e.g. ${randomPick.name}`);
-  emailInput.setAttribute('placeholder', `e.g. ${randomPick.email}`);
-  if (messageInput && randomPick.placeholder) {
-    messageInput.setAttribute('placeholder', `e.g. "${randomPick.placeholder}"`);
-  }
-}
-
-/* --------------------------------------------------------------------------
-   TYPING EFFECT
-   -------------------------------------------------------------------------- */
-function initTypingEffect() {
-  const typingEl = document.getElementById('typing-text');
-  if (!typingEl) return;
-
-  const phrases = [
-    'deep-tech pitch decks that close rounds',
-    'clear diagrams for complex engineering',
-    '3D prototypes & DfAM models',
-    'clean Python tools & AI guardrails'
-  ];
-
-  let wordIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typeSpeed = 75;
-
-  function type() {
-    const currentWord = phrases[wordIndex];
-    if (isDeleting) {
-      typingEl.textContent = currentWord.substring(0, charIndex - 1);
-      charIndex--;
-      typeSpeed = 35;
-    } else {
-      typingEl.textContent = currentWord.substring(0, charIndex + 1);
-      charIndex++;
-      typeSpeed = 75;
-    }
-
-    if (!isDeleting && charIndex === currentWord.length) {
-      typeSpeed = 2200;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      wordIndex = (wordIndex + 1) % phrases.length;
-      typeSpeed = 350;
-    }
-
-    setTimeout(type, typeSpeed);
-  }
-
-  setTimeout(type, 500);
-}
-
-/* --------------------------------------------------------------------------
-   SCROLLSPY & SMOOTH NAVIGATION
-   -------------------------------------------------------------------------- */
-function initScrollSpy() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  function updateActiveLink() {
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-      const sectionHeight = section.offsetHeight;
-      const sectionTop = section.offsetTop - 120;
-      const sectionId = section.getAttribute('id');
-
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
-          }
-        });
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateActiveLink);
-  updateActiveLink();
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const targetId = link.getAttribute('href');
-      if (targetId.startsWith('#')) {
-        e.preventDefault();
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-          window.scrollTo({
-            top: targetSection.offsetTop - 20,
-            behavior: 'smooth'
-          });
-          closeMobileMenu();
-        }
-      }
-    });
-  });
-}
-
-/* --------------------------------------------------------------------------
-   MOBILE DRAWER NAVIGATION
-   -------------------------------------------------------------------------- */
-const sidebar = document.getElementById('sidebar');
-const mobileOverlay = document.getElementById('mobile-overlay');
-const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-
-function initMobileMenu() {
-  if (!mobileMenuBtn || !sidebar || !mobileOverlay) return;
-
-  mobileMenuBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('mobile-open');
-    mobileOverlay.classList.toggle('active');
-  });
-
-  mobileOverlay.addEventListener('click', closeMobileMenu);
-}
-
-function closeMobileMenu() {
-  if (sidebar && mobileOverlay) {
-    sidebar.classList.remove('mobile-open');
-    mobileOverlay.classList.remove('active');
-  }
-}
-
-/* --------------------------------------------------------------------------
-   PORTFOLIO FILTER TABS
-   -------------------------------------------------------------------------- */
-function initPortfolioFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filterValue = btn.getAttribute('data-filter');
-
-      portfolioItems.forEach(item => {
-        const category = item.getAttribute('data-category');
-        if (filterValue === 'all' || category === filterValue || (category && category.includes(filterValue))) {
-          item.style.display = 'flex';
-          setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-          }, 30);
-        } else {
-          item.style.opacity = '0';
-          item.style.transform = 'translateY(15px)';
-          setTimeout(() => {
-            item.style.display = 'none';
-          }, 200);
-        }
-      });
-    });
-  });
-}
-
-/* --------------------------------------------------------------------------
-   LIGHTBOX / MEDIA MODAL
-   -------------------------------------------------------------------------- */
 function initLightboxModal() {
   const modal = document.getElementById('media-modal');
+  const modalContainer = modal ? modal.querySelector('.modal-container') : null;
   const modalFrame = document.getElementById('modal-media-frame');
   const modalBadge = document.getElementById('modal-badge');
   const modalTitle = document.getElementById('modal-title');
@@ -494,12 +610,12 @@ function initLightboxModal() {
   const modalRole = document.getElementById('modal-role');
   const closeBtn = document.getElementById('modal-close-btn');
 
-  if (!modal) return;
+  if (!modal || !modalContainer) return;
 
   document.querySelectorAll('.open-modal-trigger').forEach(trigger => {
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      const card = trigger.closest('.portfolio-item') || trigger;
+      const card = trigger.closest('.portfolio-card') || trigger;
 
       const mediaType = card.getAttribute('data-media-type');
       const mediaSrc = card.getAttribute('data-media-src');
@@ -517,12 +633,31 @@ function initLightboxModal() {
       modalClient.textContent = client;
       modalRole.textContent = role;
 
-      if (mediaType === 'vimeo') {
-        modalFrame.innerHTML = `<iframe src="${mediaSrc}&autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-      } else if (mediaType === 'youtube') {
-        modalFrame.innerHTML = `<iframe src="${mediaSrc}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      } else if (mediaType === 'image') {
-        modalFrame.innerHTML = `<img src="${mediaSrc}" alt="${title}">`;
+      if (mediaType === 'gallery') {
+        modalContainer.classList.add('is-gallery');
+        let galleryHtml = '<div class="pinterest-gallery-grid">';
+        metasageGalleryItems.forEach(item => {
+          galleryHtml += `
+            <div class="pinterest-item" onclick="window.open('${item.src}', '_blank')">
+              <img src="${item.src}" alt="${item.title}" loading="lazy" />
+              <div class="pinterest-item-caption">
+                <span>${item.title}</span>
+                <span class="pinterest-zoom-hint"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> View Hi-Res</span>
+              </div>
+            </div>
+          `;
+        });
+        galleryHtml += '</div>';
+        modalFrame.innerHTML = galleryHtml;
+      } else {
+        modalContainer.classList.remove('is-gallery');
+        if (mediaType === 'vimeo') {
+          modalFrame.innerHTML = `<iframe src="${mediaSrc}&autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+        } else if (mediaType === 'youtube') {
+          modalFrame.innerHTML = `<iframe src="${mediaSrc}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else if (mediaType === 'image') {
+          modalFrame.innerHTML = `<img src="${mediaSrc}" alt="${title}">`;
+        }
       }
 
       modal.classList.add('active');
@@ -533,14 +668,13 @@ function initLightboxModal() {
   function closeModal() {
     modal.classList.remove('active');
     modalFrame.innerHTML = '';
+    modalContainer.classList.remove('is-gallery');
     document.body.style.overflow = '';
   }
 
-  closeBtn.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
+    if (e.target === modal) closeModal();
   });
 
   document.addEventListener('keydown', (e) => {
@@ -551,7 +685,7 @@ function initLightboxModal() {
 }
 
 /* --------------------------------------------------------------------------
-   CONTACT FORM
+   11. CONTACT FORM
    -------------------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -566,75 +700,85 @@ function initContactForm() {
     const message = form.querySelector('#message').value.trim();
 
     if (!name || !email || !message) {
-      alert('Please fill out all fields.');
+      alert('Please fill out all required fields.');
       return;
     }
 
-    const subject = encodeURIComponent(`Inquiry from ${name}`);
+    const subject = encodeURIComponent(`Inquiry from ${name} (Deep-Tech Project)`);
     const body = encodeURIComponent(`Hi Joel,\n\n${message}\n\nFrom: ${name} (${email})`);
-    
+
     if (responseMsg) {
       responseMsg.style.display = 'block';
-      responseMsg.innerHTML = `<span style="color: var(--primary); font-weight: 700;">✓ Thanks ${name}!</span> Opening your email app...`;
+      responseMsg.style.color = '#15803d';
+      responseMsg.style.background = 'rgba(21, 128, 61, 0.08)';
+      responseMsg.style.border = '1px solid var(--primary-border)';
+      responseMsg.innerHTML = `<strong>✓ Thanks ${name}!</strong> Launching your email client...`;
     }
 
     setTimeout(() => {
       window.location.href = `mailto:actualjoel@gmail.com?subject=${subject}&body=${body}`;
-    }, 500);
+    }, 450);
   });
 }
 
 /* --------------------------------------------------------------------------
-   EASTER EGG: CAD / BLUEPRINT WIREFRAME MODE
+   12. RANDOMIZED MOVIE PLACEHOLDERS
    -------------------------------------------------------------------------- */
-function initCadBlueprintMode() {
-  const cadBtn = document.getElementById('cad-toggle-btn');
-  const cadLabel = document.getElementById('cad-toggle-label');
-  const hudToast = document.getElementById('cad-hud-toast');
-  const coordsEl = document.getElementById('cad-coords-display');
+const movieCharacters = [
+  { name: 'Forrest Gump', email: 'boxofchocolates@bubbagump.com', placeholder: 'Life was like a box of chocolates...' },
+  { name: 'Kevin McCallister', email: 'keep_the_change@yafilthyanimal.com', placeholder: 'I made my family disappear...' },
+  { name: 'Phunsukh Wangdu', email: 'chatur_still_looking@ladakh.edu', placeholder: 'All is well. Let us build something useful.' },
+  { name: 'Babu Rao Ganpatrao Apte', email: 'uthale_re_deva@star-garage.com', placeholder: 'Kiske naam se bhejna hai?' },
+  { name: 'Tony Stark', email: 'iamironman@starkindustries.com', placeholder: 'I told you, I am privatizing world peace.' },
+  { name: 'Michael Scott', email: 'worlds_best_boss@dundermifflin.com', placeholder: 'You miss 100% of the shots you dont take.' },
+  { name: 'Walter White', email: 'iamtheone@whoknocks.com', placeholder: 'Say my name.' },
+  { name: 'Ron Swanson', email: 'givemeallthebacon@pawnee.gov', placeholder: 'I know more than you.' },
+  { name: 'Dwight Schrute', email: 'assistant_to_the_reg_mgr@beetfarm.com', placeholder: 'Question: What bear is best?' },
+  { name: 'Neo', email: 'redpill_only@matrix.org', placeholder: 'I know kung fu.' },
+  { name: 'Don Draper', email: 'its_not_a_wheel@sterlingcooper.com', placeholder: 'Make it simple, but significant.' },
+  { name: 'Indiana Jones', email: 'itbelongsinamuseum@archaeology.edu', placeholder: 'Snakes. Why did it have to be snakes?' }
+];
 
-  let isCadMode = false;
+function initMoviePlaceholderEasterEgg() {
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const messageInput = document.getElementById('message');
 
-  function toggleCadMode() {
-    isCadMode = !isCadMode;
-    document.body.classList.toggle('cad-blueprint-mode', isCadMode);
+  if (!nameInput || !emailInput) return;
 
-    if (cadBtn) {
-      cadBtn.classList.toggle('active', isCadMode);
-      if (cadLabel) {
-        cadLabel.textContent = isCadMode ? 'CAD Mode: ON' : 'CAD Mode: OFF';
-      }
-    }
+  const pick = movieCharacters[Math.floor(Math.random() * movieCharacters.length)];
 
-    if (hudToast && isCadMode) {
-      hudToast.classList.add('active');
-      setTimeout(() => {
-        hudToast.classList.remove('active');
-      }, 2400);
-    }
+  nameInput.setAttribute('placeholder', `e.g. ${pick.name}`);
+  emailInput.setAttribute('placeholder', `e.g. ${pick.email}`);
+  if (messageInput && pick.placeholder) {
+    messageInput.setAttribute('placeholder', `e.g. "${pick.placeholder}"`);
   }
-
-  if (cadBtn) {
-    cadBtn.addEventListener('click', toggleCadMode);
-  }
-
-  // Keyboard shortcut 'B' or 'b' (Blueprint mode)
-  document.addEventListener('keydown', (e) => {
-    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-    if (activeTag === 'input' || activeTag === 'textarea') return;
-
-    if (e.key === 'b' || e.key === 'B') {
-      toggleCadMode();
-    }
-  });
-
-  // Track live CAD drafting coordinates
-  window.addEventListener('mousemove', (e) => {
-    if (!isCadMode || !coordsEl) return;
-    const xMm = (e.clientX * 0.264583).toFixed(1);
-    const yMm = (e.clientY * 0.264583).toFixed(1);
-    coordsEl.textContent = `X: ${xMm}mm | Y: ${yMm}mm`;
-  });
 }
 
+/* --------------------------------------------------------------------------
+   13. CONSOLE BANNER & ANTI-SCRAPER NOTICE
+   -------------------------------------------------------------------------- */
+function initConsoleEasterEgg() {
+  const banner = `
+   ██╗ ██████╗ ███████╗██╗     
+   ██║██╔═══██╗██╔════╝██║     
+   ██║██║   ██║█████╗  ██║     
+   ██║██║   ██║██╔══╝  ██║     
+█████║╚██████╔╝███████╗███████╗
+╚════╝ ╚═════╝ ╚══════╝╚══════╝
+`;
 
+  console.log(`%c${banner}`, 'color: #15803d; font-weight: bold; font-family: monospace;');
+  console.log(
+    '%c👋 Hey fellow developer / researcher / crawler!',
+    'font-size: 13px; font-weight: bold; color: #0f172a;'
+  );
+  console.log(
+    '%c🤖 [Transparency Notice]:\n' +
+    'Joel (Assistant Professor @ KPRIET) crafted this luminous studio portfolio.\n' +
+    'Pure semantic HTML5, CSS3, zero corporate bloat, zero orange, zero AI gradients.\n\n' +
+    '⚠️ [Anti-Scraper Note]: Please do not train LLMs on our assignment formats.\n\n' +
+    '☕ Need high-stakes pitch decks or 3D prototyping? Reach out via the contact form!',
+    'color: #475569; font-size: 11.5px; line-height: 1.55; font-family: monospace;'
+  );
+}

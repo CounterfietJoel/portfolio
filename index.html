@@ -3,27 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Joel Ebenezer | Deep-Tech Information Designer</title>
-  <meta name="description" content="Joel Ebenezer — Mechatronics professor &amp; information designer turning complex engineering into investor-ready pitch decks." />
+  <title>Joel Ebenezer — Deep-Tech Information Designer &amp; Mechatronics Faculty</title>
+  <meta name="description" content="Joel Ebenezer — Mechatronics faculty and deep-tech information designer turning complex engineering, robotics data, and CAD models into investor-ready pitch decks." />
   
-  <!-- Favicon: Geometric Green Logo Icon -->
+  <!-- Favicon -->
   <link rel="icon" href="assets/img/profile/favicon.png" type="image/png" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;850&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,850;1,400;1,600&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Custom Clean CSS -->
-  <link rel="stylesheet" href="css/style.css?v=4.0" />
-</head>
-<body>
+  <!-- Three.js + STLLoader + OrbitControls for Live 3D STL Viewing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
-  <!-- EASTER EGG: PRINT TO PDF EXAMINATION FORM (JOE101) -->
+  <!-- Modern Luminous Studio Stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=12.0" />
+</head>
+<body class="theme-luminous">
+
+  <!-- ==========================================================================
+       EASTER EGG: PRINT TO PDF EXAMINATION FORM (JOE101) - HIDDEN UNTIL PRINT
+       ========================================================================== -->
   <div class="print-exam-sheet">
     <div class="print-header">
       <h2>Joel Ebenezer</h2>
@@ -36,7 +43,7 @@
         <td class="print-meta-label">Course Code:</td>
         <td><strong>JOE101</strong></td>
         <td class="print-meta-label">Course Title:</td>
-        <td><strong>Joel will work for food</strong></td>
+        <td><strong>Deep-Tech Deck Engineering &amp; Prototyping</strong></td>
       </tr>
       <tr>
         <td class="print-meta-label">Faculty:</td>
@@ -61,12 +68,12 @@
     <div class="print-section-title">Section A — Mandatory Compulsory Question (100 Marks)</div>
 
     <div class="print-question-box">
-      <p><strong>Question 1:</strong> You have an upcoming high-stakes keynote presentation, conference address, or visual branding project. What is the optimal engineering decision?</p>
+      <p><strong>Question 1:</strong> You have an upcoming high-stakes keynote presentation, robotics funding pitch, or technical branding project. What is the optimal engineering decision?</p>
       
       <ul class="print-checkbox-list">
-        <li>[ &nbsp; ] (A) Hire Joel Ebenezer immediately to turn your messy bullet points into an animated masterpiece.</li>
+        <li>[ &nbsp; ] (A) Hire Joel Ebenezer immediately to turn your messy bullet points and raw CAD into an animated masterpiece.</li>
         <li>[ &nbsp; ] (B) Send the project brief to <strong>CounterfietJoel@users.noreply.github.com</strong> or LinkedIn.</li>
-        <li>[ &nbsp; ] (C) Keep using default 2012 templates and watch the audience fall asleep.</li>
+        <li>[ &nbsp; ] (C) Keep using default 2012 templates and watch the investors fall asleep.</li>
         <li>[ &nbsp; ] (D) Both (A) and (B). (Recommended for full marks)</li>
       </ul>
     </div>
@@ -84,863 +91,709 @@
     </div>
   </div>
 
-  <!-- MOBILE HEADER -->
-  <header class="mobile-header">
-    <div class="mobile-logo">
-      <img src="assets/img/profile/avatar.png" alt="Joel Ebenezer" />
-      <span class="mobile-logo-text">Joel Ebenezer</span>
-    </div>
-    <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Menu">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-  </header>
-  <div class="mobile-overlay" id="mobile-overlay"></div>
-
-  <!-- EASTER EGG: FLOATING CONTROLS DOCK (CAD MODE + SLIDES) -->
-  <div class="floating-controls-dock">
-    <span class="cad-coords-pill" id="cad-coords-display">X: 0.0mm | Y: 0.0mm</span>
-    <button class="control-pill-btn" id="cad-toggle-btn" title="Toggle CAD Wireframe Blueprint Mode (Shortcut: B)">
-      <i class="fa-solid fa-drafting-compass"></i> <span id="cad-toggle-label">CAD Mode: OFF</span>
-    </button>
-    <div class="slide-indicator-pill" id="slide-indicator" title="Use Arrow Keys or Spacebar to change slides">
-      <kbd>◀</kbd> Slide 1 of 6 <kbd>▶</kbd>
-    </div>
-  </div>
-
-  <!-- CAD HUD TOAST NOTIFICATION -->
+  <!-- CAD HUD TOAST & COORDINATES OVERLAY -->
   <div class="cad-hud-toast" id="cad-hud-toast">
     📐 CAD WIREFRAME MODE [TOL: &plusmn;0.05mm]
   </div>
+  <div class="cad-coords-overlay" id="cad-coords-display">CAD X: 0.0mm | Y: 0.0mm [±0.05mm]</div>
 
-  <div class="app-container">
-    
-    <!-- SIDEBAR NAVIGATION -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="author-avatar-wrap" title="Click me for real-time status updates!">
-          <img src="assets/img/profile/avatar.png" alt="Joel Ebenezer" class="author-avatar" />
+  <!-- ==========================================================================
+       FLOATING GLASS NAVBAR
+       ========================================================================== -->
+  <header class="navbar-wrapper">
+    <nav class="studio-nav" id="main-nav">
+      <!-- Brand -->
+      <a href="#home" class="nav-brand">
+        <div class="avatar-wrap">
+          <img src="assets/img/profile/avatar.png" alt="Joel Ebenezer" class="brand-avatar" />
+          <span class="live-dot" title="Available for freelance pitch decks"></span>
         </div>
-        <h1 class="author-name">Joel Ebenezer</h1>
-        <span class="author-badge">Deep-Tech Design &amp; Making</span>
+        <div class="brand-text-block">
+          <span class="brand-name">Joel Ebenezer</span>
+          <span class="brand-tagline">Mechatronics &bull; Pitch Decks</span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <ul class="nav-link-list">
+        <li><a href="#home" class="nav-link-item active">Home</a></li>
+        <li><a href="#transformation" class="nav-link-item">Before &amp; After</a></li>
+        <li><a href="#services" class="nav-link-item">Capabilities</a></li>
+        <li><a href="#portfolio" class="nav-link-item">Selected Work</a></li>
+        <li><a href="#ventures" class="nav-link-item">Ventures</a></li>
+        <li><a href="#contact" class="nav-link-item">Contact</a></li>
+      </ul>
+
+      <!-- Nav Actions -->
+      <div class="nav-action-group">
+        <button class="btn-cad-shortcut" id="cad-toggle-btn" title="Toggle CAD Wireframe (Shortcut: B)" aria-label="Toggle CAD Mode">
+          <i class="fa-solid fa-drafting-compass"></i>
+          <span>CAD</span>
+          <kbd>B</kbd>
+        </button>
+
+        <a href="#contact" class="btn btn-nav-cta">
+          <i class="fa-regular fa-paper-plane"></i> Let's Talk
+        </a>
+
+        <button class="mobile-hamburger-btn" id="mobile-toggle-btn" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <div class="drawer-panel">
+      <div class="drawer-top-bar">
+        <div class="drawer-user">
+          <img src="assets/img/profile/avatar.png" alt="Joel Ebenezer" class="brand-avatar" />
+          <div>
+            <div class="drawer-user-name">Joel Ebenezer</div>
+            <div class="drawer-user-role">Mechatronics &amp; Deck Design</div>
+          </div>
+        </div>
+        <button class="drawer-close-btn" id="drawer-close-btn" aria-label="Close menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
 
-      <nav class="sidebar-nav">
-        <ul class="nav-list">
-          <li><a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a></li>
-          <li><a href="#about" class="nav-link"><i class="fa-regular fa-user"></i> About</a></li>
-          <li><a href="#services" class="nav-link"><i class="fa-solid fa-briefcase"></i> What I Do</a></li>
-          <li><a href="#portfolio" class="nav-link"><i class="fa-solid fa-shapes"></i> Selected Work</a></li>
-          <li><a href="#ventures" class="nav-link"><i class="fa-solid fa-compass"></i> Side Ventures</a></li>
-          <li><a href="#contact" class="nav-link"><i class="fa-regular fa-paper-plane"></i> Contact</a></li>
-        </ul>
-      </nav>
+      <ul class="drawer-menu-links">
+        <li><a href="#home" class="drawer-nav-item"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="#transformation" class="drawer-nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Before &amp; After</a></li>
+        <li><a href="#services" class="drawer-nav-item"><i class="fa-solid fa-briefcase"></i> Capabilities</a></li>
+        <li><a href="#portfolio" class="drawer-nav-item"><i class="fa-solid fa-shapes"></i> Selected Work</a></li>
+        <li><a href="#ventures" class="drawer-nav-item"><i class="fa-solid fa-compass"></i> Ventures</a></li>
+        <li><a href="#contact" class="drawer-nav-item"><i class="fa-regular fa-envelope"></i> Contact</a></li>
+      </ul>
 
-      <div class="sidebar-footer">
-        <!-- EASTER EGG: JOEL'S SLIDE TIP OF THE DAY -->
-        <div class="slide-tip-box" id="slide-tip-box" title="Click for another slide tip!">
-          <div class="slide-tip-header">
-            <span>💡 Joel's Slide Tip</span>
-            <span class="slide-tip-refresh"><i class="fa-solid fa-rotate"></i></span>
-          </div>
-          <p class="slide-tip-text" id="slide-tip-text">"If your slide has more than 6 lines of text, it's not a presentation—it's a hostage situation."</p>
+      <div class="drawer-footer-actions">
+        <button class="drawer-cad-btn" id="drawer-cad-toggle">
+          <i class="fa-solid fa-drafting-compass"></i> Toggle CAD Wireframe Mode
+        </button>
+        <div class="drawer-social-row">
+          <a href="https://github.com/CounterfietJoel" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/joelebenezer/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://www.instagram.com/counterfietjoel/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.youtube.com/@3dprintingseries" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
-
-        <div class="social-links">
-          <a href="https://github.com/CounterfietJoel" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub (@CounterfietJoel)" aria-label="GitHub">
-            <i class="fa-brands fa-github"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/joelebenezer/" target="_blank" rel="noopener noreferrer" class="social-btn" title="LinkedIn" aria-label="LinkedIn">
-            <i class="fa-brands fa-linkedin-in"></i>
-          </a>
-          <a href="https://www.instagram.com/counterfietjoel/" target="_blank" rel="noopener noreferrer" class="social-btn" title="Instagram @counterfietjoel" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://scholar.google.com/citations?user=y0YSZoUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="social-btn" title="Google Scholar" aria-label="Google Scholar">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </a>
-          <a href="https://www.youtube.com/@3dprintingseries" target="_blank" rel="noopener noreferrer" class="social-btn" title="YouTube Channel" aria-label="YouTube">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
-          <a href="https://actualjoel.substack.com/" target="_blank" rel="noopener noreferrer" class="social-btn" title="Substack Blog" aria-label="Substack">
-            <i class="fa-solid fa-bookmark"></i>
-          </a>
-        </div>
-        <p class="copyright-text">&copy; 2026 Joel Ebenezer.<br />Prof by day. Tinkerer by night.</p>
       </div>
-    </aside>
-
-    <!-- MAIN SCROLLABLE CONTENT -->
-    <main class="main-content">
-      
-      <!-- HERO SECTION -->
-      <section class="section hero-section" id="home">
-        <div class="hero-tag">
-          <span class="hero-tag-dot"></span>
-          Taking on freelance deep-tech design &amp; pitch decks
-        </div>
-        <h1 class="hero-title">
-          Assistant Professor by day.<br />
-          <span style="color: var(--primary);">Deep-Tech Information Designer.</span>
-        </h1>
-        <div class="hero-typing-wrap">
-          I build <span class="hero-typing" id="typing-text"></span>
-        </div>
-        <p class="hero-bio">
-          I teach mechatronics and AI at KPRIET. When I'm not in a lecture hall, I help deep-tech, robotics, and hardware founders translate complex engineering data into clear, investor-ready pitch decks and visual assets.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#portfolio" class="btn btn-primary">
-            <i class="fa-solid fa-arrow-down"></i> See What I've Made
-          </a>
-          <a href="#services" class="btn btn-outline">
-            <i class="fa-solid fa-briefcase"></i> Services
-          </a>
-          <a href="#contact" class="btn btn-outline">
-            <i class="fa-regular fa-envelope"></i> Say Hi
-          </a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-number">Day Job</div>
-            <div class="stat-label">Assistant Professor @ KPRIET</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">Consulting</div>
-            <div class="stat-label">Deep-Tech Pitch Decks</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">Engineering</div>
-            <div class="stat-label">DfAM &amp; CAD Prototyping</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">Maker</div>
-            <div class="stat-label">3D Printing &amp; YouTube</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ABOUT SECTION -->
-      <section class="section" id="about">
-        <div class="section-header">
-          <span class="section-tag">About Me</span>
-          <h2 class="section-title">A Bit of Context</h2>
-          <p class="section-subtitle">Why an engineering professor is designing your pitch decks.</p>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-card">
-            <h3 class="about-card-title"><i class="fa-regular fa-smile"></i> Who I Am</h3>
-            <p class="about-text">
-              I teach robotics, industrial automation, and AI to engineering students. Having a background in Mechatronics and research in Additive Manufacturing (3D printing) means I understand the exact physics, code, and CAD behind technical products.
-            </p>
-            <p class="about-text">
-              I bring that technical depth into information design: helping deep-tech founders, research labs, and hardware startups transform dense engineering schematics and data into clear, persuasive, investor-ready pitch decks and visual narratives.
-            </p>
-          </div>
-
-          <div class="about-card">
-            <h3 class="about-card-title"><i class="fa-solid fa-toolbox"></i> Tools I Actually Use</h3>
-            <p class="about-text">
-              No bloated buzzwords, just the stuff I get work done with:
-            </p>
-            <div class="skills-tags">
-              <span class="skill-tag"><i class="fa-solid fa-file-powerpoint"></i> PowerPoint (Advanced)</span>
-              <span class="skill-tag"><i class="fa-solid fa-palette"></i> Photoshop</span>
-              <span class="skill-tag"><i class="fa-solid fa-bezier-curve"></i> Illustrator</span>
-              <span class="skill-tag"><i class="fa-brands fa-python"></i> Python &amp; ML</span>
-              <span class="skill-tag"><i class="fa-solid fa-cube"></i> 3D Printing &amp; SOLIDWORKS</span>
-              <span class="skill-tag"><i class="fa-brands fa-github"></i> Git</span>
-              <span class="skill-tag"><i class="fa-solid fa-layer-group"></i> Technical Diagrams</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICES -->
-      <section class="section" id="services">
-        <div class="section-header">
-          <span class="section-tag">What I Do</span>
-          <h2 class="section-title">Things You Can Hire Me For</h2>
-          <p class="section-subtitle">From investor-ready pitch decks to DfAM prototypes and technical visuals.</p>
-        </div>
-
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-file-powerpoint"></i></div>
-            <h3 class="service-title">Deep-Tech Pitch Decks</h3>
-            <p class="service-desc">
-              Designing investor presentations and keynotes for AI, robotics, and hardware startups. I speak your technical language and translate it into high-impact visuals.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-cube"></i></div>
-            <h3 class="service-title">DfAM &amp; CAD Prototyping</h3>
-            <p class="service-desc">
-              Design for Additive Manufacturing (3D printing), parametric CAD modeling in SOLIDWORKS, and rapid physical prototyping for engineering hardware.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-diagram-project"></i></div>
-            <h3 class="service-title">Technical Explainer Visuals</h3>
-            <p class="service-desc">
-              Transforming complex engineering architectures, workflow diagrams, and technical concepts into clear, beautiful information graphics.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-shapes"></i></div>
-            <h3 class="service-title">Social Graphics &amp; Posters</h3>
-            <p class="service-desc">
-              High-impact promotional visuals, conference collateral, and campaign designs tailored for tech events, academic institutions, and modern startups.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- PORTFOLIO -->
-      <section class="section" id="portfolio">
-        <div class="section-header">
-          <span class="section-tag">Portfolio</span>
-          <h2 class="section-title">Stuff I've Made</h2>
-          <p class="section-subtitle">Click on any item to watch the presentation recording or see full-size graphics.</p>
-        </div>
-
-        <!-- Filter Tabs & ELI5 Toggle Pill -->
-        <div class="portfolio-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="presentations">PowerPoint Decks</button>
-          <button class="filter-btn" data-filter="social">Social Graphics</button>
-          <button class="filter-btn" data-filter="branding">Branding &amp; Print</button>
-          <button class="filter-btn" data-filter="dev">Code &amp; Tools</button>
-          <button class="eli5-toggle-btn" id="eli5-toggle-btn" title="Toggle Plain English Explanations">
-            <i class="fa-solid fa-baby"></i> <span id="eli5-toggle-label">ELI5 Mode: OFF</span>
-          </button>
-        </div>
-
-        <!-- Portfolio Grid -->
-        <div class="portfolio-grid" id="portfolio-grid">
-          
-          <!-- PROJECT 1: Principal Address Presentation -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="presentations"
-            data-media-type="youtube"
-            data-media-src="https://www.youtube.com/embed/d_GpP9iZWaM"
-            data-title="Special Address by the Principal | Microsoft PowerPoint"
-            data-badge="PowerPoint Deck"
-            data-desc="This is a video recording of a presentation I prepared for my boss, and presented to all employees during the end of the year."
-            data-desc-normal="End-of-year leadership keynote prepared for all employees."
-            data-desc-eli5="A deck I made for the big boss so 300 employees wouldn't secretly play Candy Crush during the annual speech."
-            data-tools="Microsoft PowerPoint"
-            data-client="Primary Place of Work"
-            data-role="Presentation Designer">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">PowerPoint</span>
-              <img src="assets/img/presentations/yt_principal_address.jpg" alt="Special Address by the Principal" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-play"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Special Address by the Principal</h3>
-                <p class="portfolio-item-desc">End-of-year leadership keynote prepared for all employees.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>PowerPoint Video</span>
-                <span class="portfolio-action-link">Watch Deck <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 2: Metasage Alliance Social Media -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="social"
-            data-media-type="image"
-            data-media-src="assets/img/social/metasage_alliance_campaign.png"
-            data-title="Metasage Alliance | Social Media Creatives"
-            data-badge="Social Media"
-            data-desc="Social media promotion content and designs developed for freelancing client Metasage Alliance. Work developed from concept to final creative."
-            data-desc-normal="Promotional designs and social content developed from concept for Metasage Alliance."
-            data-desc-eli5="Fancy LinkedIn and Instagram graphics I made for a paying client so they looked like a Fortune 500 company."
-            data-tools="Photoshop, Illustrator"
-            data-client="Metasage Alliance"
-            data-role="Freelance Designer">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">Client Work</span>
-              <img src="assets/img/social/metasage_alliance_campaign.png" alt="Metasage Alliance Designs" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Metasage Alliance Social Content</h3>
-                <p class="portfolio-item-desc">Promotional designs and social content developed from concept for Metasage Alliance.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Social Media &bull; Client</span>
-                <span class="portfolio-action-link">View Full Size <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 3: Outcome-Based Education (OBE) Deck -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="presentations"
-            data-media-type="youtube"
-            data-media-src="https://www.youtube.com/embed/VzNOKUM1sPg"
-            data-title="Sample - OBE Presentation"
-            data-badge="PowerPoint Deck"
-            data-desc="This is a Presentation file I edited using Microsoft PowerPoint. All Logos and references are replaced using placeholders."
-            data-desc-normal="Educational framework slide deck structure with visual process layouts."
-            data-desc-eli5="Translating bureaucratic academic mumbo-jumbo into clean diagrams that even sleep-deprived professors can understand."
-            data-tools="Microsoft PowerPoint"
-            data-client="Educational Sample"
-            data-role="Presentation Designer">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">PowerPoint</span>
-              <img src="assets/img/presentations/yt_obe_presentation.jpg" alt="Sample - OBE Presentation" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-play"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Sample - OBE Presentation</h3>
-                <p class="portfolio-item-desc">Educational framework slide deck structure with visual process layouts.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>PowerPoint Video</span>
-                <span class="portfolio-action-link">Watch Deck <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 4: Client Business Card (With Playful Self-Client Note) -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="branding"
-            data-media-type="image"
-            data-media-src="assets/img/branding/business_card_mockup.png"
-            data-title="Business Card Design for a Client (Me)"
-            data-badge="Print &amp; Branding"
-            data-desc="A custom business card design made for a very particular client (me), featuring clean typography, personal branding hierarchy, and print-ready specs."
-            data-desc-normal="Branding and print stationery designed for a client (who happens to be me)."
-            data-desc-eli5="I was the client, I rejected my own first 3 drafts, yelled at myself in the mirror, and finally approved this."
-            data-tools="Adobe Illustrator"
-            data-client="Myself (The Client)"
-            data-role="Branding Designer">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">Branding</span>
-              <img src="assets/img/branding/business_card_mockup.png" alt="Business Card Design" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Business Card for a Client (Me)</h3>
-                <p class="portfolio-item-desc">Branding and print stationery designed for a client (who happens to be me).</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Print Collateral</span>
-                <span class="portfolio-action-link">View Mockup <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 5: NetMan Network Manager -->
-          <article class="portfolio-item" 
-            data-category="dev"
-            data-desc-normal="Windows utility for Wi-Fi band locking, live DNS benchmarks, and TCP tweaks."
-            data-desc-eli5="A button that slaps Windows across the face whenever it decides to connect to the slowest Wi-Fi band available.">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge"><i class="fa-brands fa-python"></i> Python Tool</span>
-              <img src="assets/img/branding/netman_banner.png" alt="NetMan: Wi-Fi &amp; Network Manager" class="portfolio-thumb" style="object-fit: cover; object-position: center;" />
-              <div class="portfolio-overlay">
-                <a href="https://github.com/CounterfietJoel/NetMan" target="_blank" rel="noopener noreferrer" class="overlay-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">NetMan: Wi-Fi &amp; Network Manager</h3>
-                <p class="portfolio-item-desc">Windows utility for Wi-Fi band locking, live DNS benchmarks, and TCP tweaks.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Python &bull; Windows</span>
-                <a href="https://github.com/CounterfietJoel/NetMan" target="_blank" rel="noopener noreferrer" class="portfolio-action-link">View Repo <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT: pdf-to-md-cleaner -->
-          <article class="portfolio-item" 
-            data-category="dev"
-            data-desc-normal="Local Python tool using PyMuPDF and Tesseract OCR to extract clean Markdown from obfuscated, watermarked PDFs."
-            data-desc-eli5="A scraper tool that strips annoying diagonal watermarks and scrambled fonts out of locked PDFs to give you clean text.">
-            <div class="portfolio-thumb-wrap" style="background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; position: relative;">
-              <span class="portfolio-badge"><i class="fa-brands fa-python"></i> Python Tool</span>
-              <div style="text-align: center; color: var(--primary); font-size: 2.5rem;">
-                <i class="fa-solid fa-file-code"></i>
-              </div>
-              <div class="portfolio-overlay">
-                <a href="https://github.com/CounterfietJoel/pdf-to-md-cleaner" target="_blank" rel="noopener noreferrer" class="overlay-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">pdf-to-md-cleaner</h3>
-                <p class="portfolio-item-desc">Local Python tool using PyMuPDF and Tesseract OCR to extract clean Markdown from obfuscated, watermarked PDFs.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Python &bull; OCR &bull; Open Source</span>
-                <a href="https://github.com/CounterfietJoel/pdf-to-md-cleaner" target="_blank" rel="noopener noreferrer" class="portfolio-action-link">View Repo <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT: agent-credit-saver -->
-          <article class="portfolio-item" 
-            data-category="dev"
-            data-desc-normal="Strict prompt guardrails and output compression protocols to stop AI coding agents from burning API credits."
-            data-desc-eli5="A set of strict rules that stops AI coding assistants from yap-explaining and burning all your money on API tokens.">
-            <div class="portfolio-thumb-wrap" style="background: linear-gradient(135deg, #0d3b2e, #06241c); display: flex; align-items: center; justify-content: center; position: relative;">
-              <span class="portfolio-badge"><i class="fa-solid fa-shield-halved"></i> AI Guardrails</span>
-              <div style="text-align: center; color: #10b981; font-size: 2.5rem;">
-                <i class="fa-solid fa-bolt"></i>
-              </div>
-              <div class="portfolio-overlay">
-                <a href="https://github.com/CounterfietJoel/agent-credit-saver" target="_blank" rel="noopener noreferrer" class="overlay-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">agent-credit-saver</h3>
-                <p class="portfolio-item-desc">Strict prompt guardrails and output compression protocols to stop AI coding agents from burning API credits.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>AI Ops &bull; Guardrails &bull; Open Source</span>
-                <a href="https://github.com/CounterfietJoel/agent-credit-saver" target="_blank" rel="noopener noreferrer" class="portfolio-action-link">View Repo <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT: AptiTrove Web App -->
-          <article class="portfolio-item" 
-            data-category="dev"
-            data-desc-normal="Self-hostable aptitude learning and question-bank web platform with live test modules."
-            data-desc-eli5="A website where students practice math and logic questions so they can pass campus placements and afford food.">
-            <div class="portfolio-thumb-wrap" style="background: #164C3A; display: flex; align-items: center; justify-content: center; position: relative;">
-              <span class="portfolio-badge"><i class="fa-solid fa-graduation-cap"></i> Web App</span>
-              <img src="assets/img/branding/aptitrove_icon.svg" alt="AptiTrove" style="width: 88px; height: 88px; object-fit: contain; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.3));" />
-              <div class="portfolio-overlay">
-                <a href="https://www.aptitrove.com/" target="_blank" rel="noopener noreferrer" class="overlay-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">AptiTrove: Learning Platform</h3>
-                <p class="portfolio-item-desc">Self-hostable aptitude learning and question-bank web platform with live test modules.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Full-Stack &bull; Live Demo</span>
-                <a href="https://www.aptitrove.com/" target="_blank" rel="noopener noreferrer" class="portfolio-action-link">Open App <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 6: Workplace Promotional Posters -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="social"
-            data-media-type="image"
-            data-media-src="assets/img/social/employer_promo_01.png"
-            data-title="Workplace Social Media &amp; Promotional Posters"
-            data-badge="Social Media"
-            data-desc="Social media promotional content and event posters designed for my primary place of work."
-            data-desc-normal="Promotional event banners and digital visuals created for employer channels."
-            data-desc-eli5="Design CPR for campus events so the flyers didn't look like a ransom note made in MS Paint."
-            data-tools="Photoshop, Graphic Design"
-            data-client="Primary Place of Work"
-            data-role="In-House Designer">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">In-House</span>
-              <img src="assets/img/social/employer_promo_01.png" alt="Workplace Promotional Designs" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Workplace Event &amp; Brand Posters</h3>
-                <p class="portfolio-item-desc">Promotional event banners and digital visuals created for employer channels.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Promotional &bull; Graphics</span>
-                <span class="portfolio-action-link">View Full Size <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 7: Being Curious Presentation (Vimeo) -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="presentations"
-            data-media-type="vimeo"
-            data-media-src="https://player.vimeo.com/video/1051908455?h=438b0049b9"
-            data-title="Being Curious - 12 Aug 2022"
-            data-badge="Motion Presentation"
-            data-desc="A presentation exploring the role of curiosity and exploration in creative problem-solving."
-            data-desc-normal="Presentation on creative exploration and inquiry."
-            data-desc-eli5="A 10-minute slide animation justifying why taking apart household electronics as a kid was totally normal."
-            data-tools="Microsoft PowerPoint"
-            data-client="Personal Work"
-            data-role="Design &amp; Animation">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">Motion Deck</span>
-              <img src="assets/img/presentations/vimeo_being_curious.jpg" alt="Being Curious Presentation" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-play"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Being Curious - 12 Aug 2022</h3>
-                <p class="portfolio-item-desc">Presentation on creative exploration and inquiry.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Vimeo Recording</span>
-                <span class="portfolio-action-link">Watch Deck <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 8: Work-Life Balance Presentation (Vimeo) -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="presentations"
-            data-media-type="vimeo"
-            data-media-src="https://player.vimeo.com/video/1051899657?h=d1c7b35124"
-            data-title="Work - Life Balance Presentation"
-            data-badge="Presentation Deck"
-            data-desc="A presentation deck exploring sustainable productivity, workplace health, and balanced professional living."
-            data-desc-normal="Slide deck designed for workplace engagement and wellness discussions."
-            data-desc-eli5="Polite slides explaining why answering Slack messages at 11 PM on a Sunday is a terrible life strategy."
-            data-tools="Microsoft PowerPoint"
-            data-client="Presentation Showcase"
-            data-role="Design &amp; Layout">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">PowerPoint</span>
-              <img src="assets/img/presentations/vimeo_work_life_balance.jpg" alt="Work Life Balance Presentation" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-play"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Work - Life Balance Presentation</h3>
-                <p class="portfolio-item-desc">Slide deck designed for workplace engagement and wellness discussions.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Vimeo Recording</span>
-                <span class="portfolio-action-link">Watch Deck <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 8B: Leadership Presentation (Vimeo) -->
-          <article class="portfolio-item open-modal-trigger" 
-            data-category="presentations"
-            data-media-type="vimeo"
-            data-media-src="https://player.vimeo.com/video/1051912880?h=70a4ac54be"
-            data-title="Leadership Presentation Deck"
-            data-badge="Presentation Deck"
-            data-desc="A high-level keynote exploring leadership principles, institutional culture, and strategic management."
-            data-desc-normal="Keynote presentation exploring executive leadership and team alignment."
-            data-desc-eli5="Slides explaining how to manage a team without having everyone mutiny after the first quarter."
-            data-tools="Microsoft PowerPoint"
-            data-client="Presentation Showcase"
-            data-role="Design &amp; Layout">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge">PowerPoint</span>
-              <img src="assets/img/presentations/vimeo_leadership.jpg" alt="Leadership Presentation" class="portfolio-thumb" />
-              <div class="portfolio-overlay">
-                <div class="overlay-btn"><i class="fa-solid fa-play"></i></div>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Leadership Presentation Deck</h3>
-                <p class="portfolio-item-desc">Keynote presentation exploring executive leadership and team alignment.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Vimeo Recording</span>
-                <span class="portfolio-action-link">Watch Deck <i class="fa-solid fa-arrow-right"></i></span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJECT 9: Entrepreneurship Development (U21CAX01) -->
-          <article class="portfolio-item" 
-            data-category="dev"
-            data-desc-normal="Interactive courseware and modular learning platform for entrepreneurship, venture labs, and startup development."
-            data-desc-eli5="A digital course teaching students how to build actual startups without losing all their money on day one.">
-            <div class="portfolio-thumb-wrap">
-              <span class="portfolio-badge"><i class="fa-solid fa-lightbulb"></i> Courseware</span>
-              <img src="assets/img/branding/u21cax01_thumb.jpg" alt="Entrepreneurship Development &amp; Startup (U21CAX01)" class="portfolio-thumb" style="object-fit: cover; object-position: center;" />
-              <div class="portfolio-overlay">
-                <a href="https://counterfietjoel.github.io/U21cax01/" target="_blank" rel="noopener noreferrer" class="overlay-btn" title="Open Interactive Course"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-              </div>
-            </div>
-            <div class="portfolio-info">
-              <div>
-                <h3 class="portfolio-item-title">Entrepreneurship &amp; Startup Courseware</h3>
-                <p class="portfolio-item-desc">Interactive courseware and modular learning platform for entrepreneurship, venture labs, and startup development.</p>
-              </div>
-              <div class="portfolio-item-meta">
-                <span>Interactive Web &bull; Courseware</span>
-                <a href="https://counterfietjoel.github.io/U21cax01/" target="_blank" rel="noopener noreferrer" class="portfolio-action-link">Open Course <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          </article>
-
-        </div>
-
-        <!-- Design Stream Ticker -->
-        <div class="design-stream-header">
-          <span class="section-tag">Design Tape</span>
-          <h3 class="section-title" style="font-size: 1.6rem;">More Social &amp; Graphic Collateral</h3>
-          <p class="section-subtitle" style="font-size: 0.9rem;">A horizontal scroll of my other social graphics, event promotions, and designs. Hover to pause, click to enlarge.</p>
-        </div>
-
-        <div class="marquee-container">
-          <div class="marquee-track">
-            <!-- First Set -->
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_05.png" data-title="Social Media Design" data-badge="Campaign Design" data-desc="A high-impact promotional campaign visual designed for social outreach." data-tools="Photoshop, Illustrator" data-client="Freelance Client" data-role="Graphic Designer">
-              <img src="assets/img/social/thumbs/social_05.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_06.png" data-title="Marketing Event Flyer" data-badge="Event Branding" data-desc="Promotional flyer designed for corporate client event announcements." data-tools="Photoshop, InDesign" data-client="Event Sponsor" data-role="Graphic Designer">
-              <img src="assets/img/social/thumbs/social_06.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_07.png" data-title="Brand Promotion Visual" data-badge="Creative Design" data-desc="Custom branding and digital collateral designed for social channels." data-tools="Illustrator, Photoshop" data-client="Brand Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_07.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_08.png" data-title="Campaign Graphics" data-badge="Branding" data-desc="Social promotion creative crafted to boost digital engagement." data-tools="Photoshop" data-client="Marketing Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_08.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_09.png" data-title="Event Announcement Design" data-badge="Graphic Design" data-desc="Flyer created for public institutional workshops and schedules." data-tools="Illustrator" data-client="College Event" data-role="Lead Designer">
-              <img src="assets/img/social/thumbs/social_09.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_10.png" data-title="Social Engagement Banner" data-badge="Marketing Visual" data-desc="Promotional banner design for digital event registration campaigns." data-tools="Photoshop" data-client="Corporate Partner" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_10.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_11.png" data-title="Corporate Branding Flyer" data-badge="Print Collateral" data-desc="Marketing brochure and flyer layout designed for professional client pitches." data-tools="Illustrator, InDesign" data-client="Hustle Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_11.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_12.png" data-title="Institutional Design Flyer" data-badge="Promo Design" data-desc="Event invitation flyer designed for academic conferences and keynotes." data-tools="Photoshop" data-client="Institution Partner" data-role="In-house Designer">
-              <img src="assets/img/social/thumbs/social_12.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_15.png" data-title="Keynote Promotion Poster" data-badge="Creative Design" data-desc="Announcement banner for high-visibility keynote and technical seminar." data-tools="Photoshop, Illustrator" data-client="Seminar Organizers" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_15.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_16.png" data-title="Social Media Storytelling Layout" data-badge="Digital Branding" data-desc="A grid campaign creative engineered to boost audience interaction on social media." data-tools="Photoshop" data-client="Creative Agency" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_16.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_20.png" data-title="Digital Event Flyer" data-badge="Campaign Design" data-desc="Creative poster designed for online panel discussions and workshops." data-tools="Illustrator" data-client="Event Host" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_20.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_24.png" data-title="Modern Typography Flyer" data-badge="Print Layout" data-desc="Editorial layout with strong typography designed for branding collateral." data-tools="Photoshop, Illustrator" data-client="Creative Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_24.jpg" alt="Social Media Design" />
-            </div>
-
-            <!-- Second Set (for infinite scroll mapping) -->
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_05.png" data-title="Social Media Design" data-badge="Campaign Design" data-desc="A high-impact promotional campaign visual designed for social outreach." data-tools="Photoshop, Illustrator" data-client="Freelance Client" data-role="Graphic Designer">
-              <img src="assets/img/social/thumbs/social_05.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_06.png" data-title="Marketing Event Flyer" data-badge="Event Branding" data-desc="Promotional flyer designed for corporate client event announcements." data-tools="Photoshop, InDesign" data-client="Event Sponsor" data-role="Graphic Designer">
-              <img src="assets/img/social/thumbs/social_06.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_07.png" data-title="Brand Promotion Visual" data-badge="Creative Design" data-desc="Custom branding and digital collateral designed for social channels." data-tools="Illustrator, Photoshop" data-client="Brand Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_07.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_08.png" data-title="Campaign Graphics" data-badge="Branding" data-desc="Social promotion creative crafted to boost digital engagement." data-tools="Photoshop" data-client="Marketing Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_08.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_09.png" data-title="Event Announcement Design" data-badge="Graphic Design" data-desc="Flyer created for public institutional workshops and schedules." data-tools="Illustrator" data-client="College Event" data-role="Lead Designer">
-              <img src="assets/img/social/thumbs/social_09.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_10.png" data-title="Social Engagement Banner" data-badge="Marketing Visual" data-desc="Promotional banner design for digital event registration campaigns." data-tools="Photoshop" data-client="Corporate Partner" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_10.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_11.png" data-title="Corporate Branding Flyer" data-badge="Print Collateral" data-desc="Marketing brochure and flyer layout designed for professional client pitches." data-tools="Illustrator, InDesign" data-client="Hustle Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_11.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_12.png" data-title="Institutional Design Flyer" data-badge="Promo Design" data-desc="Event invitation flyer designed for academic conferences and keynotes." data-tools="Photoshop" data-client="Institution Partner" data-role="In-house Designer">
-              <img src="assets/img/social/thumbs/social_12.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_15.png" data-title="Keynote Promotion Poster" data-badge="Creative Design" data-desc="Announcement banner for high-visibility keynote and technical seminar." data-tools="Photoshop, Illustrator" data-client="Seminar Organizers" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_15.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_16.png" data-title="Social Media Storytelling Layout" data-badge="Digital Branding" data-desc="A grid campaign creative engineered to boost audience interaction on social media." data-tools="Photoshop" data-client="Creative Agency" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_16.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_20.png" data-title="Digital Event Flyer" data-badge="Campaign Design" data-desc="Creative poster designed for online panel discussions and workshops." data-tools="Illustrator" data-client="Event Host" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_20.jpg" alt="Social Media Design" />
-            </div>
-            <div class="marquee-item open-modal-trigger" data-media-type="image" data-media-src="assets/img/social/social_24.png" data-title="Modern Typography Flyer" data-badge="Print Layout" data-desc="Editorial layout with strong typography designed for branding collateral." data-tools="Photoshop, Illustrator" data-client="Creative Client" data-role="Designer">
-              <img src="assets/img/social/thumbs/social_24.jpg" alt="Social Media Design" />
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- SIDE VENTURES -->
-      <section class="section" id="ventures">
-        <div class="section-header">
-          <span class="section-tag">Side Ventures</span>
-          <h2 class="section-title">Channels &amp; Other Projects</h2>
-          <p class="section-subtitle">Things I make, write, and tinker with on the side.</p>
-        </div>
-
-        <div class="insights-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-          <!-- Substack Card -->
-          <div class="insight-feature-card">
-            <div>
-              <div class="insight-header">
-                <div class="insight-icon-wrap">
-                  <i class="fa-solid fa-bookmark"></i>
-                </div>
-                <div>
-                  <h3 class="insight-title">Actual Joel on Substack</h3>
-                  <p class="insight-subtitle">actualjoel.substack.com</p>
-                </div>
-              </div>
-              <p class="insight-content">
-                Short essays and candid thoughts on creative work, curiosity, and design.
-              </p>
-            </div>
-            <a href="https://actualjoel.substack.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: fit-content;">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> Read Essays
-            </a>
-          </div>
-
-          <!-- YouTube Card -->
-          <div class="insight-feature-card">
-            <div>
-              <div class="insight-header">
-                <div class="insight-icon-wrap">
-                  <i class="fa-brands fa-youtube"></i>
-                </div>
-                <div>
-                  <h3 class="insight-title">3D Printing Series</h3>
-                  <p class="insight-subtitle">youtube.com/@3dprintingseries</p>
-                </div>
-              </div>
-              <p class="insight-content">
-                YouTube channel covering 3D printer calibration, slicer settings, and maker builds.
-              </p>
-            </div>
-            <a href="https://www.youtube.com/@3dprintingseries" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: fit-content;">
-              <i class="fa-brands fa-youtube"></i> Watch Channel
-            </a>
-          </div>
-
-          <!-- Google Scholar Card -->
-          <div class="insight-feature-card">
-            <div>
-              <div class="insight-header">
-                <div class="insight-icon-wrap">
-                  <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <div>
-                  <h3 class="insight-title">Research &amp; Papers</h3>
-                  <p class="insight-subtitle">Assistant Professor &bull; KPRIET</p>
-                </div>
-              </div>
-              <p class="insight-content">
-                Academic research in automation, additive manufacturing, and computer vision.
-              </p>
-            </div>
-            <a href="https://scholar.google.com/citations?user=y0YSZoUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: fit-content;">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> Google Scholar
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT SECTION WITH RANDOMIZED MOVIE CHARACTER PLACEHOLDERS -->
-      <section class="section" id="contact">
-        <div class="section-header">
-          <span class="section-tag">Contact</span>
-          <h2 class="section-title">Got a Project? Let's Talk.</h2>
-          <p class="section-subtitle">Need a presentation designed or want to collaborate on something? Drop a line below.</p>
-        </div>
-
-        <div class="contact-grid">
-          <!-- Form Wrap -->
-          <div class="contact-form-wrap">
-            <form id="contact-form">
-              <div class="form-group">
-                <label for="name" class="form-label">Your Name *</label>
-                <input type="text" id="name" class="form-control" placeholder="e.g. Forrest Gump" required />
-              </div>
-              <div class="form-group">
-                <label for="email" class="form-label">Email Address *</label>
-                <input type="email" id="email" class="form-control" placeholder="e.g. boxofchocolates@bubbagump.com" required />
-              </div>
-              <div class="form-group">
-                <label for="message" class="form-label">What do you need? *</label>
-                <textarea id="message" class="form-control" placeholder="Tell me about your presentation, design needs, or idea..." required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
-                <i class="fa-regular fa-paper-plane"></i> Send Message
-              </button>
-              <div id="form-response-msg" style="display: none; margin-top: 14px; font-size: 0.88rem;"></div>
-            </form>
-          </div>
-
-          <!-- Contact Cards -->
-          <div class="contact-info-cards">
-            <div class="info-card">
-              <div class="info-icon"><i class="fa-brands fa-linkedin-in"></i></div>
-              <div class="info-details">
-                <h4>LinkedIn</h4>
-                <p><a href="https://www.linkedin.com/in/joelebenezer/" target="_blank" rel="noopener noreferrer" style="color: var(--primary);">linkedin.com/in/joelebenezer</a></p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <div class="info-icon"><i class="fa-brands fa-instagram"></i></div>
-              <div class="info-details">
-                <h4>Instagram</h4>
-                <p><a href="https://www.instagram.com/counterfietjoel/" target="_blank" rel="noopener noreferrer" style="color: var(--primary);">@counterfietjoel</a></p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <div class="info-icon"><i class="fa-brands fa-github"></i></div>
-              <div class="info-details">
-                <h4>GitHub</h4>
-                <p><a href="https://github.com/CounterfietJoel" target="_blank" rel="noopener noreferrer" style="color: var(--primary);">github.com/CounterfietJoel</a></p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <div class="info-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-              <div class="info-details">
-                <h4>Day Job</h4>
-                <p style="font-size: 0.95rem; color: var(--text-main); font-weight: 600;">Assistant Professor, KPRIET</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
+    </div>
   </div>
 
-  <!-- LIGHTBOX / MEDIA MODAL -->
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+  <main class="page-body">
+
+    <!-- ==========================================================================
+         SECTION 1: HERO (PUNCHY NARRATIVE + LIVE 3D STL VIEWER)
+         ========================================================================== -->
+    <section class="section-screen section-hero" id="home">
+      <div class="hero-studio-grid">
+        <!-- Left: Narrative & Authority -->
+        <div class="hero-left-col">
+          <div class="status-pill-badge">
+            <span class="status-indicator"></span>
+            <span>Assistant Professor, Mechatronics @ KPRIET &bull; Deep-Tech Deck Designer</span>
+          </div>
+
+          <h1 class="hero-main-title">
+            Engineering precision meets <span class="highlight-green">high-stakes pitch decks</span> &amp; 3D prototyping.
+          </h1>
+
+          <p class="hero-lead-text">
+            Translating complex robotics telemetry, neural network schematics, and raw CAD models into visual narratives that close investment rounds without dumbing down the science.
+          </p>
+
+          <div class="hero-action-row">
+            <a href="#transformation" class="btn btn-primary-green">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>See Before &amp; After</span>
+            </a>
+            <a href="#portfolio" class="btn btn-outline-studio">
+              <i class="fa-solid fa-shapes"></i>
+              <span>Selected Work</span>
+            </a>
+            <a href="#contact" class="btn btn-ghost-studio">
+              <i class="fa-regular fa-paper-plane"></i>
+              <span>Say Hi</span>
+            </a>
+          </div>
+
+          <!-- 4 Pillars Badge Strip -->
+          <div class="hero-stat-strip">
+            <div class="stat-box">
+              <span class="stat-num">100%</span>
+              <span class="stat-label">Physics Precision</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">15+</span>
+              <span class="stat-label">Keynotes Delivered</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">DfAM</span>
+              <span class="stat-label">Parametric CAD</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">Faculty</span>
+              <span class="stat-label">Mechatronics @ KPRIET</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Real Interactive 3D STL Stage (Dhivya's Art Palette Models) -->
+        <div class="hero-right-col" id="hero-3d-stage">
+          <div class="hero-3d-display-card">
+            <!-- Header bar with credit -->
+            <div class="display-card-header">
+              <div class="display-title-group">
+                <span class="cad-chip"><i class="fa-solid fa-cube"></i> LIVE 3D STL</span>
+                <span class="active-model-title" id="stl-active-name">Pinky Suresh Nameplate</span>
+              </div>
+              <a href="https://www.instagram.com/dhivyas_art_palette/?hl=en" target="_blank" rel="noopener noreferrer" class="dhivya-author-badge" title="2D Concept: Dhivya's Art Palette">
+                <i class="fa-brands fa-instagram"></i> Dhivya's Art Palette
+              </a>
+            </div>
+
+            <!-- 3D Canvas Viewport -->
+            <div class="canvas-3d-container">
+              <div id="stl-3d-viewport" class="webgl-canvas-box"></div>
+
+              <!-- Loading spinner -->
+              <div id="stl-loader-spinner" class="stl-loader-overlay">
+                <div class="spinner-ring"></div>
+                <span>Loading 3D STL Mesh...</span>
+              </div>
+
+              <!-- HUD floating buttons -->
+              <div class="viewport-hud-controls">
+                <button class="hud-pill-btn" id="stl-toggle-wireframe" title="Toggle CAD Wireframe">
+                  <i class="fa-solid fa-border-none"></i> Wireframe
+                </button>
+                <button class="hud-pill-btn" id="stl-reset-camera" title="Reset Camera">
+                  <i class="fa-solid fa-arrows-rotate"></i> Reset
+                </button>
+              </div>
+
+              <div class="orbit-hint-pill">
+                <i class="fa-solid fa-hand-pointer"></i> Orbit / Zoom
+              </div>
+            </div>
+
+            <!-- Model Switcher Tabs Below Canvas -->
+            <div class="display-card-footer">
+              <span class="footer-label">Models:</span>
+              <div class="model-switcher-tabs">
+                <button class="model-tab-btn active" data-stl="assets/img/maker/PinkySuresh.stl" data-name="Pinky Suresh Dual-Color Nameplate">
+                  Pinky Suresh
+                </button>
+                <button class="model-tab-btn" data-stl="assets/img/maker/Dr. Kausik.stl" data-name="Dr. Kausik Medical Desk Emblem">
+                  Dr. Kausik
+                </button>
+                <button class="model-tab-btn" data-stl="assets/img/maker/dharini.stl" data-name="Dharini Custom Typographic Plate">
+                  Dharini
+                </button>
+                <button class="model-tab-btn" data-stl="assets/img/maker/Padmini.stl" data-name="Padmini Desk Nameplate">
+                  Padmini
+                </button>
+                <button class="model-tab-btn" data-stl="assets/img/maker/3 Names - Aug 12 22.stl" data-name="Tri-Nameplate Assembly">
+                  3 Names
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 2: BEFORE / AFTER SLIDE TRANSFORMATION (FIXED NO BLEED)
+         ========================================================================== -->
+    <section class="section-screen section-container" id="transformation">
+      <div class="section-header-block compact-header">
+        <span class="section-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Signature Slide Redesign</span>
+        <h2 class="section-heading">Before vs. After: Best Practices Keynote Transformation</h2>
+        <p class="section-subheading">Drag the slider to inspect the transformation between original raw slides and Joel's high-impact redesign.</p>
+      </div>
+
+      <!-- Slide Selector Controls -->
+      <div class="slide-tabs-bar">
+        <span class="tabs-label"><i class="fa-solid fa-sliders"></i> Select Slide:</span>
+        <div class="tabs-group">
+          <button class="slide-tab-btn active" data-slide="1">Slide 1: Title &amp; Hook</button>
+          <button class="slide-tab-btn" data-slide="2">Slide 2: Context &amp; Objectives</button>
+          <button class="slide-tab-btn" data-slide="5">Slide 5: Core Framework</button>
+          <button class="slide-tab-btn" data-slide="10">Slide 10: Deliverables</button>
+        </div>
+      </div>
+
+      <!-- Interactive Drag Slider Container (Tight, Contained, Zero Bleed) -->
+      <div class="before-after-outer-frame">
+        <div class="before-after-box" id="before-after-slider">
+          <!-- Before Slide Layer (Underneath) -->
+          <div class="ba-layer ba-before-layer">
+            <span class="ba-badge badge-before">BEFORE: Cluttered Raw Bullets</span>
+            <img src="assets/img/before_after/before_slide_1.png" alt="Before Slide" id="ba-before-img" class="ba-img" />
+          </div>
+
+          <!-- After Slide Layer (Clipped on top) -->
+          <div class="ba-layer ba-after-layer" id="ba-after-layer">
+            <span class="ba-badge badge-after">AFTER: Joel's Redesign</span>
+            <img src="assets/img/before_after/after_slide_1.png" alt="After Slide" id="ba-after-img" class="ba-img" />
+          </div>
+
+          <!-- Draggable Handle Bar -->
+          <div class="ba-drag-handle" id="ba-slider-handle">
+            <div class="handle-stem"></div>
+            <div class="handle-knob" title="Drag Left or Right to compare">
+              <i class="fa-solid fa-left-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-annotation compact-annotation">
+        <i class="fa-solid fa-circle-info"></i>
+        <span><strong>Case Context:</strong> Authentic presentation overhaul in PowerPoint. Visual hierarchy, whitespace, and typographic pacing restructured to maximize audience retention.</span>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 3: CAPABILITIES (COMPACT 2x2 / 4-COL VIEWPORT-FITTED)
+         ========================================================================== -->
+    <section class="section-screen section-container" id="services">
+      <div class="section-header-block compact-header">
+        <span class="section-tag"><i class="fa-solid fa-briefcase"></i> Capabilities</span>
+        <h2 class="section-heading">What You Can Hire Me For</h2>
+        <p class="section-subheading">Combining structural mechatronics discipline with executive-grade communication design.</p>
+      </div>
+
+      <div class="services-bento-grid">
+        <!-- Service 1: Deep Tech Pitch Decks -->
+        <div class="service-bento-card featured-service-card">
+          <div class="card-top-row">
+            <div class="service-icon-wrap"><i class="fa-solid fa-file-powerpoint"></i></div>
+            <span class="service-tier-badge">Flagship</span>
+          </div>
+          <h3 class="service-card-title">Deep-Tech &amp; Hardware Pitch Decks</h3>
+          <p class="service-card-desc">
+            Investor presentations, keynote addresses, and fundraising decks for AI, robotics, and hardware startups. Translating schematics into narratives that close rounds without dumbing down the science.
+          </p>
+          <div class="service-pills-row">
+            <span class="spill">Advanced PowerPoint</span>
+            <span class="spill">Technical Storytelling</span>
+            <span class="spill">Visual Pacing</span>
+          </div>
+        </div>
+
+        <!-- Service 2: DfAM & 3D Prototyping -->
+        <div class="service-bento-card">
+          <div class="card-top-row">
+            <div class="service-icon-wrap"><i class="fa-solid fa-cube"></i></div>
+            <span class="service-tier-badge">Hardware</span>
+          </div>
+          <h3 class="service-card-title">DfAM &amp; 3D Prototyping</h3>
+          <p class="service-card-desc">
+            Design for Additive Manufacturing, parametric CAD modeling in SOLIDWORKS, slicer optimization, and rapid functional prototyping for physical hardware and custom client sculptures.
+          </p>
+          <div class="service-pills-row">
+            <span class="spill">SOLIDWORKS</span>
+            <span class="spill">FDM Calibration</span>
+            <span class="spill">Rapid Prototyping</span>
+          </div>
+        </div>
+
+        <!-- Service 3: Technical Explainer Visuals -->
+        <div class="service-bento-card">
+          <div class="card-top-row">
+            <div class="service-icon-wrap"><i class="fa-solid fa-diagram-project"></i></div>
+            <span class="service-tier-badge">Architecture</span>
+          </div>
+          <h3 class="service-card-title">Technical Explainer Visuals</h3>
+          <p class="service-card-desc">
+            Transforming complex engineering block diagrams, neural network topologies, and mechanical workflows into clear, aesthetic information graphics for papers and pitches.
+          </p>
+          <div class="service-pills-row">
+            <span class="spill">System Schematics</span>
+            <span class="spill">Photoshop</span>
+            <span class="spill">Illustrator</span>
+          </div>
+        </div>
+
+        <!-- Service 4: Brand Collateral & Event Posters -->
+        <div class="service-bento-card">
+          <div class="card-top-row">
+            <div class="service-icon-wrap"><i class="fa-solid fa-shapes"></i></div>
+            <span class="service-tier-badge">Brand</span>
+          </div>
+          <h3 class="service-card-title">Brand Identity &amp; Collateral</h3>
+          <p class="service-card-desc">
+            High-impact digital campaign visuals, conference promotional banners, and visual identities crafted for tech companies, educational initiatives, and research labs.
+          </p>
+          <div class="service-pills-row">
+            <span class="spill">Event Posters</span>
+            <span class="spill">Stationery Specs</span>
+            <span class="spill">Campaign Systems</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 4: SELECTED WORK (CURATED, COMPACT 3x2 VIEWPORT-FITTED)
+         ========================================================================== -->
+    <section class="section-screen section-container" id="portfolio">
+      <div class="section-header-block compact-header">
+        <div class="header-split-row">
+          <div>
+            <span class="section-tag"><i class="fa-solid fa-shapes"></i> Selected Work</span>
+            <h2 class="section-heading">Featured Keynotes, Client Visuals &amp; Tools</h2>
+          </div>
+          <button class="btn-eli5-toggle" id="eli5-toggle-btn" title="Toggle Plain English Explanations" aria-label="Toggle ELI5 Mode">
+            <i class="fa-solid fa-baby"></i>
+            <span id="eli5-toggle-label">ELI5 Mode: OFF</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Curated Projects Grid (Compact 3-col x 2-row) -->
+      <div class="portfolio-grid-layout" id="portfolio-grid">
+        
+        <!-- CARD 1: Principal Address Presentation -->
+        <article class="portfolio-card open-modal-trigger" 
+          data-category="presentations"
+          data-media-type="youtube"
+          data-media-src="https://www.youtube.com/embed/d_GpP9iZWaM"
+          data-title="Special Address by the Principal | Microsoft PowerPoint"
+          data-badge="Custom Commission Deck"
+          data-desc="End-of-year leadership keynote prepared based on executive client brief for an institutional address to 300+ faculty and employees."
+          data-desc-normal="End-of-year leadership keynote commissioned for all employees with custom pacing and typography."
+          data-desc-eli5="A deck I made for the big boss so 300 employees wouldn't secretly play Candy Crush during the annual speech."
+          data-tools="Microsoft PowerPoint"
+          data-client="Primary Place of Work"
+          data-role="Presentation Designer">
+          <div class="card-thumb-frame">
+            <span class="card-chip-tag"><i class="fa-solid fa-play"></i> Custom Keynote</span>
+            <img src="assets/img/presentations/yt_principal_address.jpg" alt="Special Address by the Principal" class="card-image" />
+            <div class="card-hover-mask">
+              <div class="play-btn-circle"><i class="fa-solid fa-play"></i></div>
+            </div>
+          </div>
+          <div class="card-details-box">
+            <div class="card-meta-line">
+              <span class="tag-tool-name">PowerPoint</span>
+              <span class="tag-context-type">Keynote Deck</span>
+            </div>
+            <h3 class="card-heading-title">Special Address by the Principal</h3>
+            <p class="card-description-text portfolio-item-desc">End-of-year leadership keynote commissioned for all employees.</p>
+            <div class="card-action-footer">
+              <span class="footer-action-text">Watch Keynote <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Metasage Alliance Social Media (Pinterest Gallery Trigger) -->
+        <article class="portfolio-card open-modal-trigger" 
+          data-category="social"
+          data-media-type="gallery"
+          data-title="Metasage Alliance &bull; Social &amp; Campaign Visuals"
+          data-badge="Client Campaign &bull; 28 Designs"
+          data-desc="Complete promotional design system and social campaign collateral crafted from concept for Metasage Alliance."
+          data-desc-normal="Promotional designs and social campaign visuals developed from concept for Metasage Alliance."
+          data-desc-eli5="Fancy LinkedIn and Instagram graphics I made for a paying client so they looked like a Fortune 500 company."
+          data-tools="Photoshop, Illustrator"
+          data-client="Metasage Alliance"
+          data-role="Freelance Designer">
+          <div class="card-thumb-frame">
+            <span class="card-chip-tag"><i class="fa-solid fa-table-cells"></i> 28+ Designs</span>
+            <img src="assets/img/social/metasage_alliance_campaign.png" alt="Metasage Alliance Designs" class="card-image" />
+            <div class="card-hover-mask">
+              <div class="play-btn-circle"><i class="fa-solid fa-table-cells-large"></i></div>
+            </div>
+          </div>
+          <div class="card-details-box">
+            <div class="card-meta-line">
+              <span class="tag-tool-name">Photoshop</span>
+              <span class="tag-context-type">Metasage Alliance</span>
+            </div>
+            <h3 class="card-heading-title">Metasage Alliance Campaign</h3>
+            <p class="card-description-text portfolio-item-desc">Promotional designs and campaign visuals developed for client.</p>
+            <div class="card-action-footer">
+              <span class="footer-action-text">View Gallery Grid <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3: NetMan Network Manager (WITH REAL BANNER) -->
+        <article class="portfolio-card" 
+          data-category="dev"
+          data-desc-normal="Windows utility for Wi-Fi band locking, live DNS benchmarks, and TCP tweaks."
+          data-desc-eli5="A button that slaps Windows across the face whenever it decides to connect to the slowest Wi-Fi band available.">
+          <div class="card-thumb-frame">
+            <span class="card-chip-tag"><i class="fa-brands fa-python"></i> Python Tool</span>
+            <img src="assets/img/branding/NetMan_netman_banner.png" alt="NetMan: Wi-Fi &amp; Network Manager" class="card-image" />
+            <div class="card-hover-mask">
+              <a href="https://github.com/CounterfietJoel/NetMan" target="_blank" rel="noopener noreferrer" class="play-btn-circle" title="Open GitHub Repository"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </div>
+          <div class="card-details-box">
+            <div class="card-meta-line">
+              <span class="tag-tool-name">Python &bull; GUI</span>
+              <span class="tag-context-type">Open Source</span>
+            </div>
+            <h3 class="card-heading-title">NetMan: Wi-Fi &amp; Network Manager</h3>
+            <p class="card-description-text portfolio-item-desc">Windows utility for Wi-Fi band locking and TCP tweaks.</p>
+            <div class="card-action-footer">
+              <a href="https://github.com/CounterfietJoel/NetMan" target="_blank" rel="noopener noreferrer" class="footer-action-text">GitHub Repo <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4: pdf-to-md-cleaner (WITH REAL REPO BANNER) -->
+        <article class="portfolio-card" 
+          data-category="dev"
+          data-desc-normal="Local Python tool using PyMuPDF and Tesseract OCR to extract clean Markdown from obfuscated, watermarked PDFs."
+          data-desc-eli5="A scraper tool that strips annoying diagonal watermarks and scrambled fonts out of locked PDFs to give you clean text.">
+          <div class="card-thumb-frame">
+            <span class="card-chip-tag"><i class="fa-brands fa-python"></i> Python OCR</span>
+            <img src="assets/img/branding/pdf-to-md-cleaner_banner.jpg" alt="pdf-to-md-cleaner" class="card-image" />
+            <div class="card-hover-mask">
+              <a href="https://github.com/CounterfietJoel/pdf-to-md-cleaner" target="_blank" rel="noopener noreferrer" class="play-btn-circle" title="Open GitHub Repository"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </div>
+          <div class="card-details-box">
+            <div class="card-meta-line">
+              <span class="tag-tool-name">Python &bull; OCR</span>
+              <span class="tag-context-type">Open Source</span>
+            </div>
+            <h3 class="card-heading-title">pdf-to-md-cleaner</h3>
+            <p class="card-description-text portfolio-item-desc">Python OCR tool to extract clean Markdown from locked PDFs.</p>
+            <div class="card-action-footer">
+              <a href="https://github.com/CounterfietJoel/pdf-to-md-cleaner" target="_blank" rel="noopener noreferrer" class="footer-action-text">GitHub Repo <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 5: agent-credit-saver (WITH REAL REPO BANNER) -->
+        <article class="portfolio-card" 
+          data-category="dev"
+          data-desc-normal="Strict prompt guardrails and output compression protocols to stop AI coding agents from burning API credits."
+          data-desc-eli5="A set of strict rules that stops AI coding assistants from yap-explaining and burning all your money on API tokens.">
+          <div class="card-thumb-frame">
+            <span class="card-chip-tag"><i class="fa-solid fa-shield-halved"></i> AI Guardrails</span>
+            <img src="assets/img/branding/agent-credit-saver_banner.jpg" alt="agent-credit-saver" class="card-image" />
+            <div class="card-hover-mask">
+              <a href="https://github.com/CounterfietJoel/agent-credit-saver" target="_blank" rel="noopener noreferrer" class="play-btn-circle" title="Open GitHub Repository"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </div>
+          <div class="card-details-box">
+            <div class="card-meta-line">
+              <span class="tag-tool-name">AI Ops</span>
+              <span class="tag-context-type">Guardrails</span>
+            </div>
+            <h3 class="card-heading-title">agent-credit-saver</h3>
+            <p class="card-description-text portfolio-item-desc">Prompt guardrails to stop AI coding agents from burning credits.</p>
+            <div class="card-action-footer">
+              <a href="https://github.com/CounterfietJoel/agent-credit-saver" target="_blank" rel="noopener noreferrer" class="footer-action-text">GitHub Repo <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 6: Entrepreneurship Development (U21CAX01) -->
+        <article class="portfolio-card" 
+          data-category="dev"
+          data-desc-normal="Interactive courseware and modular learning platform for entrepreneurship, venture labs, and startup development."
+          data-desc-eli5="A digital course teaching students how to build actual startups without losing all their money on day one.">
+          <div class="card-thumb-frame">
+            <span class="card-chip-tag"><i class="fa-solid fa-lightbulb"></i> Courseware</span>
+            <img src="assets/img/branding/u21cax01_thumb.jpg" alt="Entrepreneurship Development &amp; Startup (U21CAX01)" class="card-image" />
+            <div class="card-hover-mask">
+              <a href="https://counterfietjoel.github.io/U21cax01/" target="_blank" rel="noopener noreferrer" class="play-btn-circle" title="Open Interactive Course"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </div>
+          <div class="card-details-box">
+            <div class="card-meta-line">
+              <span class="tag-tool-name">Interactive Web</span>
+              <span class="tag-context-type">Courseware</span>
+            </div>
+            <h3 class="card-heading-title">Entrepreneurship Platform (U21CAX01)</h3>
+            <p class="card-description-text portfolio-item-desc">Modular learning platform for venture labs &amp; startups.</p>
+            <div class="card-action-footer">
+              <a href="https://counterfietjoel.github.io/U21cax01/" target="_blank" rel="noopener noreferrer" class="footer-action-text">Launch Course <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 5: SIDE VENTURES (VIEWPORT-FITTED 3-COL)
+         ========================================================================== -->
+    <section class="section-screen section-container" id="ventures">
+      <div class="section-header-block compact-header">
+        <span class="section-tag"><i class="fa-solid fa-compass"></i> Side Ventures</span>
+        <h2 class="section-heading">Writing, Maker Channel &amp; Research</h2>
+        <p class="section-subheading">Things I make, write, and build when I am not in the lecture hall.</p>
+      </div>
+
+      <div class="ventures-grid-layout">
+        <!-- Substack -->
+        <div class="venture-card-box">
+          <div class="venture-icon-bubble"><i class="fa-solid fa-bookmark"></i></div>
+          <div class="venture-meta-block">
+            <span class="venture-subdomain">actualjoel.substack.com</span>
+            <h3 class="venture-card-heading">Actual Joel on Substack</h3>
+            <p class="venture-card-desc">
+              Short essays and candid thoughts on creative work, curiosity, hardware tinkering, and information design.
+            </p>
+          </div>
+          <a href="https://actualjoel.substack.com/" target="_blank" rel="noopener noreferrer" class="btn btn-venture-action">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Read Essays
+          </a>
+        </div>
+
+        <!-- YouTube -->
+        <div class="venture-card-box">
+          <div class="venture-icon-bubble yt-bubble"><i class="fa-brands fa-youtube"></i></div>
+          <div class="venture-meta-block">
+            <span class="venture-subdomain">youtube.com/@3dprintingseries</span>
+            <h3 class="venture-card-heading">3D Printing Series</h3>
+            <p class="venture-card-desc">
+              YouTube channel covering 3D printer calibration, slicer profiles, mechanical fixes, and practical maker builds.
+            </p>
+          </div>
+          <a href="https://www.youtube.com/@3dprintingseries" target="_blank" rel="noopener noreferrer" class="btn btn-venture-action">
+            <i class="fa-brands fa-youtube"></i> Watch Channel
+          </a>
+        </div>
+
+        <!-- Scholar -->
+        <div class="venture-card-box">
+          <div class="venture-icon-bubble scholar-bubble"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="venture-meta-block">
+            <span class="venture-subdomain">Assistant Professor &bull; KPRIET</span>
+            <h3 class="venture-card-heading">Academic Papers &amp; Research</h3>
+            <p class="venture-card-desc">
+              Peer-reviewed research and literature citations in mechatronics, additive manufacturing, and computer vision.
+            </p>
+          </div>
+          <a href="https://scholar.google.com/citations?user=y0YSZoUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="btn btn-venture-action">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Google Scholar
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 6: CONTACT & FOOTER (VIEWPORT-FITTED)
+         ========================================================================== -->
+    <section class="section-screen section-container" id="contact">
+      <div class="section-header-block compact-header">
+        <span class="section-tag"><i class="fa-regular fa-paper-plane"></i> Contact</span>
+        <h2 class="section-heading">Got a High-Stakes Deck or Project? Let's Talk.</h2>
+        <p class="section-subheading">Need an investor keynote designed, or want to collaborate on a hardware prototype? Drop a line below.</p>
+      </div>
+
+      <div class="contact-grid-layout">
+        <!-- Contact Form -->
+        <div class="contact-card-frame">
+          <form id="contact-form" class="studio-contact-form">
+            <div class="form-row-duo">
+              <div class="form-field-group">
+                <label for="name" class="input-label">Your Name <span class="req-star">*</span></label>
+                <input type="text" id="name" class="studio-input" placeholder="e.g. Forrest Gump" required />
+              </div>
+              <div class="form-field-group">
+                <label for="email" class="input-label">Email Address <span class="req-star">*</span></label>
+                <input type="email" id="email" class="studio-input" placeholder="e.g. boxofchocolates@bubbagump.com" required />
+              </div>
+            </div>
+            <div class="form-field-group">
+              <label for="message" class="input-label">Project Scope &amp; Deliverables <span class="req-star">*</span></label>
+              <textarea id="message" class="studio-input studio-textarea" placeholder="Tell me about your presentation, hardware prototype, or design timeline..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary-green btn-full-submit">
+              <i class="fa-regular fa-paper-plane"></i> Send Inquiry
+            </button>
+            <div id="form-response-msg" class="form-feedback-pill"></div>
+          </form>
+        </div>
+
+        <!-- Direct Social Links -->
+        <div class="contact-sidebar-group">
+          <a href="https://www.linkedin.com/in/joelebenezer/" target="_blank" rel="noopener noreferrer" class="social-touch-card">
+            <div class="icon-sq-badge linkedin-badge"><i class="fa-brands fa-linkedin-in"></i></div>
+            <div class="touch-meta">
+              <span class="touch-lbl">LinkedIn</span>
+              <span class="touch-val">linkedin.com/in/joelebenezer</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square touch-arrow"></i>
+          </a>
+
+          <a href="https://github.com/CounterfietJoel" target="_blank" rel="noopener noreferrer" class="social-touch-card">
+            <div class="icon-sq-badge github-badge"><i class="fa-brands fa-github"></i></div>
+            <div class="touch-meta">
+              <span class="touch-lbl">GitHub</span>
+              <span class="touch-val">github.com/CounterfietJoel</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square touch-arrow"></i>
+          </a>
+
+          <a href="https://www.instagram.com/counterfietjoel/" target="_blank" rel="noopener noreferrer" class="social-touch-card">
+            <div class="icon-sq-badge insta-badge"><i class="fa-brands fa-instagram"></i></div>
+            <div class="touch-meta">
+              <span class="touch-lbl">Instagram</span>
+              <span class="touch-val">@counterfietjoel</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square touch-arrow"></i>
+          </a>
+
+          <div class="social-touch-card static-touch-card">
+            <div class="icon-sq-badge faculty-badge"><i class="fa-solid fa-chalkboard-user"></i></div>
+            <div class="touch-meta">
+              <span class="touch-lbl">Day Job</span>
+              <span class="touch-val">Assistant Professor, Mechatronics @ KPRIET</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Integrated Footnote & Meta in Contact section (Forced Equal 50/50 Cards) -->
+      <div class="screen-footer-strip">
+        <div class="slide-rule-footnote footer-strip-card" id="slide-tip-box" title="Click for another slide rule!">
+          <div class="footnote-content-wrap">
+            <span class="footnote-tag"><i class="fa-solid fa-lightbulb"></i> Slide Rule:</span>
+            <span class="footnote-quote" id="slide-tip-text">"If your slide has more than 6 lines of text, it's not a presentation—it's a hostage situation."</span>
+          </div>
+          <button class="footnote-refresh-btn" aria-label="Next slide rule"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+
+        <div class="footer-meta-inline footer-strip-card author-avatar-wrap" id="footer-status-box" title="Click for live status!">
+          <div class="footer-author-info">
+            <span class="footer-avatar-circle">
+              <img src="assets/img/profile/avatar.png" alt="Joel Ebenezer" class="footer-avatar-img author-avatar" />
+            </span>
+            <span class="footer-author-title">Joel Ebenezer</span>
+            <span class="footer-author-subtitle author-badge">&bull; Mechatronics Faculty &bull; Information Designer</span>
+          </div>
+          <div class="footer-copyright-note">
+            &copy; 2026
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       LIGHTBOX / MEDIA MODAL
+       ========================================================================== -->
   <div class="modal-overlay" id="media-modal">
     <div class="modal-container">
       <button class="modal-close-btn" id="modal-close-btn" aria-label="Close Preview">
@@ -974,7 +827,7 @@
     </div>
   </div>
 
-  <!-- Interactive Scripts -->
-  <script src="js/main.js?v=3.0"></script>
+  <!-- Interactive JavaScript -->
+  <script src="js/main.js?v=12.0"></script>
 </body>
 </html>
