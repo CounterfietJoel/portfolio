@@ -4,14 +4,12 @@
  */
 
 const colorPalettes = [
-  { name: 'Amber Gold', hex: '#f59e0b', rgb: '245, 158, 11', hover: '#d97706' },
-  { name: 'Electric Cyan', hex: '#06b6d4', rgb: '6, 182, 212', hover: '#0891b2' },
-  { name: 'Emerald Green', hex: '#10b981', rgb: '16, 185, 129', hover: '#059669' },
-  { name: 'Sunset Orange', hex: '#f97316', rgb: '249, 115, 22', hover: '#ea580c' },
-  { name: 'Royal Purple', hex: '#8b5cf6', rgb: '139, 92, 246', hover: '#7c3aed' },
-  { name: 'Rose Pink', hex: '#f43f5e', rgb: '244, 63, 94', hover: '#e11d48' },
-  { name: 'Lime Volt', hex: '#84cc16', rgb: '132, 204, 22', hover: '#65a30d' },
-  { name: 'Sky Blue', hex: '#38bdf8', rgb: '56, 189, 248', hover: '#0284c7' }
+  { name: 'Moss Green (Brand)', hex: '#636b2f', rgb: '99, 107, 47', hover: '#42481d' },
+  { name: 'Deep Violet', hex: '#372f6b', rgb: '55, 47, 107', hover: '#584da1' },
+  { name: 'Clay Wine', hex: '#8b3d2f', rgb: '139, 61, 47', hover: '#59241b' },
+  { name: 'Slate Blue', hex: '#3b7080', rgb: '59, 112, 128', hover: '#2c5561' },
+  { name: 'Forest Anchor', hex: '#2d3319', rgb: '45, 51, 25', hover: '#191d0e' },
+  { name: 'Muted Taupe', hex: '#8a786e', rgb: '138, 120, 110', hover: '#6e5e55' }
 ];
 
 function initColorSwitcher() {

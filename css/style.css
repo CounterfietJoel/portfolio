@@ -5,35 +5,36 @@
    ========================================================================== */
 
 :root {
-  /* Fresh Luminous Canvas */
-  --bg-body: #f8fafc;
+  /* Fresh Luminous Canvas (White-First & Warm Stone) */
+  --bg-body: #ffffff;
   --bg-surface: #ffffff;
-  --bg-surface-elevated: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-card-hover: #fcfefe;
-  --bg-glass: rgba(248, 250, 252, 0.92);
+  --bg-surface-elevated: #f8f9f5;
+  --bg-card: #f8f9f5;
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.94);
 
-  /* Signature Botanical Emerald / Forest Green */
-  --primary: #15803d;
-  --primary-hover: #166534;
-  --primary-light: #16a34a;
-  --primary-glow: rgba(21, 128, 61, 0.22);
-  --primary-subtle: rgba(21, 128, 61, 0.08);
-  --primary-border: rgba(21, 128, 61, 0.28);
+  /* Signature Moss Green (#636B2F) */
+  --primary: #636b2f;
+  --primary-hover: #42481d;
+  --primary-light: #869042;
+  --primary-glow: rgba(99, 107, 47, 0.22);
+  --primary-subtle: rgba(99, 107, 47, 0.08);
+  --primary-border: rgba(99, 107, 47, 0.28);
 
-  --accent-cyan: #0284c7;
-  --accent-rose: #e11d48;
+  /* Non-Orange Harmonic Accents */
+  --accent-cyan: #372f6b;   /* Deep Violet */
+  --accent-rose: #8b3d2f;   /* Clay / Wine (Sparse Micro-Accent) */
 
-  /* Crisp Typography */
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-dim: #64748b;
-  --text-subtle: #94a3b8;
+  /* Deep Olive-Ink Typography */
+  --text-main: #111110;
+  --text-muted: #444542;
+  --text-dim: #666763;
+  --text-subtle: #8a8b86;
 
-  /* Architectural Hairline Borders */
-  --border-subtle: #e2e8f0;
-  --border-card: #cbd5e1;
-  --border-card-hover: rgba(21, 128, 61, 0.45);
+  /* Architectural Warm Stone Borders */
+  --border-subtle: #d7d9d1;
+  --border-card: #d7d9d1;
+  --border-card-hover: rgba(99, 107, 47, 0.45);
 
   /* Dimensions & Radius */
   --radius-sm: 8px;
@@ -80,8 +81,8 @@ body {
   width: 100%;
   -webkit-font-smoothing: antialiased;
   background-image: 
-    linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(17, 17, 16, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 16, 0.03) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -1065,8 +1066,25 @@ button {
 }
 
 .featured-service-card {
-  background: linear-gradient(135deg, rgba(21, 128, 61, 0.04), #ffffff);
-  border-color: rgba(21, 128, 61, 0.3);
+  background: linear-gradient(135deg, rgba(139, 61, 47, 0.03), #ffffff);
+  border-color: rgba(139, 61, 47, 0.25);
+}
+
+.featured-service-card:hover {
+  border-color: rgba(139, 61, 47, 0.45);
+  box-shadow: 0 12px 28px -4px rgba(139, 61, 47, 0.12);
+}
+
+.featured-service-card .service-icon-wrap {
+  background: rgba(139, 61, 47, 0.08);
+  border-color: rgba(139, 61, 47, 0.28);
+  color: var(--accent-rose);
+}
+
+.featured-service-card .service-tier-badge {
+  background: rgba(139, 61, 47, 0.08);
+  color: var(--accent-rose);
+  border: 1px solid rgba(139, 61, 47, 0.22);
 }
 
 .card-top-row {
@@ -1271,6 +1289,12 @@ button {
   border-radius: 3px;
 }
 
+.tag-wine {
+  color: var(--accent-rose) !important;
+  background: rgba(139, 61, 47, 0.08) !important;
+  border: 1px solid rgba(139, 61, 47, 0.22);
+}
+
 .tag-context-type {
   font-family: var(--font-mono);
   font-size: 0.65rem;
@@ -1348,6 +1372,12 @@ button {
   margin-bottom: 10px;
 }
 
+.substack-bubble {
+  background: rgba(139, 61, 47, 0.08);
+  border-color: rgba(139, 61, 47, 0.25);
+  color: var(--accent-rose);
+}
+
 .yt-bubble {
   background: rgba(239, 68, 68, 0.08);
   border-color: rgba(239, 68, 68, 0.25);
@@ -1355,9 +1385,9 @@ button {
 }
 
 .scholar-bubble {
-  background: rgba(2, 132, 199, 0.08);
-  border-color: rgba(2, 132, 199, 0.25);
-  color: #0284c7;
+  background: rgba(55, 47, 107, 0.08);
+  border-color: rgba(55, 47, 107, 0.25);
+  color: var(--accent-cyan);
 }
 
 .venture-subdomain {
