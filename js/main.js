@@ -278,19 +278,21 @@ function initBeforeAfterSlider() {
     updateSlider(e.touches[0].clientX);
   }, { passive: true });
 
-  // Slide Selection Tabs
+  // Slide Selection Tabs (Semantic 1-to-1 Mapping)
   selectorBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       selectorBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const slideIdx = btn.getAttribute('data-slide');
-      if (beforeImg && afterImg && slideIdx) {
-        beforeImg.style.opacity = '0.4';
-        afterImg.style.opacity = '0.4';
+      const beforeIdx = btn.getAttribute('data-before') || btn.getAttribute('data-slide') || '1';
+      const afterIdx = btn.getAttribute('data-after') || btn.getAttribute('data-slide') || '1';
 
-        beforeImg.src = `assets/img/before_after/before_slide_${slideIdx}.png`;
-        afterImg.src = `assets/img/before_after/after_slide_${slideIdx}.png`;
+      if (beforeImg && afterImg) {
+        beforeImg.style.opacity = '0.3';
+        afterImg.style.opacity = '0.3';
+
+        beforeImg.src = `assets/img/before_after/before_slide_${beforeIdx}.png`;
+        afterImg.src = `assets/img/before_after/after_slide_${afterIdx}.png`;
 
         setTimeout(() => {
           beforeImg.style.opacity = '1';
