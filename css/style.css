@@ -1,6 +1,7 @@
 /* ==========================================================================
    JOEL EBENEZER — FRESH LUMINOUS SWISS STUDIO PORTFOLIO
-   Palette: Luminous Porcelain Canvas (#f8fafc / #f1f5f9) + Botanical Emerald (#15803d / #16a34a) + Crisp Obsidian Ink (#0f172a)
+   Palette: Luminous White Canvas (#ffffff) + Calibrated Figma Tokens:
+   Moss (#636b2f) + Deep Violet (#372f6b) + Clay Wine (#8b3d2f) + Warm Stone (#d7d9d1 / #111110)
    Screen-Fitted Desktop Pacing + First-Class Mobile Ergonomics
    ========================================================================== */
 
@@ -13,17 +14,24 @@
   --bg-card-hover: #ffffff;
   --bg-glass: rgba(255, 255, 255, 0.94);
 
-  /* Signature Moss Green (#636B2F) */
+  /* Signature Moss Green (Figma: Moss 400) */
   --primary: #636b2f;
-  --primary-hover: #42481d;
+  --primary-hover: #869042;
+  --primary-pressed: #42481d;
   --primary-light: #869042;
   --primary-glow: rgba(99, 107, 47, 0.22);
   --primary-subtle: rgba(99, 107, 47, 0.08);
   --primary-border: rgba(99, 107, 47, 0.28);
 
-  /* Non-Orange Harmonic Accents */
-  --accent-cyan: #372f6b;   /* Deep Violet */
-  --accent-rose: #8b3d2f;   /* Clay / Wine (Sparse Micro-Accent) */
+  /* Harmonic Semantic Accents (Figma: Violet 600 & Clay 500) */
+  --accent-violet: #372f6b;         /* Deep Violet */
+  --accent-violet-subtle: #f0eff7;  /* Violet 100 */
+  --accent-clay: #8b3d2f;           /* Clay / Wine (Sparse Micro-Accent) */
+  --accent-clay-subtle: #f9e8e6;    /* Clay 100 */
+
+  /* Aliases for backwards compatibility */
+  --accent-cyan: var(--accent-violet);
+  --accent-rose: var(--accent-clay);
 
   /* Deep Olive-Ink Typography */
   --text-main: #111110;
@@ -321,6 +329,11 @@ button {
   transform: translateY(-1px);
 }
 
+.btn-nav-cta:active {
+  background: var(--primary-pressed, #42481d);
+  transform: translateY(0);
+}
+
 .mobile-hamburger-btn {
   display: none;
   flex-direction: column;
@@ -574,6 +587,11 @@ button {
 .btn-primary-green:hover {
   background: var(--primary-hover);
   transform: translateY(-1px);
+}
+
+.btn-primary-green:active {
+  background: var(--primary-pressed, #42481d);
+  transform: translateY(0);
 }
 
 .btn-outline-studio {
@@ -1078,12 +1096,12 @@ button {
 .featured-service-card .service-icon-wrap {
   background: rgba(139, 61, 47, 0.08);
   border-color: rgba(139, 61, 47, 0.28);
-  color: var(--accent-rose);
+  color: var(--accent-clay);
 }
 
 .featured-service-card .service-tier-badge {
   background: rgba(139, 61, 47, 0.08);
-  color: var(--accent-rose);
+  color: var(--accent-clay);
   border: 1px solid rgba(139, 61, 47, 0.22);
 }
 
@@ -1289,10 +1307,17 @@ button {
   border-radius: 3px;
 }
 
-.tag-wine {
-  color: var(--accent-rose) !important;
-  background: rgba(139, 61, 47, 0.08) !important;
+.tag-wine,
+.tag-clay {
+  color: var(--accent-clay) !important;
+  background: var(--accent-clay-subtle, rgba(139, 61, 47, 0.08)) !important;
   border: 1px solid rgba(139, 61, 47, 0.22);
+}
+
+.tag-violet {
+  color: var(--accent-violet) !important;
+  background: var(--accent-violet-subtle, rgba(55, 47, 107, 0.08)) !important;
+  border: 1px solid rgba(55, 47, 107, 0.22);
 }
 
 .tag-context-type {
@@ -1373,9 +1398,9 @@ button {
 }
 
 .substack-bubble {
-  background: rgba(139, 61, 47, 0.08);
+  background: var(--accent-clay-subtle, rgba(139, 61, 47, 0.08));
   border-color: rgba(139, 61, 47, 0.25);
-  color: var(--accent-rose);
+  color: var(--accent-clay);
 }
 
 .yt-bubble {
@@ -1385,9 +1410,9 @@ button {
 }
 
 .scholar-bubble {
-  background: rgba(55, 47, 107, 0.08);
+  background: var(--accent-violet-subtle, rgba(55, 47, 107, 0.08));
   border-color: rgba(55, 47, 107, 0.25);
-  color: var(--accent-cyan);
+  color: var(--accent-violet);
 }
 
 .venture-subdomain {
