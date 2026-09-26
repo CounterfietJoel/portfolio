@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joel 3D Avatar — Interactive Animation Studio</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Three.js + Loaders (GLTFLoader, FBXLoader, fflate) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --accent-green: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.25);
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #1e293b 0%, var(--bg) 70%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(9, 13, 22, 0.5);
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    #webgl-canvas-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* Floating UI HUD */
+    .hud-controls-panel {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      max-width: 95vw;
+      overflow-x: auto;
+    }
+
+    .anim-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .anim-btn i {
+      color: var(--accent-green);
+      font-size: 0.9rem;
+    }
+
+    .anim-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .anim-btn.active {
+      background: var(--accent-green);
+      color: #042f2e;
+      border-color: var(--accent-green);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .anim-btn.active i {
+      color: #042f2e;
+    }
+
+    .divider {
+      width: 1px;
+      height: 28px;
+      background: var(--card-border);
+      margin: 0 4px;
+    }
+
+    /* Side HUD */
+    .side-hud {
+      position: absolute;
+      top: 80px;
+      right: 24px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      z-index: 10;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .side-hud h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-sub);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255,255,255,0.15);
+      transition: .3s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-green);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(16px);
+    }
+
+    /* Loading Overlay */
+    #loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: #090d16;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+      transition: opacity 0.5s ease;
+    }
+
+    .spinner-ring {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(16, 185, 129, 0.2);
+      border-top-color: var(--accent-green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #loading-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <i class="fa-solid fa-cube" style="color: var(--accent-green)"></i>
+      <span>Joel 3D Avatar</span>
+      <span class="badge-pill">Interactive Companion</span>
+    </div>
+    <div>
+      <a href="index.html" class="anim-btn" style="text-decoration: none; padding: 6px 14px; font-size: 0.8rem;">
+        <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+      </a>
+    </div>
+  </header>
+
+  <div id="webgl-canvas-container"></div>
+
+  <!-- Loading Screen -->
+  <div id="loading-overlay">
+    <div class="spinner-ring"></div>
+    <div id="loading-text">Loading Joel 3D Avatar...</div>
+  </div>
+
+  <!-- Side Settings HUD -->
+  <div class="side-hud">
+    <h4>Settings</h4>
+    <div class="toggle-row">
+      <span>Mouse-Look Tracking</span>
+      <label class="switch">
+        <input type="checkbox" id="mouse-look-toggle" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="toggle-row">
+      <span>Auto-Orbit Camera</span>
+      <label class="switch">
+        <input type="checkbox" id="auto-orbit-toggle" />
+        <span class="slider"></span>
+      </label>
+    </div>
+    <hr style="border: 0; border-top: 1px solid var(--card-border);" />
+    <button class="anim-btn" id="reset-cam-btn" style="width: 100%; justify-content: center;">
+      <i class="fa-solid fa-camera-rotate"></i> Reset Camera
+    </button>
+  </div>
+
+  <!-- Bottom Floating Action Bar -->
+  <div class="hud-controls-panel">
+    <button class="anim-btn active" data-anim="wave">
+      <i class="fa-solid fa-hand"></i> Friendly Wave
+    </button>
+    <button class="anim-btn" data-anim="idle">
+      <i class="fa-solid fa-person"></i> Happy Idle
+    </button>
+    <button class="anim-btn" data-anim="think">
+      <i class="fa-solid fa-brain"></i> Thinking
+    </button>
+    <button class="anim-btn" data-anim="point">
+      <i class="fa-solid fa-arrow-pointer"></i> Pointing at CTA
+    </button>
+    <button class="anim-btn" data-anim="type">
+      <i class="fa-solid fa-laptop-code"></i> Coding / Typing
+    </button>
+  </div>
+
+  <script>
+    // --- Scene Setup ---
+    const container = document.getElementById('webgl-canvas-container');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const loadingText = document.getElementById('loading-text');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0f1d);
+    scene.fog = new THREE.FogExp2(0x0a0f1d, 0.12);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1.4, 2.8);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // OrbitControls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(0, 1.1, 0);
+    controls.minDistance = 1.2;
+    controls.maxDistance = 5.0;
+    controls.maxPolarAngle = Math.PI / 2 + 0.05;
+
+    // --- Studio Lighting ---
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x1e293b, 1.0);
+    scene.add(hemiLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    keyLight.position.set(2, 4, 3);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 1024;
+    keyLight.shadow.mapSize.height = 1024;
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.8);
+    fillLight.position.set(-3, 2, -1);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(0x10b981, 1.2);
+    rimLight.position.set(0, 3, -3);
+    scene.add(rimLight);
+
+    // Circular ground grid with shadow catcher
+    const shadowPlaneGeo = new THREE.PlaneGeometry(8, 8);
+    const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.35 });
+    const shadowPlane = new THREE.Mesh(shadowPlaneGeo, shadowPlaneMat);
+    shadowPlane.rotation.x = -Math.PI / 2;
+    shadowPlane.receiveShadow = true;
+    scene.add(shadowPlane);
+
+    const grid = new THREE.GridHelper(8, 16, 0x10b981, 0x1e293b);
+    grid.position.y = 0.001;
+    scene.add(grid);
+
+    // --- State & Variables ---
+    let avatarModel = null;
+    let headBone = null;
+    let neckBone = null;
+    let mixer = null;
+    const actions = {};
+    let activeAction = null;
+    const clock = new THREE.Clock();
+
+    // Mouse coordinates for head tracking
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    let enableMouseLook = true;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // --- Animation Files Map ---
+    const animFiles = {
+      wave: 'assets/3d_character_joel/animations/Waving.fbx',
+      idle: 'assets/3d_character_joel/animations/Happy Hand Gesture.fbx',
+      think: 'assets/3d_character_joel/animations/Thinking.fbx',
+      point: 'assets/3d_character_joel/animations/Pointing.fbx',
+      type: 'assets/3d_character_joel/animations/Typing.fbx'
+    };
+
+    // Load Model & Animations
+    const gltfLoader = new THREE.GLTFLoader();
+    const fbxLoader = new THREE.FBXLoader();
+
+    loadingText.textContent = 'Loading Joel Avatar Mesh...';
+
+    gltfLoader.load(
+      'assets/3d_character_joel/joel_avatar.glb',
+      (gltf) => {
+        avatarModel = gltf.scene;
+        avatarModel.position.set(0, 0, 0);
+        avatarModel.scale.set(1, 1, 1);
+
+        avatarModel.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+          if (child.isBone) {
+            if (child.name === 'Head') headBone = child;
+            if (child.name === 'Neck') neckBone = child;
+          }
+        });
+
+        scene.add(avatarModel);
+        mixer = new THREE.AnimationMixer(avatarModel);
+
+        loadAllAnimations();
+      },
+      undefined,
+      (err) => {
+        console.error('Error loading avatar:', err);
+        loadingText.textContent = 'Failed to load avatar model.';
+      }
+    );
+
+    async function loadAllAnimations() {
+      const keys = Object.keys(animFiles);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        loadingText.textContent = `Loading Animation (${i + 1}/${keys.length}): ${key}...`;
+        try {
+          await new Promise((resolve, reject) => {
+            fbxLoader.load(
+              animFiles[key],
+              (fbx) => {
+                if (fbx.animations && fbx.animations.length > 0) {
+                  const clip = fbx.animations[0];
+                  // Retarget tracks: strip mixamorig: or mixamorig prefix so bone names match
+                  clip.tracks.forEach((track) => {
+                    track.name = track.name.replace(/^mixamorig:?/, '');
+                  });
+
+                  const action = mixer.clipAction(clip);
+                  if (key === 'wave' || key === 'point') {
+                    action.clampWhenFinished = true;
+                  }
+                  actions[key] = action;
+                }
+                resolve();
+              },
+              undefined,
+              (err) => {
+                console.warn(`Could not load ${key}:`, err);
+                resolve(); // Continue even if one fails
+              }
+            );
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // Hide loading screen
+      loadingOverlay.style.opacity = '0';
+      setTimeout(() => { loadingOverlay.style.display = 'none'; }, 500);
+
+      // Start with Waving animation
+      playAnimation('wave');
+    }
+
+    function playAnimation(name) {
+      const nextAction = actions[name];
+      if (!nextAction) return;
+
+      if (activeAction !== nextAction) {
+        if (activeAction) {
+          activeAction.fadeOut(0.35);
+        }
+        nextAction.reset().fadeIn(0.35).play();
+        activeAction = nextAction;
+      }
+    }
+
+    // UI Buttons
+    document.querySelectorAll('.anim-btn[data-anim]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.anim-btn[data-anim]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        playAnimation(btn.dataset.anim);
+      });
+    });
+
+    // Switches
+    document.getElementById('mouse-look-toggle').addEventListener('change', (e) => {
+      enableMouseLook = e.target.checked;
+    });
+
+    document.getElementById('auto-orbit-toggle').addEventListener('change', (e) => {
+      controls.autoRotate = e.target.checked;
+      controls.autoRotateSpeed = 1.2;
+    });
+
+    document.getElementById('reset-cam-btn').addEventListener('click', () => {
+      camera.position.set(0, 1.4, 2.8);
+      controls.target.set(0, 1.1, 0);
+      controls.update();
+    });
+
+    // Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // --- Render Loop ---
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const delta = clock.getDelta();
+
+      if (mixer) {
+        mixer.update(delta);
+      }
+
+      // Procedural Head & Neck Cursor Tracking
+      if (enableMouseLook && headBone) {
+        mouse.x += (mouse.targetX - mouse.x) * 0.08;
+        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+        const maxHeadYaw = 0.45; // Horizontal turn
+        const maxHeadPitch = 0.35; // Vertical look
+
+        headBone.rotation.y = THREE.MathUtils.clamp(-mouse.x * maxHeadYaw, -maxHeadYaw, maxHeadYaw);
+        headBone.rotation.x = THREE.MathUtils.clamp(-mouse.y * maxHeadPitch, -maxHeadPitch, maxHeadPitch);
+
+        if (neckBone) {
+          neckBone.rotation.y = headBone.rotation.y * 0.4;
+          neckBone.rotation.x = headBone.rotation.x * 0.4;
+        }
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
