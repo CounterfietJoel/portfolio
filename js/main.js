@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initStlViewerWhenVisible();
   initBeforeAfterSlider();
   initMobileDrawer();
-  initCadBlueprintMode();
   initPortfolioFilters();
   initEli5Toggle();
   initSlideTipEasterEgg();
@@ -351,52 +350,6 @@ function initMobileDrawer() {
     if (e.key === 'Escape' && drawer.classList.contains('active')) {
       closeDrawer();
     }
-  });
-}
-
-/* --------------------------------------------------------------------------
-   5. CAD / BLUEPRINT WIREFRAME MODE
-   -------------------------------------------------------------------------- */
-function initCadBlueprintMode() {
-  const toggleBtn = document.getElementById('cad-toggle-btn');
-  const drawerToggleBtn = document.getElementById('drawer-cad-toggle');
-  const toast = document.getElementById('cad-hud-toast');
-  const coordsOverlay = document.getElementById('cad-coords-display');
-
-  let isCadMode = false;
-
-  function toggleMode() {
-    isCadMode = !isCadMode;
-    document.body.classList.toggle('cad-blueprint-mode', isCadMode);
-
-    if (toggleBtn) toggleBtn.classList.toggle('active', isCadMode);
-    if (drawerToggleBtn) drawerToggleBtn.classList.toggle('active', isCadMode);
-
-    if (toast && isCadMode) {
-      toast.classList.add('active');
-      setTimeout(() => {
-        toast.classList.remove('active');
-      }, 2200);
-    }
-  }
-
-  if (toggleBtn) toggleBtn.addEventListener('click', toggleMode);
-  if (drawerToggleBtn) drawerToggleBtn.addEventListener('click', toggleMode);
-
-  document.addEventListener('keydown', (e) => {
-    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-    if (activeTag === 'input' || activeTag === 'textarea') return;
-
-    if (e.key === 'b' || e.key === 'B') {
-      toggleMode();
-    }
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isCadMode || !coordsOverlay) return;
-    const xMm = (e.clientX * 0.264583).toFixed(1);
-    const yMm = (e.clientY * 0.264583).toFixed(1);
-    coordsOverlay.textContent = `CAD X: ${xMm}mm | Y: ${yMm}mm [±0.05mm]`;
   });
 }
 

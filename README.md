@@ -11,5 +11,5 @@ Personal portfolio for learning and instructional design, presentation and keyno
 ## Tech Stack
 - Plain HTML5, CSS3, and vanilla JavaScript (no build step)
 - Contact form delivered through FormSubmit (no server needed)
-- Three.js for the 3D model viewer and avatar, loaded only when needed
+- Three.js for the 3D model viewer, loaded only when it scrolls into view
 - Font Awesome 6 + Google Fonts (Plus Jakarta Sans, JetBrains Mono)
