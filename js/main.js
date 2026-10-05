@@ -659,8 +659,10 @@ function initContactForm() {
   const form = document.getElementById('contact-form');
   const responseMsg = document.getElementById('form-response-msg');
   const CONTACT_EMAIL = 'joel.inbaraj@outlook.com';
-  // FormSubmit forwards the message to the email above. No account or server needed.
-  const ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+  // Web3Forms delivers messages to the inbox linked to this access key.
+  // The key is meant to be public; it only allows sending to that inbox.
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const ACCESS_KEY = '1fc5c7f1-414a-4fc7-8128-dc39c30e4034';
 
   if (!form) return;
 
@@ -705,17 +707,17 @@ function initContactForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
+          access_key: ACCESS_KEY,
           name,
           email,
           message,
-          _subject: `Portfolio inquiry from ${name}`,
-          _replyto: email,
-          _template: 'table',
-          _captcha: 'false'
+          subject: `Portfolio inquiry from ${name}`,
+          from_name: 'Joel Ebenezer Portfolio',
+          replyto: email
         })
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.success === 'false' || data.success === false) throw new Error(data.message || 'Send failed');
+      if (!res.ok || data.success !== true) throw new Error(data.message || 'Send failed');
 
       form.reset();
       showMessage(`<strong>Thanks, ${escapeHtml(name)}!</strong> Your message is on its way. I'll reply by email.`, false);
