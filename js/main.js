@@ -4,7 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initHeroStlViewer();
+  initStlViewerWhenVisible();
   initBeforeAfterSlider();
   initMobileDrawer();
   initCadBlueprintMode();
@@ -57,6 +57,20 @@ function initSmoothNavScrollOffset() {
 /* --------------------------------------------------------------------------
    2. HERO 3D STL MODEL VIEWER (THREE.JS + STLLOADER)
    -------------------------------------------------------------------------- */
+/* Start the 3D viewer only when its section scrolls into view, so the page loads fast. */
+function initStlViewerWhenVisible() {
+  const stage = document.getElementById('stl-3d-viewport');
+  if (!stage) return;
+  if (!('IntersectionObserver' in window)) { initHeroStlViewer(); return; }
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some(e => e.isIntersecting)) {
+      io.disconnect();
+      initHeroStlViewer();
+    }
+  }, { rootMargin: '300px 0px' });
+  io.observe(stage);
+}
+
 function initHeroStlViewer() {
   const container = document.getElementById('stl-3d-viewport');
   const loaderOverlay = document.getElementById('stl-loader-spinner');
@@ -165,8 +179,8 @@ function initHeroStlViewer() {
     );
   }
 
-  // Initial Load: Pinky Suresh
-  loadSTL('assets/img/maker/PinkySuresh.stl', 'Pinky Suresh Dual-Color Nameplate');
+  // Initial load: first model
+  loadSTL('assets/img/maker/nameplate-dual-color.stl', 'Dual-Color Nameplate');
 
   // Model Tab Switching
   modelTabs.forEach(tab => {
@@ -291,8 +305,8 @@ function initBeforeAfterSlider() {
         beforeImg.style.opacity = '0.3';
         afterImg.style.opacity = '0.3';
 
-        beforeImg.src = `assets/img/before_after/before_slide_${beforeIdx}.png`;
-        afterImg.src = `assets/img/before_after/after_slide_${afterIdx}.png`;
+        beforeImg.src = `assets/img/before_after/before_slide_${beforeIdx}.webp`;
+        afterImg.src = `assets/img/before_after/after_slide_${afterIdx}.webp`;
 
         setTimeout(() => {
           beforeImg.style.opacity = '1';
@@ -535,15 +549,14 @@ function initSlideTipEasterEgg() {
    9. AVATAR CLICK STATUS CYCLER
    -------------------------------------------------------------------------- */
 const avatarStatuses = [
-  'Currently grading papers with extreme prejudice.',
   'Re-leveling a 3D printer bed for the 47th time.',
-  'Wondering why anyone would ever like the color orange.',
-  'Explaining the right-hand rule in robotics again.',
+  'Storyboarding a learning module on a whiteboard.',
   'Refusing to use default PowerPoint templates since 2019.',
-  '100% human, 0% AI gradients.',
-  'Turning complex engineering into slides that make sense.',
+  'Turning a dense syllabus into something people finish.',
+  'Choosing between two nearly identical shades of green.',
+  'Explaining the right-hand rule with actual hands.',
   'Tinkering with Python scripts at 2 AM.',
-  'Wondering if students actually read the syllabus.'
+  'Wondering why anyone would ever like the color orange.'
 ];
 
 let avatarStatusIndex = 0;
@@ -570,34 +583,34 @@ function initAvatarEasterEgg() {
    10. LIGHTBOX / MEDIA MODAL (WITH PINTEREST MASONRY GALLERY)
    -------------------------------------------------------------------------- */
 const metasageGalleryItems = [
-  { src: 'assets/img/social/metasage_alliance_campaign.png', title: 'Diwali Festive Brand Campaign' },
-  { src: 'assets/img/social/social_01.png', title: 'Brand Identity Spec 01' },
-  { src: 'assets/img/social/social_02.png', title: 'Square Feed Creative 02' },
-  { src: 'assets/img/social/social_03.png', title: 'Vertical Campaign Story 03' },
-  { src: 'assets/img/social/social_04.png', title: 'Wide Digital Header 04' },
-  { src: 'assets/img/social/social_05.png', title: 'Hi-Res Social Square 05' },
-  { src: 'assets/img/social/social_06.png', title: 'Marketing Graphic 06' },
-  { src: 'assets/img/social/social_07.png', title: 'Feed Illustration 07' },
-  { src: 'assets/img/social/social_08.png', title: 'Branding Ad Creative 08' },
-  { src: 'assets/img/social/social_09.png', title: 'Promotional Layout 09' },
-  { src: 'assets/img/social/social_10.png', title: 'Informational Graphic 10' },
-  { src: 'assets/img/social/social_11.png', title: 'Creative Poster Spec 11' },
-  { src: 'assets/img/social/social_12.png', title: 'Brand Story Frame 12' },
-  { src: 'assets/img/social/social_13.png', title: 'Square Feed Graphic 13' },
-  { src: 'assets/img/social/social_14.png', title: 'Collateral Visual 14' },
-  { src: 'assets/img/social/social_15.png', title: 'Wide Banner Visual 15' },
-  { src: 'assets/img/social/social_16.png', title: 'Header Ad Spec 16' },
-  { src: 'assets/img/social/social_17.png', title: 'Social Artwork 17' },
-  { src: 'assets/img/social/social_18.png', title: 'Marketing Poster 18' },
-  { src: 'assets/img/social/social_19.png', title: 'Campaign Post 19' },
-  { src: 'assets/img/social/social_20.png', title: 'Brand Graphic 20' },
-  { src: 'assets/img/social/social_21.png', title: 'Social Asset 21' },
-  { src: 'assets/img/social/social_22.png', title: 'Visual Campaign Asset 22' },
-  { src: 'assets/img/social/social_23.png', title: 'Promotion Design 23' },
-  { src: 'assets/img/social/social_24.png', title: 'Vertical Campaign Visual 24' },
-  { src: 'assets/img/social/employer_promo_01.png', title: 'Employer Branding Post' },
-  { src: 'assets/img/social/employer_promo_02.png', title: 'Employer Promo Vertical' },
-  { src: 'assets/img/social/employer_promo_03.png', title: 'Employer Promo Landscape' }
+  { src: 'assets/img/social/metasage_alliance_campaign.webp', title: 'Diwali Festive Brand Campaign' },
+  { src: 'assets/img/social/social_01.webp', title: 'Brand Identity Spec 01' },
+  { src: 'assets/img/social/social_02.webp', title: 'Square Feed Creative 02' },
+  { src: 'assets/img/social/social_03.webp', title: 'Vertical Campaign Story 03' },
+  { src: 'assets/img/social/social_04.webp', title: 'Wide Digital Header 04' },
+  { src: 'assets/img/social/social_05.webp', title: 'Hi-Res Social Square 05' },
+  { src: 'assets/img/social/social_06.webp', title: 'Marketing Graphic 06' },
+  { src: 'assets/img/social/social_07.webp', title: 'Feed Illustration 07' },
+  { src: 'assets/img/social/social_08.webp', title: 'Branding Ad Creative 08' },
+  { src: 'assets/img/social/social_09.webp', title: 'Promotional Layout 09' },
+  { src: 'assets/img/social/social_10.webp', title: 'Informational Graphic 10' },
+  { src: 'assets/img/social/social_11.webp', title: 'Creative Poster Spec 11' },
+  { src: 'assets/img/social/social_12.webp', title: 'Brand Story Frame 12' },
+  { src: 'assets/img/social/social_13.webp', title: 'Square Feed Graphic 13' },
+  { src: 'assets/img/social/social_14.webp', title: 'Collateral Visual 14' },
+  { src: 'assets/img/social/social_15.webp', title: 'Wide Banner Visual 15' },
+  { src: 'assets/img/social/social_16.webp', title: 'Header Ad Spec 16' },
+  { src: 'assets/img/social/social_17.webp', title: 'Social Artwork 17' },
+  { src: 'assets/img/social/social_18.webp', title: 'Marketing Poster 18' },
+  { src: 'assets/img/social/social_19.webp', title: 'Campaign Post 19' },
+  { src: 'assets/img/social/social_20.webp', title: 'Brand Graphic 20' },
+  { src: 'assets/img/social/social_21.webp', title: 'Social Asset 21' },
+  { src: 'assets/img/social/social_22.webp', title: 'Visual Campaign Asset 22' },
+  { src: 'assets/img/social/social_23.webp', title: 'Promotion Design 23' },
+  { src: 'assets/img/social/social_24.webp', title: 'Vertical Campaign Visual 24' },
+  { src: 'assets/img/social/employer_promo_01.webp', title: 'Employer Branding Post' },
+  { src: 'assets/img/social/employer_promo_02.webp', title: 'Employer Promo Vertical' },
+  { src: 'assets/img/social/employer_promo_03.webp', title: 'Employer Promo Landscape' }
 ];
 
 function initLightboxModal() {
@@ -692,34 +705,73 @@ function initLightboxModal() {
 function initContactForm() {
   const form = document.getElementById('contact-form');
   const responseMsg = document.getElementById('form-response-msg');
+  const CONTACT_EMAIL = 'joel.inbaraj@outlook.com';
+  // FormSubmit forwards the message to the email above. No account or server needed.
+  const ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitLabel = form.querySelector('.submit-label');
+
+  function showMessage(html, isError) {
+    if (!responseMsg) return;
+    responseMsg.style.display = 'block';
+    responseMsg.style.color = isError ? 'var(--accent-clay)' : '#15803d';
+    responseMsg.style.background = isError ? 'var(--accent-clay-subtle)' : 'rgba(21, 128, 61, 0.08)';
+    responseMsg.style.border = isError ? '1px solid rgba(139, 61, 47, 0.3)' : '1px solid var(--primary-border)';
+    responseMsg.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = form.querySelector('#name').value.trim();
     const email = form.querySelector('#email').value.trim();
     const message = form.querySelector('#message').value.trim();
+    const honey = form.querySelector('input[name="_honey"]');
 
     if (!name || !email || !message) {
-      alert('Please fill out all required fields.');
+      showMessage('Please fill in your name, email, and a short project brief.', true);
       return;
     }
-
-    const subject = encodeURIComponent(`Inquiry from ${name} (Deep-Tech Project)`);
-    const body = encodeURIComponent(`Hi Joel,\n\n${message}\n\nFrom: ${name} (${email})`);
-
-    if (responseMsg) {
-      responseMsg.style.display = 'block';
-      responseMsg.style.color = '#15803d';
-      responseMsg.style.background = 'rgba(21, 128, 61, 0.08)';
-      responseMsg.style.border = '1px solid var(--primary-border)';
-      responseMsg.innerHTML = `<strong>✓ Thanks ${name}!</strong> Launching your email client...`;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage('That email address doesn\'t look right. Please check it.', true);
+      return;
     }
+    if (honey && honey.value) return; // bot
 
-    setTimeout(() => {
-      window.location.href = `mailto:actualjoel@gmail.com?subject=${subject}&body=${body}`;
-    }, 450);
+    if (submitBtn) submitBtn.disabled = true;
+    if (submitLabel) submitLabel.textContent = 'Sending...';
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          _subject: `Portfolio inquiry from ${name}`,
+          _replyto: email,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === 'false' || data.success === false) throw new Error(data.message || 'Send failed');
+
+      form.reset();
+      showMessage(`<strong>Thanks, ${escapeHtml(name)}!</strong> Your message is on its way. I'll reply by email.`, false);
+    } catch (err) {
+      showMessage(`Sorry, the message couldn't be sent right now. Please email me directly at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.`, true);
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitLabel) submitLabel.textContent = 'Send Inquiry';
+    }
   });
 }
 
@@ -777,10 +829,9 @@ function initConsoleEasterEgg() {
   );
   console.log(
     '%c🤖 [Transparency Notice]:\n' +
-    'Joel (Assistant Professor @ KPRIET) crafted this luminous studio portfolio.\n' +
-    'Pure semantic HTML5, CSS3, zero corporate bloat, zero orange, zero AI gradients.\n\n' +
-    '⚠️ [Anti-Scraper Note]: Please do not train LLMs on our assignment formats.\n\n' +
-    '☕ Need high-stakes pitch decks or 3D prototyping? Reach out via the contact form!',
+    'Joel Ebenezer crafted this luminous studio portfolio.\n' +
+    'Pure semantic HTML5 and CSS3, zero corporate bloat, zero orange.\n\n' +
+    '☕ Need a course built or a deck redesigned? Write to joel.inbaraj@outlook.com',
     'color: #475569; font-size: 11.5px; line-height: 1.55; font-family: monospace;'
   );
 }

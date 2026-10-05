@@ -1,14 +1,15 @@
-# Joel Ebenezer — Creative Portfolio & Side Hustle Hub
+# Joel Ebenezer — Learning & Presentation Design Portfolio
 
-Personal portfolio showcasing keynote & presentation design, visual branding, 3D printing maker projects, and developer tools.
+Personal portfolio for learning and instructional design, presentation and keynote design, explainer visuals, and 3D prototyping.
 
-- **Live Preview:** https://counterfietjoel.github.io/portfolio/
-- **Day Job:** Assistant Professor, Mechanical Engineering, KPR Institute of Engineering and Technology (KPRIET)
-- **Side Hustle:** Presentation & Keynote Design, Social Media Creative, Brand Identity, 3D Prototyping
+- **Live site:** https://counterfietjoel.github.io/portfolio/
+- **Contact:** joel.inbaraj@outlook.com
+- **Services:** Interactive courseware and assessments, keynote and slide design, brand collateral, 3D printing and prototyping
 
 ---
 
 ## Tech Stack
-- Pure Semantic HTML5 & Responsive CSS3 (Zero external build overhead)
-- Vanilla JavaScript (Dynamic movie character Easter eggs, lightbox player, category filters)
-- Font Awesome 6 + Google Fonts (Plus Jakarta Sans)
+- Plain HTML5, CSS3, and vanilla JavaScript (no build step)
+- Contact form delivered through FormSubmit (no server needed)
+- Three.js for the 3D model viewer and avatar, loaded only when needed
+- Font Awesome 6 + Google Fonts (Plus Jakarta Sans, JetBrains Mono)

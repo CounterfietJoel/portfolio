@@ -2,3 +2,14 @@
 Thumbs.db
 *.log
 scratch/
+# Keep source files out of the public site
+*.pptx
+*.potx
+*.xml
+*.zip
+*.mp4
+*.obj
+*.mtl
+
+# Local preview helper
+preview.bat

@@ -230,7 +230,7 @@
     widget.innerHTML = `
       <div class="joel-bubble visible" id="joel-assistant-bubble">
         <span class="bubble-icon">👋</span>
-        <span class="bubble-text" id="joel-bubble-text">Hi! I'm Joel — scroll down to explore my work!</span>
+        <span class="bubble-text" id="joel-bubble-text">Hi! I'm Joel. Scroll down to explore my work!</span>
       </div>
 
       <div class="joel-canvas-wrapper" id="joel-canvas-box" title="Click me to wave!">
@@ -407,12 +407,13 @@
 
     // Scroll-Triggered Reactions
     const sectionMessages = {
-      'home': { anim: 'wave', text: "Welcome to my lab! Scroll to see what I build." },
-      'transformation': { anim: 'think', text: "Notice the difference? High-density visuals close rounds." },
-      'services': { anim: 'type', text: "Translating CAD, kinematics, and telemetry into crisp decks." },
-      'portfolio': { anim: 'point', text: "Check out these keynote decks and 3D prototypes!" },
-      'ventures': { anim: 'think', text: "Ventures and initiatives bridging academia with deep-tech." },
-      'contact': { anim: 'wave', text: "Got a high-stakes keynote or prototype? Let's connect!" }
+      'home': { anim: 'wave', text: "Hi! Scroll down to see courses, decks, and a few tools I've built." },
+      'services': { anim: 'type', text: "Two core services: learning design and presentation design." },
+      'portfolio': { anim: 'point', text: "Click a deck to watch it, or open the live course." },
+      'transformation': { anim: 'think', text: "Drag the handle. Same content, very different slide." },
+      'maker': { anim: 'type', text: "Grab the model and spin it around." },
+      'ventures': { anim: 'think', text: "The research and writing behind the design work." },
+      'contact': { anim: 'wave', text: "Got a course or a deck in mind? Let's talk!" }
     };
 
     let lastSection = '';
@@ -505,9 +506,23 @@
     animate();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initJoelAssistant);
+  // Load the 3D assistant only after the page has finished loading and the
+  // visitor starts scrolling, so it never slows or covers the first view.
+  function scheduleAssistant() {
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      window.removeEventListener('scroll', onScroll);
+      initJoelAssistant();
+    };
+    const onScroll = () => { if (window.pageYOffset > 200) start(); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (document.readyState === 'complete') {
+    scheduleAssistant();
   } else {
-    initJoelAssistant();
+    window.addEventListener('load', scheduleAssistant);
   }
 })();
