@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAvatarEasterEgg();
   initLightboxModal();
   initContactForm();
-  initMoviePlaceholderEasterEgg();
+  // initMoviePlaceholderEasterEgg(); // off: the brand keeps one joke per page (the slide rules)
   initConsoleEasterEgg();
   initNavbarScroll();
   initSmoothNavScrollOffset();
@@ -82,7 +82,7 @@ function initHeroStlViewer() {
 
   // Scene setup: Fresh porcelain studio background
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf1f5f9);
+  scene.background = new THREE.Color(0x2c3019); // brand moss
 
   const camera = new THREE.PerspectiveCamera(
     45,
@@ -112,7 +112,7 @@ function initHeroStlViewer() {
   dirLight1.position.set(60, 60, 100);
   scene.add(dirLight1);
 
-  const dirLight2 = new THREE.DirectionalLight(0x15803d, 0.9);
+  const dirLight2 = new THREE.DirectionalLight(0x8a9160, 0.9);
   dirLight2.position.set(-60, -60, 50);
   scene.add(dirLight2);
 
@@ -121,7 +121,7 @@ function initHeroStlViewer() {
   scene.add(pointLight);
 
   // Ground Grid
-  const gridHelper = new THREE.GridHelper(120, 24, 0x15803d, 0xcbd5e1);
+  const gridHelper = new THREE.GridHelper(120, 24, 0x8a9160, 0x3f4526);
   gridHelper.rotation.x = Math.PI / 2;
   gridHelper.position.z = -15;
   scene.add(gridHelper);
@@ -132,7 +132,7 @@ function initHeroStlViewer() {
   const stlLoader = new THREE.STLLoader();
 
   const baseMaterial = new THREE.MeshStandardMaterial({
-    color: 0x15803d,
+    color: 0xc9ccae, // brand reed
     roughness: 0.3,
     metalness: 0.25,
     wireframe: false
@@ -155,7 +155,7 @@ function initHeroStlViewer() {
         currentMesh = new THREE.Mesh(geometry, baseMaterial.clone());
         currentMesh.material.wireframe = isWireframe;
         if (isWireframe) {
-          currentMesh.material.color.set(0x16a34a);
+          currentMesh.material.color.set(0xf5f5ef);
         }
 
         // Auto-scale to fit canvas nicely
@@ -202,7 +202,7 @@ function initHeroStlViewer() {
       wireframeBtn.classList.toggle('active', isWireframe);
       if (currentMesh) {
         currentMesh.material.wireframe = isWireframe;
-        currentMesh.material.color.set(isWireframe ? 0x0f172a : 0x15803d);
+        currentMesh.material.color.set(isWireframe ? 0xf5f5ef : 0xc9ccae);
       }
     });
   }
@@ -672,9 +672,10 @@ function initContactForm() {
   function showMessage(html, isError) {
     if (!responseMsg) return;
     responseMsg.style.display = 'block';
-    responseMsg.style.color = isError ? 'var(--accent-clay)' : '#15803d';
-    responseMsg.style.background = isError ? 'var(--accent-clay-subtle)' : 'rgba(21, 128, 61, 0.08)';
-    responseMsg.style.border = isError ? '1px solid rgba(139, 61, 47, 0.3)' : '1px solid var(--primary-border)';
+    responseMsg.style.color = isError ? 'var(--error)' : 'var(--loden)';
+    responseMsg.style.background = isError ? 'var(--error-soft)' : 'var(--pale)';
+    responseMsg.style.border = isError ? '1px solid var(--error)' : '1px solid var(--reed)';
+    if (isError) html = '<i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> <strong>Error:</strong> ' + html;
     responseMsg.innerHTML = html;
   }
 
@@ -777,7 +778,7 @@ function initConsoleEasterEgg() {
 ╚════╝ ╚═════╝ ╚══════╝╚══════╝
 `;
 
-  console.log(`%c${banner}`, 'color: #15803d; font-weight: bold; font-family: monospace;');
+  console.log(`%c${banner}`, 'color: #636b2f; font-weight: bold; font-family: monospace;');
   console.log(
     '%c👋 Hey fellow developer / researcher / crawler!',
     'font-size: 13px; font-weight: bold; color: #0f172a;'

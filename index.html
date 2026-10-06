@@ -28,7 +28,8 @@
   <meta name="twitter:image" content="https://counterfietjoel.github.io/portfolio/assets/img/og-preview.png" />
 
   <!-- Favicon -->
-  <link rel="icon" href="assets/img/profile/favicon.png" type="image/png" />
+  <link rel="icon" href="assets/img/brand/joel-mark-olive.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="assets/img/profile/favicon.png" type="image/png" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
@@ -45,7 +46,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
   <!-- Modern Luminous Studio Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=41.0" />
+  <link rel="stylesheet" href="css/style.css?v=48.0" />
 </head>
 <body class="theme-luminous">
 
@@ -55,10 +56,7 @@
   <header class="navbar-wrapper">
     <nav class="studio-nav" id="main-nav">
       <a href="#home" class="nav-brand">
-        <div class="avatar-wrap">
-          <img src="assets/img/profile/avatar.webp" alt="Joel Ebenezer" class="brand-avatar" width="36" height="36" />
-          <span class="live-dot" title="Available for freelance projects"></span>
-        </div>
+        <img src="assets/img/brand/joel-mark-olive.svg" alt="" class="brand-mark" width="16" height="36" />
         <div class="brand-text-block">
           <span class="brand-name">Joel Ebenezer</span>
           <span class="brand-tagline">Learning &bull; Presentation Design</span>
@@ -77,7 +75,7 @@
       <div class="nav-action-group">
 
         <a href="#contact" class="btn btn-nav-cta">
-          <i class="fa-regular fa-paper-plane"></i> Let's Talk
+          Start a project
         </a>
 
         <button class="mobile-hamburger-btn" id="mobile-toggle-btn" aria-label="Toggle Navigation">
@@ -95,7 +93,7 @@
     <div class="drawer-panel">
       <div class="drawer-top-bar">
         <div class="drawer-user">
-          <img src="assets/img/profile/avatar.webp" alt="Joel Ebenezer" class="brand-avatar" width="36" height="36" />
+          <img src="assets/img/brand/joel-mark-olive.svg" alt="" class="brand-mark" width="16" height="36" />
           <div>
             <div class="drawer-user-name">Joel Ebenezer</div>
             <div class="drawer-user-role">Learning &amp; Presentation Design</div>
@@ -152,20 +150,19 @@
           <div class="hero-action-row">
             <a href="#portfolio" class="btn btn-primary-green">
               <i class="fa-solid fa-graduation-cap"></i>
-              <span>See My Work</span>
+              <span>See the work</span>
             </a>
             <a href="#case-studies" class="btn btn-outline-studio">
               <i class="fa-solid fa-book-open"></i>
               <span>Case Studies</span>
             </a>
             <a href="#contact" class="btn btn-ghost-studio">
-              <i class="fa-regular fa-paper-plane"></i>
-              <span>Get in Touch</span>
+              <span>Start a project</span>
             </a>
           </div>
 
           <div class="hero-stat-strip">
-            <div class="stat-box">
+            <div class="stat-box stat-accent">
               <span class="stat-num">4</span>
               <span class="stat-label">Courses &amp; Learning Products Built</span>
             </div>
@@ -185,16 +182,18 @@
         </div>
 
         <div class="hero-right-col">
-          <div class="hero-showcase">
-            <a href="#portfolio" class="showcase-card showcase-main">
-              <img src="assets/img/branding/u21cax01_thumb.webp" alt="Entrepreneurship Development course platform" width="1000" height="530" />
-              <span class="showcase-label"><i class="fa-solid fa-graduation-cap"></i> Interactive Courseware</span>
-            </a>
-            <a href="#transformation" class="showcase-card showcase-float">
-              <img src="assets/img/before_after/after_slide_3.webp" alt="Redesigned keynote slide" width="1600" height="900" />
-              <span class="showcase-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Keynote Redesign</span>
-            </a>
-          </div>
+          <figure class="brand-panel jx-dotfield jx-dotfield--on-green" aria-label="Make the complex learnable: understand, structure, explain">
+            <div class="jx-dots jx-dots--fade-left" aria-hidden="true"></div>
+            <img src="assets/img/brand/joel-mark-paper.svg" alt="" class="brand-panel-mark" width="74" height="168" />
+            <figcaption class="brand-panel-tag">Make the complex learnable.</figcaption>
+            <i class="jx-plot" style="--x1:2;--x2:12;--y:14" aria-hidden="true"></i>
+            <i class="jx-dot jx-dot--on-green" style="--x:2;--y:14" aria-hidden="true"></i>
+            <i class="jx-dot jx-dot--on-green" style="--x:7;--y:14" aria-hidden="true"></i>
+            <i class="jx-dot jx-dot--on-green jx-dot--key" style="--x:12;--y:14" aria-hidden="true"></i>
+            <span class="plot-cap" style="--x:2" aria-hidden="true">Understand</span>
+            <span class="plot-cap" style="--x:7" aria-hidden="true">Structure</span>
+            <span class="plot-cap" style="--x:12" aria-hidden="true">Explain</span>
+          </figure>
         </div>
       </div>
     </section>
@@ -202,7 +201,7 @@
     <!-- ==========================================================================
          SECTION 2: SERVICES
          ========================================================================== -->
-    <section class="section-screen section-container" id="services">
+    <section class="section-screen section-container section-band section-band-loden" id="services">
       <div class="section-header-block compact-header">
         <span class="section-tag"><i class="fa-solid fa-briefcase"></i> Services</span>
         <h2 class="section-heading">What I Can Help With</h2>
@@ -571,7 +570,7 @@
           <a href="https://counterfietjoel.github.io/U21cax01/" target="_blank" rel="noopener noreferrer" class="case-link">Open the course <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
         </article>
 
-        <a class="case-card case-card-link" href="#transformation">
+        <a class="case-card case-card-link case-card-wine" href="#transformation">
           <header class="case-head">
             <span class="case-code">Keynote</span>
             <h3 class="case-title">13-slide institutional keynote redesign</h3>
@@ -580,6 +579,31 @@
           <span class="case-link">See the before &amp; after <i class="fa-solid fa-arrow-down"></i></span>
         </a>
       </div>
+    </section>
+
+
+    <!-- ==========================================================================
+         SECTION 3C: PRINCIPLES (wine band)
+         ========================================================================== -->
+    <section class="section-screen section-container section-band section-band-wine" id="principles" aria-labelledby="principles-heading">
+      <div class="section-header-block compact-header">
+        <span class="section-tag"><i class="fa-solid fa-compass-drafting"></i> Principles</span>
+        <h2 class="section-heading" id="principles-heading">Make the complex learnable.</h2>
+      </div>
+      <ul class="principle-grid">
+        <li class="principle">
+          <h3>Rigor before polish</h3>
+          <p>Understand the material properly before designing anything. I ask for the schematic, the data, the paper.</p>
+        </li>
+        <li class="principle">
+          <h3>Clarity is respect</h3>
+          <p>Respecting an audience means not wasting its attention: one idea per slide, plain language, generous space.</p>
+        </li>
+        <li class="principle">
+          <h3>Simple, not shallow</h3>
+          <p>Make it easy without dumbing it down. Real terminology gets explained, not removed.</p>
+        </li>
+      </ul>
     </section>
 
     <!-- ==========================================================================
@@ -635,7 +659,7 @@
     <!-- ==========================================================================
          SECTION 4B: PROCESS
          ========================================================================== -->
-    <section class="section-screen section-container" id="process">
+    <section class="section-screen section-container section-band" id="process">
       <div class="section-header-block compact-header">
         <span class="section-tag"><i class="fa-solid fa-route"></i> Process</span>
         <h2 class="section-heading">How I Work</h2>
@@ -777,7 +801,7 @@
     <!-- ==========================================================================
          SECTION 7: CONTACT & FOOTER
          ========================================================================== -->
-    <section class="section-screen section-container" id="contact">
+    <section class="section-screen section-container section-band section-band-contact" id="contact">
       <div class="section-header-block compact-header">
         <span class="section-tag"><i class="fa-regular fa-paper-plane"></i> Contact</span>
         <h2 class="section-heading">Have a Course or a Deck in Mind? Let's Talk.</h2>
@@ -859,9 +883,7 @@
 
         <div class="footer-meta-inline footer-strip-card author-avatar-wrap" id="footer-status-box" title="Click for live status!">
           <div class="footer-author-info">
-            <span class="footer-avatar-circle">
-              <img src="assets/img/profile/avatar.webp" alt="Joel Ebenezer" class="footer-avatar-img author-avatar" loading="lazy" />
-            </span>
+            <img src="assets/img/brand/joel-mark-olive.svg" alt="" class="footer-mark" width="11" height="24" loading="lazy" />
             <span class="footer-author-title">Joel Ebenezer</span>
             <span class="footer-author-subtitle author-badge">&bull; Learning &amp; Presentation Designer</span>
           </div>
@@ -976,6 +998,6 @@
 
 
   <!-- Interactive JavaScript -->
-  <script src="js/main.js?v=41.0"></script>
+  <script src="js/main.js?v=44.0"></script>
 </body>
 </html>
